@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cargando tienda...</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+
+  <!-- HEADER DINÁMICO -->
+  <header id="header-bg" class="shadow-md sticky top-0 z-50 transition-colors duration-300">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center gap-2">
+      <div id="brand-container" class="flex items-center gap-3">
+        <!-- Logo o Nombre -->
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <!-- BOTÓN FAVORITOS -->
+        <button onclick="toggleFiltroFavoritos()" id="btn-fav-filter" class="bg-white/20 hover:bg-white/30 backdrop-blur px-3 py-2 rounded-xl font-bold flex items-center gap-1.5 text-current shadow-sm transition text-sm">
+          ❤️ <span id="fav-count">0</span>
+        </button>
+
+        <!-- BOTÓN CARRITO -->
+        <button onclick="toggleCart()" class="bg-white/20 hover:bg-white/30 backdrop-blur px-3.5 py-2 rounded-xl font-bold flex items-center gap-1.5 text-current shadow-sm transition text-sm">
+          🛒 (<span id="cart-count">0</span>)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER OPCIONAL -->
+  <div id="banner-container" class="max-w-6xl mx-auto px-4 pt-6 hidden">
+    <img id="banner-img" src="" class="w-full h-48 md:h-64 object-cover rounded-2xl shadow-sm">
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
+    <div class="flex justify-between items-center mb-6">
+      <h1 id="shop-title" class="text-2xl font-bold">Nuestros Productos</h1>
+      <span id="fav-badge-status" class="text-xs bg-red-100 text-red-600 px-3 py-1 rounded-full font-bold hidden">
+        Viendo solo tus favoritos ❤️
+      </span>
+    </div>
+
+    <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <p class="text-gray-500 font-mono">Cargando productos...</p>
+    </div>
+  </main>
+
+  <!-- PIE DE PÁGINA (REDES Y CONTACTO) -->
+  <footer id="footer-bg" class="mt-auto py-6 border-t bg-white">
+    <div class="max-w-6xl mx-auto px-4 text-center space-y-2 text-sm">
+      <p id="footer-nosotros" class="max-w-xl mx-auto text-gray-600"></p>
+      <div id="footer-redes" class="flex justify-center gap-4 font-bold pt-2"></div>
+    </div>
+  </footer>
+
+  <!-- MODAL DEL CARRITO -->
+  <div id="cart-modal" class="fixed inset-0 bg-black/60 hidden flex justify-end z-50 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-md h-full p-6 flex flex-col justify-between overflow-y-auto shadow-2xl">
+      <div>
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+          <h2 class="text-xl font-bold">Tu Pedido</h2>
+          <button onclick="toggleCart()" class="text-gray-400 hover:text-red-500 font-bold text-xl">✕</button>
+        </div>
+        <div id="cart-items" class="space-y-4"></div>
+      </div>
+      
+      <div class="border-t pt-4 space-y-3">
+        <div class="flex justify-between text-xs text-gray-500 font-mono bg-gray-50 p-2 rounded-lg">
+          <span>Peso estimado del envío:</span>
+          <strong id="total-weight">0 g</strong>
+        </div>
+        <div class="text-lg font-bold flex justify-between">
+          <span>Total:</span>
+          <span id="cart-total">$0</span>
+        </div>
+        <button onclick="sendOrder()" class="w-full bg-green-500 hover:bg-green-600 text-white py-3.5 rounded-xl font-bold text-center flex items-center justify-center gap-2 shadow-lg transition">
+          Confirmar y Enviar por WhatsApp 📱
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let config = {};
+    let productos = [];
+    let cart = [];
+    let favoritos = JSON.parse(localStorage.getItem('fav_items')) || [];
+    let mostrandoSoloFavoritos = false;
+
+    const PESOS_CATEGORIA = {
+      'indumentaria_liviana': 250,
+      'indumentaria_pesada': 800,
+      'calzado': 1200,
+      'accesorios': 150,
+      'defecto': 300
+    };
+
+    async function init() {
+      try {
+        const resMarca = await fetch('marca.json');
+        config = await resMarca.json();
+        
+        const resProd = await fetch('productos.json');
+        const rawProductos = await resProd.json();
+
+        // Aplicar margen de ganancia del cliente
+        const margen = 1 + ((config.margen_porcentaje || 0) / 100);
+        productos = rawProductos.map(p => ({
+          ...p,
+          precio_final: Math.round(p.precio_costo * margen)
+        }));
+
+        aplicarEstetica();
+        updateFavUI();
+        renderProducts();
+      } catch (e) {
+        console.error("Error al cargar la tienda:", e);
+      }
+    }
+
+    function aplicarEstetica() {
+      document.title = config.nombre || 'Tienda';
+      
+      const colorPrimario = config.color_primario || '#8A4FFF'; // Lila por defecto
+      const header = document.getElementById('header-bg');
+      header.style.backgroundColor = colorPrimario;
+      header.style.color = '#FFFFFF';
+
+      const brandContainer = document.getElementById('brand-container');
+      if (config.logo) {
+        brandContainer.innerHTML = `<img src="${config.logo}" alt="${config.nombre}" class="h-10 object-contain">`;
+      } else {
+        brandContainer.innerHTML = `<span class="font-extrabold text-xl tracking-tight">${config.nombre || 'Mi Tienda'}</span>`;
+      }
+
+      if (config.banner) {
+        document.getElementById('banner-img').src = config.banner;
+        document.getElementById('banner-container').classList.remove('hidden');
+      }
+
+      if (config.nosotros) document.getElementById('footer-nosotros').innerText = config.nosotros;
+      let redesHTML = '';
+      if (config.instagram) redesHTML += `<a href="https://instagram.com/${config.instagram.replace('@','')}" target="_blank" class="hover:underline">Instagram</a>`;
+      document.getElementById('footer-redes').innerHTML = redesHTML;
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('grid-productos');
+      let listaMostrar = mostrandoSoloFavoritos 
+        ? productos.filter(p => favoritos.includes(p.id)) 
+        : productos;
+
+      if (!listaMostrar.length) {
+        container.innerHTML = mostrandoSoloFavoritos 
+          ? '<p class="text-gray-500 col-span-3 text-center py-8">No tenés ningún producto guardado en favoritos todavía. ❤️</p>'
+          : '<p class="text-gray-500 col-span-3 text-center py-8">No hay productos disponibles por el momento.</p>';
+        return;
+      }
+
+      container.innerHTML = listaMostrar.map(p => {
+        const esFav = favoritos.includes(p.id);
+        return `
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col justify-between hover:shadow-md transition relative group">
+            
+            <!-- BOTÓN FAVORITO EN FOTO -->
+            <button onclick="toggleFavorito('${p.id}')" class="absolute top-3 right-3 bg-white/80 backdrop-blur p-2 rounded-full shadow-md hover:scale-110 transition z-10">
+              ${esFav ? '❤️' : '🤍'}
+            </button>
+
+            <img src="${p.imagen}" class="w-full h-52 object-cover">
+            
+            <div class="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="font-bold text-gray-800 text-base">${p.titulo}</h3>
+                <p class="text-lg font-black text-purple-700 mt-1">$${p.precio_final.toLocaleString()}</p>
+              </div>
+              <button onclick="addToCart('${p.id}')" class="mt-4 w-full bg-purple-50 text-purple-700 py-2.5 rounded-xl font-bold hover:bg-purple-100 transition">
+                Agregar al Carrito
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleFavorito(id) {
+      if (favoritos.includes(id)) {
+        favoritos = favoritos.filter(item => item !== id);
+      } else {
+        favoritos.push(id);
+      }
+      localStorage.setItem('fav_items', JSON.stringify(favoritos));
+      updateFavUI();
+      renderProducts();
+    }
+
+    function updateFavUI() {
+      document.getElementById('fav-count').innerText = favoritos.length;
+    }
+
+    function toggleFiltroFavoritos() {
+      mostrandoSoloFavoritos = !mostrandoSoloFavoritos;
+      const statusBadge = document.getElementById('fav-badge-status');
+      if (mostrandoSoloFavoritos) {
+        statusBadge.classList.remove('hidden');
+      } else {
+        statusBadge.classList.add('hidden');
+      }
+      renderProducts();
+    }
+
+    function addToCart(id) {
+      const prod = productos.find(p => p.id === id);
+      cart.push(prod);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      document.getElementById('cart-count').innerText = cart.length;
+      const container = document.getElementById('cart-items');
+      let total = 0;
+      let pesoTotal = 0;
+
+      container.innerHTML = cart.map((item, index) => {
+        total += item.precio_final;
+        const peso = PESOS_CATEGORIA[item.categoria] || PESOS_CATEGORIA['defecto'];
+        pesoTotal += peso;
+
+        return `
+          <div class="flex justify-between items-center border-b pb-3">
+            <div>
+              <p class="font-bold text-sm text-gray-800">${item.titulo}</p>
+              <p class="text-xs text-gray-500">$${item.precio_final.toLocaleString()} · ${peso}g</p>
+            </div>
+            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs font-bold">Quitar</button>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('cart-total').innerText = `$${total.toLocaleString()}`;
+      document.getElementById('total-weight').innerText = `${pesoTotal} g`;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function toggleCart() {
+      document.getElementById('cart-modal').classList.toggle('hidden');
+    }
+
+    function sendOrder() {
+      if (!cart.length) return alert('El carrito está vacío');
+      let msg = `¡Hola *${config.nombre}*! Quiero consultar disponibilidad para el siguiente pedido:\n\n`;
+      let total = 0;
+      let pesoTotal = 0;
+
+      cart.forEach(item => {
+        msg += `• ${item.titulo} - $${item.precio_final.toLocaleString()}\n`;
+        total += item.precio_final;
+        pesoTotal += (PESOS_CATEGORIA[item.categoria] || PESOS_CATEGORIA['defecto']);
+      });
+
+      msg += `\n*Total Productos:* $${total.toLocaleString()}`;
+      msg += `\n*Peso estimado para Paq.ar:* ${pesoTotal}g`;
+      msg += `\n\n¿Tienen stock para coordinar el pago y envío?`;
+
+      window.open(`https://wa.me/${config.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    init();
+  </script>
+</body>
+</html>
