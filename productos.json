@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1",
+    "titulo": "Labial Humectante Matte",
+    "precio_costo": 3500,
+    "categoria": "accesorios",
+    "imagen": "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500"
+  },
+  {
+    "id": "2",
+    "titulo": "Sombra de Ojos Pastel",
+    "precio_costo": 6000,
+    "categoria": "accesorios",
+    "imagen": "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500"
+  }
+]
