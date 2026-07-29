@@ -1,8 +1,30 @@
 {
-  "nombre": "Estetic Makeup",
-  "whatsapp": "5491123456789",
+  "nombre": "ALUNEY",
+  "whatsapp": "5492665329231",
   "color_primario": "#8A4FFF",
-  "margen_porcentaje": 30,
-  "nosotros": " Cosmética, cuidado personal y belleza.",
-  "instagram": "@estetic.makeup"
+  "motor_precios": {
+    "margen_ganancia": 100,
+    "impuestos_porcentaje": 3.5,
+    "comision_pasarela_porcentaje": 15,
+    "descuento_transferencia_porcentaje": 10
+  },
+  "secciones": [
+    {
+      "titulo": "Sobre ALUNEY",
+      "contenido": "Traemos las mejores tendencias de K-Beauty y Cosmética Coreana. Trabajamos con catálogo actualizado para brindarte la mejor atención directa por WhatsApp."
+    },
+    {
+      "titulo": "Envíos y Compras",
+      "items": [
+        {
+          "pregunta": "¿Cómo realizan los envíos?",
+          "respuesta": "Realizamos envíos a todo el país a través de Correo Argentino (Paq.ar). Te enviaremos el código de seguimiento en cuanto despachemos tu paquete."
+        },
+        {
+          "pregunta": "¿Cuáles son los medios de pago?",
+          "respuesta": "Aceptamos Mercado Pago, Ualá y tarjetas en hasta 3 cuotas sin interés. Además tenés un 10% OFF pagando por Transferencia Bancaria."
+        }
+      ]
+    }
+  ]
 }
