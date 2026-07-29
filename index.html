@@ -63,42 +63,53 @@
   </div>
 
   <script>
-    // Obtener parámetros de la URL
+    // Configurar la tienda desde la URL
     const params = new URLSearchParams(window.location.search);
-    const nombreTienda = (params.get('tienda') || 'ALUNEY').toUpperCase();
+    const nombreTienda = (params.get('tienda') || 'ALUNEY').toLowerCase();
     
-    // Mostrar solo el nombre limpio
-    document.getElementById('titulo-tienda').innerText = nombreTienda;
+    // Título limpio en pantalla
+    document.getElementById('titulo-tienda').innerText = nombreTienda.toUpperCase();
 
-    // Si quieres agregar un logo, puedes poner una imagen llamada "logo.png" o según la tienda
+    // Intentar cargar el logo de la tienda activa (ej: logo-aluney.png)
     const logoImg = document.getElementById('logo-tienda');
-    logoImg.src = `logo-${nombreTienda.toLowerCase()}.png`;
-    logoImg.onerror = () => { logoImg.style.display = 'none'; }; // Si no existe la foto, no muestra nada
+    logoImg.src = `logo-${nombreTienda}.png`;
     logoImg.onload = () => { logoImg.style.display = 'block'; };
+    logoImg.onerror = () => { logoImg.style.display = 'none'; }; // Oculta si no existe
 
-    let productosData = [];
+    let productosTiendaActual = [];
+    let productosFiltrados = [];
     let carrito = [];
     let favoritos = JSON.parse(localStorage.getItem('favs_' + nombreTienda)) || [];
 
     async function cargarDatos() {
       try {
         const resp = await fetch('productos.json');
-        productosData = await resp.json();
-        generarBotonesSecciones();
-        renderProductos(productosData);
+        const todosLosProductos = await resp.json();
+        
+        // FILTRADO POR TIENDA: Filtra los productos de productos.json según la tienda del link
+        productosTiendaActual = todosLosProductos.filter(p => p.tienda && p.tienda.toLowerCase() === nombreTienda);
+        
+        // Si no hay productos definidos para esa tienda en el JSON, muestra respaldo
+        if(productosTiendaActual.length === 0) {
+          productosTiendaActual = [
+            { tienda: nombreTienda, id: 1, seccion: 'Maquillaje', nombre: 'Máscara de Pestañas Volumizadora', lista: 8000, cuotas: 3, peso: 150 },
+            { tienda: nombreTienda, id: 2, seccion: 'Cuidado Facial', nombre: 'Serum Vitamina C', lista: 12000, cuotas: 3, peso: 250 }
+          ];
+        }
       } catch (e) {
-        // Productos de prueba
-        productosData = [
-          { id: 1, seccion: 'Maquillaje', nombre: 'Máscara de Pestañas Volumizadora', lista: 8000, cuotas: 3, peso: 150 },
-          { id: 2, seccion: 'Cuidado Facial', nombre: 'Serum Vitamina C', lista: 12000, cuotas: 3, peso: 250 }
+        productosTiendaActual = [
+          { tienda: nombreTienda, id: 1, seccion: 'Maquillaje', nombre: 'Máscara de Pestañas Volumizadora', lista: 8000, cuotas: 3, peso: 150 },
+          { tienda: nombreTienda, id: 2, seccion: 'Cuidado Facial', nombre: 'Serum Vitamina C', lista: 12000, cuotas: 3, peso: 250 }
         ];
-        generarBotonesSecciones();
-        renderProductos(productosData);
       }
+
+      productosFiltrados = [...productosTiendaActual];
+      generarBotonesSecciones();
+      renderProductos(productosFiltrados);
     }
 
     function generarBotonesSecciones() {
-      const seccionesUnicas = ['todos', ...new Set(productosData.map(p => p.seccion).filter(Boolean))];
+      const seccionesUnicas = ['todos', ...new Set(productosTiendaActual.map(p => p.seccion).filter(Boolean))];
       const cont = document.getElementById('contenedor-secciones');
       cont.innerHTML = seccionesUnicas.map(s => 
         `<button class="${s === 'todos' ? 'activo' : ''}" onclick="filtrarSeccion('${s}', this)">${s.charAt(0).toUpperCase() + s.slice(1)}</button>`
@@ -110,7 +121,7 @@
       cont.innerHTML = '';
 
       if(lista.length === 0) {
-        cont.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">No hay productos para mostrar.</p>';
+        cont.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">No hay productos en esta sección.</p>';
         return;
       }
       
@@ -119,7 +130,6 @@
         const precioTransf = Math.round(p.lista * 0.90).toLocaleString('es-AR');
         const esFav = favoritos.includes(p.id) ? '❤️' : '🤍';
 
-        // ORDEN EXACTO SOLICITADO: 1. Precio Lista | 2. Cuotas | 3. Transferencia
         cont.innerHTML += `
           <div class="card">
             <button class="btn-fav" onclick="toggleFavorito(${p.id})">${esFav}</button>
@@ -140,8 +150,12 @@
       document.querySelectorAll('.secciones button').forEach(b => b.classList.remove('activo'));
       if(btn) btn.classList.add('activo');
 
-      if (seccion === 'todos') renderProductos(productosData);
-      else renderProductos(productosData.filter(p => p.seccion === seccion));
+      if (seccion === 'todos') {
+        productosFiltrados = [...productosTiendaActual];
+      } else {
+        productosFiltrados = productosTiendaActual.filter(p => p.seccion === seccion);
+      }
+      renderProductos(productosFiltrados);
     }
 
     function toggleFavorito(id) {
@@ -149,11 +163,12 @@
       else favoritos.push(id);
       
       localStorage.setItem('favs_' + nombreTienda, JSON.stringify(favoritos));
-      renderProductos(productosData);
+      renderProductos(productosFiltrados);
     }
 
     function filtrarFavoritos() {
-      const prodsFavs = productosData.filter(p => favoritos.includes(p.id));
+      document.querySelectorAll('.secciones button').forEach(b => b.classList.remove('activo'));
+      const prodsFavs = productosTiendaActual.filter(p => favoritos.includes(p.id));
       renderProductos(prodsFavs);
     }
 
@@ -162,7 +177,7 @@
     }
 
     function agregarAlCarrito(id) {
-      const prod = productosData.find(p => p.id === id);
+      const prod = productosTiendaActual.find(p => p.id === id);
       carrito.push(prod);
       actualizarBarra();
     }
@@ -185,7 +200,7 @@
         detalle += `• ${p.nombre} - $ ${p.lista.toLocaleString('es-AR')}\n`;
       });
 
-      const texto = `¡Hola ${nombreTienda}! Quiero consultar disponibilidad para el siguiente pedido:\n` +
+      const texto = `¡Hola ${nombreTienda.toUpperCase()}! Quiero consultar disponibilidad para el siguiente pedido:\n` +
         `${detalle}\n` +
         `Total Productos: $ ${totalLista.toLocaleString('es-AR')}\n` +
         `Peso estimado para Paq.ar: ${pesoTotal}g\n\n` +
