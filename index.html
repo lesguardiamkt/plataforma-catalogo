@@ -3,234 +3,183 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cargando tienda...</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen relative">
+  <title>Catálogo Online</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 15px; background: #f8f9fa; color: #333; }
+    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid #ddd; margin-bottom: 15px; }
+    h1 { margin: 0; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px; }
+    
+    .btn-fav-top { background: #fff; border: 1px solid #ff4757; color: #ff4757; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+    
+    /* Categorías / Secciones */
+    .secciones { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
+    .secciones button { background: #e9ecef; border: none; padding: 8px 14px; border-radius: 15px; cursor: pointer; white-space: nowrap; font-size: 0.9rem; }
+    .secciones button.activo { background: #333; color: #fff; }
 
-  <!-- HEADER -->
-  <header id="header-bg" class="shadow-md sticky top-0 z-40 transition-colors duration-300">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center gap-2">
-      <div id="brand-container" class="flex items-center gap-3"></div>
-      <div class="flex items-center gap-2">
-        <button onclick="toggleFiltroFavoritos()" class="bg-white/20 hover:bg-white/30 backdrop-blur px-3 py-2 rounded-xl font-bold flex items-center gap-1.5 text-current shadow-sm transition text-sm">
-          ❤️ <span id="fav-count">0</span>
-        </button>
-        <button onclick="toggleCart()" class="bg-white/20 hover:bg-white/30 backdrop-blur px-3.5 py-2 rounded-xl font-bold flex items-center gap-1.5 text-current shadow-sm transition text-sm">
-          🛒 (<span id="cart-count">0</span>)
-        </button>
-      </div>
-    </div>
+    /* Cards de Productos */
+    .grid-productos { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; margin-bottom: 80px; }
+    .card { background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: relative; border: 1px solid #eee; }
+    .card-title { font-size: 1.05rem; font-weight: bold; margin-bottom: 10px; padding-right: 25px; }
+    
+    /* Precios Claros */
+    .precio-cuotas { color: #2e7d32; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px; }
+    .precio-lista { font-size: 0.85rem; color: #666; margin-bottom: 8px; }
+    .precio-transf { background: #e8f5e9; color: #1b5e20; padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; display: inline-block; margin-bottom: 12px; }
+
+    .btn-fav { position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 1.3rem; cursor: pointer; }
+    .btn-add { width: 100%; background: #000; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+    /* Barra Inferior del Carrito */
+    .bar-pedido { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 12px 20px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+    .btn-wsp { background: #25D366; color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1 id="titulo-tienda">Cargando...</h1>
+    <button class="btn-fav-top" onclick="filtrarFavoritos()">❤️ (<span id="count-favs">0</span>)</button>
   </header>
 
-  <nav id="sections-nav" class="max-w-6xl mx-auto px-4 pt-4 flex gap-3 overflow-x-auto text-sm font-semibold hidden"></nav>
-
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
-    <div class="flex justify-between items-center mb-6">
-      <h1 id="shop-title" class="text-2xl font-bold">Catálogo Disponible</h1>
-      <span id="fav-badge-status" class="text-xs bg-red-100 text-red-600 px-3 py-1 rounded-full font-bold hidden">Viendo favoritos ❤️</span>
-    </div>
-    <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
-  </main>
-
-  <section id="custom-sections-container" class="max-w-6xl mx-auto px-4 py-6 space-y-8 border-t border-gray-200"></section>
-  
-  <footer id="footer-bg" class="mt-auto py-8 border-t bg-white">
-    <div class="max-w-6xl mx-auto px-4 text-center space-y-4 text-sm">
-      <div id="footer-redes" class="flex justify-center gap-6 font-bold text-base"></div>
-      <p id="footer-copy" class="text-gray-400 text-xs"></p>
-    </div>
-  </footer>
-
-  <a id="btn-wa-flotante" href="#" target="_blank" class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl z-40 transition transform hover:scale-110 hidden flex items-center justify-center">
-    <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-  </a>
-
-  <!-- MODAL FOTOS EN TAMAÑO REAL -->
-  <div id="image-modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4" onclick="closeImageModal(event)">
-    <div class="relative max-w-4xl w-full flex flex-col items-center" onclick="event.stopPropagation()">
-      <button onclick="closeImageModal()" class="absolute -top-10 right-0 text-white font-bold text-3xl">✕</button>
-      <img id="modal-img-display" src="" class="max-h-[75vh] w-auto object-contain rounded-lg shadow-2xl">
-      <div id="modal-thumbnails" class="flex gap-2 mt-4 overflow-x-auto p-2"></div>
-    </div>
+  <!-- Filtro por Secciones -->
+  <div class="secciones" id="contenedor-secciones">
+    <button class="activo" onclick="filtrarSeccion('todos', this)">Todos</button>
   </div>
 
-  <!-- MODAL CARRITO DE COMPRAS -->
-  <div id="cart-modal" class="fixed inset-0 bg-black/60 hidden flex justify-end z-50 backdrop-blur-sm">
-    <div class="bg-white w-full max-w-md h-full p-6 flex flex-col justify-between overflow-y-auto shadow-2xl">
-      <div>
-        <div class="flex justify-between items-center mb-6 border-b pb-4">
-          <h2 class="text-xl font-bold">Tu Pedido</h2>
-          <button onclick="toggleCart()" class="text-gray-400 hover:text-red-500 font-bold text-xl">✕</button>
-        </div>
-        <div id="cart-items" class="space-y-4"></div>
-      </div>
-      
-      <div class="border-t pt-4 space-y-3">
-        <div class="flex justify-between text-xs text-gray-500 font-mono bg-gray-50 p-2 rounded-lg">
-          <span>Peso estimado Paq.ar:</span><strong id="total-weight">0 g</strong>
-        </div>
-        <div class="text-sm font-bold flex justify-between text-gray-500">
-          <span>Total Lista (Cuotas):</span><span id="cart-total-lista">$ 0,00</span>
-        </div>
-        <div class="text-xl font-black flex justify-between text-purple-700">
-          <span>Total Transferencia:</span><span id="cart-total-transf">$ 0,00</span>
-        </div>
-        <button onclick="sendOrder()" class="w-full bg-green-500 hover:bg-green-600 text-white py-3.5 rounded-xl font-bold text-center">
-          Enviar por WhatsApp 📱
-        </button>
-      </div>
-    </div>
+  <!-- Contenedor de Productos -->
+  <main id="contenedor-productos" class="grid-productos"></main>
+
+  <!-- Barra Fija del Carrito -->
+  <div class="bar-pedido">
+    <div id="resumen-carrito">Carrito vacío</div>
+    <button class="btn-wsp" onclick="enviarWhatsApp()">Enviar por WhatsApp 💬</button>
   </div>
 
   <script>
-    let config = {}; let productos = []; let cart = [];
-    let favoritos = JSON.parse(localStorage.getItem('fav_items')) || [];
-    let mostrandoSoloFavoritos = false;
+    // Configuración inicial de la tienda desde el link (?tienda=ALUNEY)
+    const params = new URLSearchParams(window.location.search);
+    const nombreTienda = (params.get('tienda') || 'ALUNEY').toUpperCase();
+    document.getElementById('titulo-tienda').innerText = nombreTienda;
 
-    const PESOS_CATEGORIA = { 'indumentaria_liviana': 250, 'indumentaria_pesada': 800, 'calzado': 1200, 'accesorios': 150, 'defecto': 300 };
+    let productosData = [];
+    let carrito = [];
+    let favoritos = JSON.parse(localStorage.getItem('favs_' + nombreTienda)) || [];
 
-    function formatPesos(monto) {
-      return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 2 }).format(monto);
-    }
-
-    async function init() {
+    // Cargar datos desde JSON local si existen
+    async function cargarDatos() {
       try {
-        const resMarca = await fetch('marca.json'); config = await resMarca.json();
-        const resProd = await fetch('productos.json'); const rawProductos = await resProd.json();
-
-        const reglas = config.motor_precios || {
-          margen_ganancia: 100, impuestos_porcentaje: 3.5, comision_pasarela_porcentaje: 15, descuento_transferencia_porcentaje: 10
-        };
-
-        const m_ganancia = reglas.margen_ganancia / 100;
-        const m_impuestos = reglas.impuestos_porcentaje / 100;
-        const m_pasarela = reglas.comision_pasarela_porcentaje / 100;
-        const m_desc_transf = reglas.descuento_transferencia_porcentaje / 100;
-
-        productos = rawProductos.map(p => {
-          let fotos = Array.isArray(p.imagen) ? p.imagen : (p.imagen ? [p.imagen] : []);
-          if (Array.isArray(p.imagenes)) fotos = fotos.concat(p.imagenes);
-          
-          let costoBase = p.precio_costo;
-          let precioConMargen = costoBase * (1 + m_ganancia);
-          let precioConImpuestos = precioConMargen * (1 + m_impuestos);
-          
-          let p_lista = Math.round(precioConImpuestos * (1 + m_pasarela));
-          let p_transf = Math.round(p_lista * (1 - m_desc_transf));
-
-          return { ...p, fotos: fotos.length ? fotos : ['https://via.placeholder.com/500'], p_lista, p_transf };
-        });
-
-        aplicarEstetica(); renderSecciones(); updateFavUI(); renderProducts();
-      } catch (e) { console.error(e); }
-    }
-
-    function aplicarEstetica() {
-      document.title = config.nombre || 'Tienda';
-      document.getElementById('header-bg').style.backgroundColor = config.color_primario || '#8A4FFF';
-      document.getElementById('header-bg').style.color = '#FFFFFF';
-      
-      const brand = document.getElementById('brand-container');
-      if (config.logo) brand.innerHTML = `<img src="${config.logo}" class="h-10 object-contain">`;
-      else brand.innerHTML = `<span class="font-extrabold text-xl tracking-tight">${config.nombre || 'Tienda'}</span>`;
-
-      if (config.whatsapp) {
-        const btnWa = document.getElementById('btn-wa-flotante');
-        btnWa.href = `https://wa.me/${config.whatsapp}?text=Hola!`;
-        btnWa.classList.remove('hidden');
+        const resp = await fetch('productos.json');
+        productosData = await resp.json();
+        generarBotonesSecciones();
+        renderProductos(productosData);
+      } catch (e) {
+        // Datos de respaldo por si falla el fetch del JSON
+        productosData = [
+          { id: 1, seccion: 'Maquillaje', nombre: 'Máscara de Pestañas Volumizadora', lista: 8000, cuotas: 3, peso: 150 },
+          { id: 2, seccion: 'Cuidado Facial', nombre: 'Serum Vitamina C', lista: 12000, cuotas: 3, peso: 250 }
+        ];
+        generarBotonesSecciones();
+        renderProductos(productosData);
       }
     }
 
-    function renderSecciones() {
-      const container = document.getElementById('custom-sections-container');
-      const nav = document.getElementById('sections-nav');
-      if (!config.secciones) return;
-      nav.classList.remove('hidden');
-
-      config.secciones.forEach((sec, idx) => {
-        nav.innerHTML += `<a href="#sec-${idx}" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-full whitespace-nowrap">${sec.titulo}</a>`;
-        let itemsHTML = sec.contenido ? `<p class="text-gray-600">${sec.contenido}</p>` : '';
-        if (sec.items) itemsHTML = `<div class="space-y-3">${sec.items.map(i => `<div class="bg-white p-4 rounded-xl border border-gray-100"><h4 class="font-bold">${i.pregunta}</h4><p class="text-sm mt-1">${i.respuesta}</p></div>`).join('')}</div>`;
-        container.innerHTML += `<div id="sec-${idx}" class="scroll-mt-20"><h3 class="text-xl font-bold mb-3">${sec.titulo}</h3>${itemsHTML}</div>`;
-      });
+    function generarBotonesSecciones() {
+      const seccionesUnicas = ['todos', ...new Set(productosData.map(p => p.seccion).filter(Boolean))];
+      const cont = document.getElementById('contenedor-secciones');
+      cont.innerHTML = seccionesUnicas.map(s => 
+        `<button class="${s === 'todos' ? 'activo' : ''}" onclick="filtrarSeccion('${s}', this)">${s.charAt(0).toUpperCase() + s.slice(1)}</button>`
+      ).join('');
     }
 
-    function renderProducts() {
-      const container = document.getElementById('grid-productos');
-      let lista = mostrandoSoloFavoritos ? productos.filter(p => favoritos.includes(p.id)) : productos;
+    function renderProductos(lista) {
+      const cont = document.getElementById('contenedor-productos');
+      cont.innerHTML = '';
+
+      if(lista.length === 0) {
+        cont.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">No hay productos para mostrar.</p>';
+        return;
+      }
       
-      container.innerHTML = lista.map(p => {
-        const esFav = favoritos.includes(p.id);
-        const cuota = formatPesos(p.p_lista / 3);
-        
-        return `
-          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative flex flex-col justify-between hover:shadow-md">
-            <button onclick="toggleFavorito('${p.id}')" class="absolute top-3 right-3 bg-white/80 p-2 rounded-full z-10">${esFav ? '❤️' : '🤍'}</button>
-            <div class="cursor-pointer" onclick="openImageModal('${p.id}')">
-              <img src="${p.fotos[0]}" class="w-full h-52 object-cover hover:scale-105 transition">
-            </div>
-            <div class="p-4 flex-1 flex flex-col justify-between">
-              <div>
-                <h3 class="font-bold text-gray-800 text-sm mb-2">${p.titulo}</h3>
-                <div class="bg-gray-50 p-2 rounded-lg border border-gray-100">
-                  <p class="text-xs text-gray-500 line-through">Lista: ${formatPesos(p.p_lista)}</p>
-                  <p class="text-xl font-black text-purple-700 leading-none my-1">${formatPesos(p.p_transf)} <span class="text-[10px] bg-green-100 text-green-700 px-1 py-0.5 rounded font-bold uppercase align-middle">Transf 10% OFF</span></p>
-                  <p class="text-[11px] text-gray-600">3 cuotas sin interés de ${cuota}</p>
-                </div>
-              </div>
-              <button onclick="addToCart('${p.id}')" class="mt-4 w-full bg-purple-50 text-purple-700 py-2.5 rounded-xl font-bold hover:bg-purple-100">Agregar</button>
-            </div>
-          </div>`;
-      }).join('');
+      lista.forEach(p => {
+        const valorCuota = Math.round(p.lista / (p.cuotas || 3)).toLocaleString('es-AR');
+        const precioTransf = Math.round(p.lista * 0.90).toLocaleString('es-AR');
+        const esFav = favoritos.includes(p.id) ? '❤️' : '🤍';
+
+        cont.innerHTML += `
+          <div class="card">
+            <button class="btn-fav" onclick="toggleFavorito(${p.id})">${esFav}</button>
+            <div class="card-title">${p.nombre}</div>
+            <div class="precio-cuotas">💳 ${p.cuotas || 3} cuotas sin interés de $ ${valorCuota}</div>
+            <div class="precio-lista">Precio de lista: $ ${p.lista.toLocaleString('es-AR')}</div>
+            <div class="precio-transf">🏷️ $ ${precioTransf} con Transferencia (-10%)</div>
+            <button class="btn-add" onclick="agregarAlCarrito(${p.id})">Agregar al pedido</button>
+          </div>
+        `;
+      });
+      actualizarContadorFavs();
     }
 
-    function openImageModal(id) {
-      const p = productos.find(x => x.id === id);
-      document.getElementById('modal-img-display').src = p.fotos[0];
-      document.getElementById('modal-thumbnails').innerHTML = p.fotos.map(f => `<img src="${f}" onclick="document.getElementById('modal-img-display').src='${f}'" class="h-16 w-16 object-cover cursor-pointer border-2 border-transparent hover:border-purple-500">`).join('');
-      document.getElementById('image-modal').classList.remove('hidden');
+    function filtrarSeccion(seccion, btn) {
+      document.querySelectorAll('.secciones button').forEach(b => b.classList.remove('activo'));
+      if(btn) btn.classList.add('activo');
+
+      if (seccion === 'todos') renderProductos(productosData);
+      else renderProductos(productosData.filter(p => p.seccion === seccion));
     }
-    function closeImageModal() { document.getElementById('image-modal').classList.add('hidden'); }
 
     function toggleFavorito(id) {
-      favoritos.includes(id) ? favoritos = favoritos.filter(i => i !== id) : favoritos.push(id);
-      localStorage.setItem('fav_items', JSON.stringify(favoritos)); updateFavUI(); renderProducts();
-    }
-    function updateFavUI() { document.getElementById('fav-count').innerText = favoritos.length; }
-    function toggleFiltroFavoritos() { mostrandoSoloFavoritos = !mostrandoSoloFavoritos; renderProducts(); }
-
-    function addToCart(id) { cart.push(productos.find(p => p.id === id)); updateCartUI(); }
-    function removeFromCart(idx) { cart.splice(idx, 1); updateCartUI(); }
-    function toggleCart() { document.getElementById('cart-modal').classList.toggle('hidden'); }
-
-    function updateCartUI() {
-      document.getElementById('cart-count').innerText = cart.length;
-      let totLista = 0, totTransf = 0, peso = 0;
+      if (favoritos.includes(id)) favoritos = favoritos.filter(favId => favId !== id);
+      else favoritos.push(id);
       
-      document.getElementById('cart-items').innerHTML = cart.map((i, idx) => {
-        totLista += i.p_lista; totTransf += i.p_transf; peso += PESOS_CATEGORIA[i.categoria] || PESOS_CATEGORIA['defecto'];
-        return `<div class="flex justify-between border-b pb-2 mb-2">
-          <div><p class="font-bold text-sm">${i.titulo}</p><p class="text-xs text-gray-500">Transf: ${formatPesos(i.p_transf)} | Lista: ${formatPesos(i.p_lista)}</p></div>
-          <button onclick="removeFromCart(${idx})" class="text-red-500 text-xs font-bold">✕</button>
-        </div>`;
-      }).join('');
-
-      document.getElementById('cart-total-lista').innerText = formatPesos(totLista);
-      document.getElementById('cart-total-transf').innerText = formatPesos(totTransf);
-      document.getElementById('total-weight').innerText = `${peso} g`;
+      localStorage.setItem('favs_' + nombreTienda, JSON.stringify(favoritos));
+      renderProductos(productosData);
     }
 
-    function sendOrder() {
-      if(!cart.length) return;
-      let msg = `¡Hola *${config.nombre}*! Mi pedido es:\n\n`, totL = 0, totT = 0, peso = 0;
-      cart.forEach(i => { msg += `• ${i.titulo}\n  Transf: ${formatPesos(i.p_transf)} | Lista: ${formatPesos(i.p_lista)}\n`; totL += i.p_lista; totT += i.p_transf; peso += PESOS_CATEGORIA[i.categoria] || PESOS_CATEGORIA['defecto']; });
-      msg += `\n*TOTAL TRANSFERENCIA:* ${formatPesos(totT)}\n*TOTAL LISTA (Cuotas):* ${formatPesos(totL)}\n*Peso:* ${peso}g\n\nQuiero coordinar el pago.`;
-      window.open(`https://wa.me/${config.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+    function filtrarFavoritos() {
+      const prodsFavs = productosData.filter(p => favoritos.includes(p.id));
+      renderProductos(prodsFavs);
     }
 
-    init();
+    function actualizarContadorFavs() {
+      document.getElementById('count-favs').innerText = favoritos.length;
+    }
+
+    function agregarAlCarrito(id) {
+      const prod = productosData.find(p => p.id === id);
+      carrito.push(prod);
+      actualizarBarra();
+    }
+
+    function actualizarBarra() {
+      const total = carrito.reduce((acc, p) => acc + p.lista, 0);
+      document.getElementById('resumen-carrito').innerHTML = `<b>${carrito.length} prod.</b> | Total: $ ${total.toLocaleString('es-AR')}`;
+    }
+
+    function enviarWhatsApp() {
+      if (carrito.length === 0) return alert('Por favor, agrega al menos un producto al carrito.');
+
+      let totalLista = 0;
+      let pesoTotal = 0;
+      let detalle = '';
+
+      carrito.forEach(p => {
+        totalLista += p.lista;
+        pesoTotal += (p.peso || 0);
+        detalle += `• ${p.nombre} - $ ${p.lista.toLocaleString('es-AR')}\n`;
+      });
+
+      const texto = `¡Hola ${nombreTienda}! Quiero consultar disponibilidad para el siguiente pedido:\n` +
+        `${detalle}\n` +
+        `Total Productos: $ ${totalLista.toLocaleString('es-AR')}\n` +
+        `Peso estimado para Paq.ar: ${pesoTotal}g\n\n` +
+        `¿Tienen stock para coordinar el pago y envío?`;
+
+      const url = `https://wa.me/5492665329231?text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    }
+
+    // Inicializar
+    cargarDatos();
   </script>
 </body>
 </html>
