@@ -1,16 +1,26 @@
 [
   {
     "id": "1",
-    "titulo": "Labial Humectante Matte",
-    "precio_costo": 3500,
+    "titulo": "Serum Hidratante Skincare Coreano",
+    "precio_costo": 4500,
     "categoria": "accesorios",
-    "imagen": "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500"
+    "imagen": [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800",
+      "https://images.unsplash.com/photo-1608248597309-1a0526e036e0?w=800"
+    ]
   },
   {
     "id": "2",
-    "titulo": "Sombra de Ojos Pastel",
-    "precio_costo": 6000,
+    "titulo": "Protector Solar Fluido FPS 50+",
+    "precio_costo": 5200,
     "categoria": "accesorios",
-    "imagen": "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500"
+    "imagen": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=800"
+  },
+  {
+    "id": "3",
+    "titulo": "Tinta de Labios Velvet K-Beauty",
+    "precio_costo": 3000,
+    "categoria": "accesorios",
+    "imagen": "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=800"
   }
 ]
