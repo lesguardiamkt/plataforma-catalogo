@@ -6,7 +6,11 @@
   <title>Catálogo Online</title>
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 15px; background: #f8f9fa; color: #333; }
+    
+    /* Header con Logo y Nombre */
     header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid #ddd; margin-bottom: 15px; }
+    .brand-container { display: flex; align-items: center; gap: 12px; }
+    .brand-logo { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; display: none; }
     h1 { margin: 0; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px; }
     
     .btn-fav-top { background: #fff; border: 1px solid #ff4757; color: #ff4757; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; }
@@ -21,10 +25,10 @@
     .card { background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: relative; border: 1px solid #eee; }
     .card-title { font-size: 1.05rem; font-weight: bold; margin-bottom: 10px; padding-right: 25px; }
     
-    /* Precios Claros */
-    .precio-cuotas { color: #2e7d32; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px; }
-    .precio-lista { font-size: 0.85rem; color: #666; margin-bottom: 8px; }
-    .precio-transf { background: #e8f5e9; color: #1b5e20; padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; display: inline-block; margin-bottom: 12px; }
+    /* ORDEN DE PRECIOS */
+    .precio-lista { font-size: 0.9rem; color: #555; margin-bottom: 4px; }
+    .precio-cuotas { color: #0076d6; font-weight: 600; font-size: 0.95rem; margin-bottom: 8px; }
+    .precio-transf { background: #e8f5e9; color: #1b5e20; padding: 6px 10px; border-radius: 6px; font-weight: bold; font-size: 0.9rem; display: inline-block; margin-bottom: 12px; }
 
     .btn-fav { position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 1.3rem; cursor: pointer; }
     .btn-add { width: 100%; background: #000; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
@@ -37,7 +41,10 @@
 <body>
 
   <header>
-    <h1 id="titulo-tienda">Cargando...</h1>
+    <div class="brand-container">
+      <img id="logo-tienda" class="brand-logo" src="" alt="Logo">
+      <h1 id="titulo-tienda">Cargando...</h1>
+    </div>
     <button class="btn-fav-top" onclick="filtrarFavoritos()">❤️ (<span id="count-favs">0</span>)</button>
   </header>
 
@@ -56,16 +63,23 @@
   </div>
 
   <script>
-    // Configuración inicial de la tienda desde el link (?tienda=ALUNEY)
+    // Obtener parámetros de la URL
     const params = new URLSearchParams(window.location.search);
     const nombreTienda = (params.get('tienda') || 'ALUNEY').toUpperCase();
+    
+    // Mostrar solo el nombre limpio
     document.getElementById('titulo-tienda').innerText = nombreTienda;
+
+    // Si quieres agregar un logo, puedes poner una imagen llamada "logo.png" o según la tienda
+    const logoImg = document.getElementById('logo-tienda');
+    logoImg.src = `logo-${nombreTienda.toLowerCase()}.png`;
+    logoImg.onerror = () => { logoImg.style.display = 'none'; }; // Si no existe la foto, no muestra nada
+    logoImg.onload = () => { logoImg.style.display = 'block'; };
 
     let productosData = [];
     let carrito = [];
     let favoritos = JSON.parse(localStorage.getItem('favs_' + nombreTienda)) || [];
 
-    // Cargar datos desde JSON local si existen
     async function cargarDatos() {
       try {
         const resp = await fetch('productos.json');
@@ -73,7 +87,7 @@
         generarBotonesSecciones();
         renderProductos(productosData);
       } catch (e) {
-        // Datos de respaldo por si falla el fetch del JSON
+        // Productos de prueba
         productosData = [
           { id: 1, seccion: 'Maquillaje', nombre: 'Máscara de Pestañas Volumizadora', lista: 8000, cuotas: 3, peso: 150 },
           { id: 2, seccion: 'Cuidado Facial', nombre: 'Serum Vitamina C', lista: 12000, cuotas: 3, peso: 250 }
@@ -105,13 +119,16 @@
         const precioTransf = Math.round(p.lista * 0.90).toLocaleString('es-AR');
         const esFav = favoritos.includes(p.id) ? '❤️' : '🤍';
 
+        // ORDEN EXACTO SOLICITADO: 1. Precio Lista | 2. Cuotas | 3. Transferencia
         cont.innerHTML += `
           <div class="card">
             <button class="btn-fav" onclick="toggleFavorito(${p.id})">${esFav}</button>
             <div class="card-title">${p.nombre}</div>
-            <div class="precio-cuotas">💳 ${p.cuotas || 3} cuotas sin interés de $ ${valorCuota}</div>
+            
             <div class="precio-lista">Precio de lista: $ ${p.lista.toLocaleString('es-AR')}</div>
+            <div class="precio-cuotas">💳 ${p.cuotas || 3} cuotas sin interés de $ ${valorCuota}</div>
             <div class="precio-transf">🏷️ $ ${precioTransf} con Transferencia (-10%)</div>
+            
             <button class="btn-add" onclick="agregarAlCarrito(${p.id})">Agregar al pedido</button>
           </div>
         `;
@@ -178,7 +195,6 @@
       window.open(url, '_blank');
     }
 
-    // Inicializar
     cargarDatos();
   </script>
 </body>
