@@ -8,18 +8,14 @@
 </head>
 <body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen relative">
 
-  <!-- HEADER DINÁMICO -->
+  <!-- HEADER -->
   <header id="header-bg" class="shadow-md sticky top-0 z-40 transition-colors duration-300">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center gap-2">
-      <div id="brand-container" class="flex items-center gap-3">
-        <!-- Logo o Nombre -->
-      </div>
-      
+      <div id="brand-container" class="flex items-center gap-3"></div>
       <div class="flex items-center gap-2">
-        <button onclick="toggleFiltroFavoritos()" id="btn-fav-filter" class="bg-white/20 hover:bg-white/30 backdrop-blur px-3 py-2 rounded-xl font-bold flex items-center gap-1.5 text-current shadow-sm transition text-sm">
+        <button onclick="toggleFiltroFavoritos()" class="bg-white/20 hover:bg-white/30 backdrop-blur px-3 py-2 rounded-xl font-bold flex items-center gap-1.5 text-current shadow-sm transition text-sm">
           ❤️ <span id="fav-count">0</span>
         </button>
-
         <button onclick="toggleCart()" class="bg-white/20 hover:bg-white/30 backdrop-blur px-3.5 py-2 rounded-xl font-bold flex items-center gap-1.5 text-current shadow-sm transition text-sm">
           🛒 (<span id="cart-count">0</span>)
         </button>
@@ -27,36 +23,19 @@
     </div>
   </header>
 
-  <!-- BANNER OPCIONAL -->
-  <div id="banner-container" class="max-w-6xl mx-auto px-4 pt-6 hidden">
-    <img id="banner-img" src="" class="w-full h-48 md:h-64 object-cover rounded-2xl shadow-sm">
-  </div>
+  <nav id="sections-nav" class="max-w-6xl mx-auto px-4 pt-4 flex gap-3 overflow-x-auto text-sm font-semibold hidden"></nav>
 
-  <!-- NAVEGACIÓN RÁPIDA DE SECCIONES -->
-  <nav id="sections-nav" class="max-w-6xl mx-auto px-4 pt-4 flex gap-3 overflow-x-auto text-sm font-semibold hidden">
-    <!-- Links a secciones dinámicas -->
-  </nav>
-
-  <!-- CONTENIDO PRINCIPAL DE PRODUCTOS -->
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
     <div class="flex justify-between items-center mb-6">
-      <h1 id="shop-title" class="text-2xl font-bold">Nuestros Productos</h1>
-      <span id="fav-badge-status" class="text-xs bg-red-100 text-red-600 px-3 py-1 rounded-full font-bold hidden">
-        Viendo solo tus favoritos ❤️
-      </span>
+      <h1 id="shop-title" class="text-2xl font-bold">Catálogo Disponible</h1>
+      <span id="fav-badge-status" class="text-xs bg-red-100 text-red-600 px-3 py-1 rounded-full font-bold hidden">Viendo favoritos ❤️</span>
     </div>
-
-    <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      <p class="text-gray-500 font-mono">Cargando productos...</p>
-    </div>
+    <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
   </main>
 
-  <!-- CONTENEDOR DE SECCIONES MODULARES -->
-  <section id="custom-sections-container" class="max-w-6xl mx-auto px-4 py-6 space-y-8 border-t border-gray-200">
-    <!-- Secciones como Nosotros, Preguntas Frecuentes, Info Importante -->
-  </section>
-
-  <!-- PIE DE PÁGINA (REDES Y CONTACTO) -->
+  <section id="custom-sections-container" class="max-w-6xl mx-auto px-4 py-6 space-y-8 border-t border-gray-200"></section>
+  
   <footer id="footer-bg" class="mt-auto py-8 border-t bg-white">
     <div class="max-w-6xl mx-auto px-4 text-center space-y-4 text-sm">
       <div id="footer-redes" class="flex justify-center gap-6 font-bold text-base"></div>
@@ -64,26 +43,20 @@
     </div>
   </footer>
 
-  <!-- BOTÓN FLOTANTE DE WHATSAPP -->
   <a id="btn-wa-flotante" href="#" target="_blank" class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl z-40 transition transform hover:scale-110 hidden flex items-center justify-center">
-    <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
-      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-    </svg>
+    <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
   </a>
 
-  <!-- MODAL DE IMAGEN EN TAMAÑO REAL (LIGHTBOX) -->
+  <!-- MODAL FOTOS EN TAMAÑO REAL -->
   <div id="image-modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4" onclick="closeImageModal(event)">
     <div class="relative max-w-4xl w-full flex flex-col items-center" onclick="event.stopPropagation()">
-      <button onclick="closeImageModal()" class="absolute -top-10 right-0 text-white font-bold text-3xl hover:text-red-400">✕</button>
-      
+      <button onclick="closeImageModal()" class="absolute -top-10 right-0 text-white font-bold text-3xl">✕</button>
       <img id="modal-img-display" src="" class="max-h-[75vh] w-auto object-contain rounded-lg shadow-2xl">
-      
-      <!-- Miniaturas si el producto tiene múltiples fotos -->
       <div id="modal-thumbnails" class="flex gap-2 mt-4 overflow-x-auto p-2"></div>
     </div>
   </div>
 
-  <!-- MODAL DEL CARRITO -->
+  <!-- MODAL CARRITO DE COMPRAS -->
   <div id="cart-modal" class="fixed inset-0 bg-black/60 hidden flex justify-end z-50 backdrop-blur-sm">
     <div class="bg-white w-full max-w-md h-full p-6 flex flex-col justify-between overflow-y-auto shadow-2xl">
       <div>
@@ -96,320 +69,164 @@
       
       <div class="border-t pt-4 space-y-3">
         <div class="flex justify-between text-xs text-gray-500 font-mono bg-gray-50 p-2 rounded-lg">
-          <span>Peso estimado del envío:</span>
-          <strong id="total-weight">0 g</strong>
+          <span>Peso estimado Paq.ar:</span><strong id="total-weight">0 g</strong>
         </div>
-        <div class="text-lg font-bold flex justify-between">
-          <span>Total:</span>
-          <span id="cart-total">$ 0,00</span>
+        <div class="text-sm font-bold flex justify-between text-gray-500">
+          <span>Total Lista (Cuotas):</span><span id="cart-total-lista">$ 0,00</span>
         </div>
-        <button onclick="sendOrder()" class="w-full bg-green-500 hover:bg-green-600 text-white py-3.5 rounded-xl font-bold text-center flex items-center justify-center gap-2 shadow-lg transition">
-          Confirmar y Enviar por WhatsApp 📱
+        <div class="text-xl font-black flex justify-between text-purple-700">
+          <span>Total Transferencia:</span><span id="cart-total-transf">$ 0,00</span>
+        </div>
+        <button onclick="sendOrder()" class="w-full bg-green-500 hover:bg-green-600 text-white py-3.5 rounded-xl font-bold text-center">
+          Enviar por WhatsApp 📱
         </button>
       </div>
     </div>
   </div>
 
   <script>
-    let config = {};
-    let productos = [];
-    let cart = [];
+    let config = {}; let productos = []; let cart = [];
     let favoritos = JSON.parse(localStorage.getItem('fav_items')) || [];
     let mostrandoSoloFavoritos = false;
 
-    const PESOS_CATEGORIA = {
-      'indumentaria_liviana': 250,
-      'indumentaria_pesada': 800,
-      'calzado': 1200,
-      'accesorios': 150,
-      'defecto': 300
-    };
+    const PESOS_CATEGORIA = { 'indumentaria_liviana': 250, 'indumentaria_pesada': 800, 'calzado': 1200, 'accesorios': 150, 'defecto': 300 };
 
-    // Formateador de moneda argentina ($ 1.250,50)
     function formatPesos(monto) {
-      return new Intl.NumberFormat('es-AR', {
-        style: 'currency',
-        currency: 'ARS',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }).format(monto);
+      return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 2 }).format(monto);
     }
 
     async function init() {
       try {
-        const resMarca = await fetch('marca.json');
-        config = await resMarca.json();
-        
-        const resProd = await fetch('productos.json');
-        const rawProductos = await resProd.json();
+        const resMarca = await fetch('marca.json'); config = await resMarca.json();
+        const resProd = await fetch('productos.json'); const rawProductos = await resProd.json();
 
-        // Aplicar margen de ganancia del cliente
-        const margen = 1 + ((config.margen_porcentaje || 0) / 100);
+        const reglas = config.motor_precios || {
+          margen_ganancia: 100, impuestos_porcentaje: 3.5, comision_pasarela_porcentaje: 15, descuento_transferencia_porcentaje: 10
+        };
+
+        const m_ganancia = reglas.margen_ganancia / 100;
+        const m_impuestos = reglas.impuestos_porcentaje / 100;
+        const m_pasarela = reglas.comision_pasarela_porcentaje / 100;
+        const m_desc_transf = reglas.descuento_transferencia_porcentaje / 100;
+
         productos = rawProductos.map(p => {
-          // Normalizar fotos a un array
-          let fotos = [];
-          if (Array.isArray(p.imagen)) {
-            fotos = p.imagen;
-          } else if (p.imagen) {
-            fotos = [p.imagen];
-          }
-          if (Array.isArray(p.imagenes)) {
-            fotos = fotos.concat(p.imagenes);
-          }
+          let fotos = Array.isArray(p.imagen) ? p.imagen : (p.imagen ? [p.imagen] : []);
+          if (Array.isArray(p.imagenes)) fotos = fotos.concat(p.imagenes);
+          
+          let costoBase = p.precio_costo;
+          let precioConMargen = costoBase * (1 + m_ganancia);
+          let precioConImpuestos = precioConMargen * (1 + m_impuestos);
+          
+          let p_lista = Math.round(precioConImpuestos * (1 + m_pasarela));
+          let p_transf = Math.round(p_lista * (1 - m_desc_transf));
 
-          return {
-            ...p,
-            fotos: fotos.length ? fotos : ['https://via.placeholder.com/500?text=Sin+Imagen'],
-            precio_final: Math.round(p.precio_costo * margen)
-          };
+          return { ...p, fotos: fotos.length ? fotos : ['https://via.placeholder.com/500'], p_lista, p_transf };
         });
 
-        aplicarEstetica();
-        renderSeccionesDinamicas();
-        updateFavUI();
-        renderProducts();
-      } catch (e) {
-        console.error("Error al cargar la tienda:", e);
-      }
+        aplicarEstetica(); renderSecciones(); updateFavUI(); renderProducts();
+      } catch (e) { console.error(e); }
     }
 
     function aplicarEstetica() {
       document.title = config.nombre || 'Tienda';
+      document.getElementById('header-bg').style.backgroundColor = config.color_primario || '#8A4FFF';
+      document.getElementById('header-bg').style.color = '#FFFFFF';
       
-      const colorPrimario = config.color_primario || '#8A4FFF';
-      const header = document.getElementById('header-bg');
-      header.style.backgroundColor = colorPrimario;
-      header.style.color = '#FFFFFF';
+      const brand = document.getElementById('brand-container');
+      if (config.logo) brand.innerHTML = `<img src="${config.logo}" class="h-10 object-contain">`;
+      else brand.innerHTML = `<span class="font-extrabold text-xl tracking-tight">${config.nombre || 'Tienda'}</span>`;
 
-      // Logo o Nombre
-      const brandContainer = document.getElementById('brand-container');
-      if (config.logo) {
-        brandContainer.innerHTML = `<img src="${config.logo}" alt="${config.nombre}" class="h-10 object-contain">`;
-      } else {
-        brandContainer.innerHTML = `<span class="font-extrabold text-xl tracking-tight">${config.nombre || 'Mi Tienda'}</span>`;
-      }
-
-      // Banner
-      if (config.banner) {
-        document.getElementById('banner-img').src = config.banner;
-        document.getElementById('banner-container').classList.remove('hidden');
-      }
-
-      // WhatsApp Flotante
       if (config.whatsapp) {
         const btnWa = document.getElementById('btn-wa-flotante');
-        btnWa.href = `https://wa.me/${config.whatsapp}?text=${encodeURIComponent('¡Hola! Quisiera realizar una consulta.')}`;
+        btnWa.href = `https://wa.me/${config.whatsapp}?text=Hola!`;
         btnWa.classList.remove('hidden');
       }
-
-      // Redes sociales en Footer
-      let redesHTML = '';
-      if (config.instagram) redesHTML += `<a href="https://instagram.com/${config.instagram.replace('@','')}" target="_blank" class="text-purple-600 hover:underline">Instagram</a>`;
-      if (config.facebook) redesHTML += `<a href="https://facebook.com/${config.facebook}" target="_blank" class="text-blue-600 hover:underline">Facebook</a>`;
-      if (config.tiktok) redesHTML += `<a href="https://tiktok.com/@${config.tiktok.replace('@','')}" target="_blank" class="text-black hover:underline">TikTok</a>`;
-      document.getElementById('footer-redes').innerHTML = redesHTML;
-      document.getElementById('footer-copy').innerText = `© ${new Date().getFullYear()} ${config.nombre || 'Tienda'}. Todos los derechos reservados.`;
     }
 
-    function renderSeccionesDinamicas() {
+    function renderSecciones() {
       const container = document.getElementById('custom-sections-container');
       const nav = document.getElementById('sections-nav');
-      container.innerHTML = '';
-      nav.innerHTML = '';
-
-      if (!config.secciones || !Array.isArray(config.secciones) || !config.secciones.length) {
-        return;
-      }
-
+      if (!config.secciones) return;
       nav.classList.remove('hidden');
 
       config.secciones.forEach((sec, idx) => {
-        const secId = `sec-${idx}`;
-
-        // Link en navegación
-        nav.innerHTML += `<a href="#${secId}" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-purple-200 transition">${sec.titulo}</a>`;
-
-        // Bloque de la sección
-        let itemsHTML = '';
-        if (sec.contenido) {
-          itemsHTML = `<p class="text-gray-600 leading-relaxed">${sec.contenido}</p>`;
-        } else if (sec.items && Array.isArray(sec.items)) {
-          itemsHTML = `<div class="space-y-3">${sec.items.map(item => `
-            <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-              <h4 class="font-bold text-gray-800">${item.pregunta || item.titulo}</h4>
-              <p class="text-sm text-gray-600 mt-1">${item.respuesta || item.detalle}</p>
-            </div>
-          `).join('')}</div>`;
-        }
-
-        container.innerHTML += `
-          <div id="${secId}" class="scroll-mt-20">
-            <h3 class="text-xl font-bold text-gray-800 mb-3">${sec.titulo}</h3>
-            ${itemsHTML}
-          </div>
-        `;
+        nav.innerHTML += `<a href="#sec-${idx}" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-full whitespace-nowrap">${sec.titulo}</a>`;
+        let itemsHTML = sec.contenido ? `<p class="text-gray-600">${sec.contenido}</p>` : '';
+        if (sec.items) itemsHTML = `<div class="space-y-3">${sec.items.map(i => `<div class="bg-white p-4 rounded-xl border border-gray-100"><h4 class="font-bold">${i.pregunta}</h4><p class="text-sm mt-1">${i.respuesta}</p></div>`).join('')}</div>`;
+        container.innerHTML += `<div id="sec-${idx}" class="scroll-mt-20"><h3 class="text-xl font-bold mb-3">${sec.titulo}</h3>${itemsHTML}</div>`;
       });
     }
 
     function renderProducts() {
       const container = document.getElementById('grid-productos');
-      let listaMostrar = mostrandoSoloFavoritos 
-        ? productos.filter(p => favoritos.includes(p.id)) 
-        : productos;
-
-      if (!listaMostrar.length) {
-        container.innerHTML = mostrandoSoloFavoritos 
-          ? '<p class="text-gray-500 col-span-3 text-center py-8">No tenés ningún producto guardado en favoritos todavía. ❤️</p>'
-          : '<p class="text-gray-500 col-span-3 text-center py-8">No hay productos disponibles por el momento.</p>';
-        return;
-      }
-
-      container.innerHTML = listaMostrar.map(p => {
+      let lista = mostrandoSoloFavoritos ? productos.filter(p => favoritos.includes(p.id)) : productos;
+      
+      container.innerHTML = lista.map(p => {
         const esFav = favoritos.includes(p.id);
-        const tieneMultiplesFotos = p.fotos.length > 1;
-
+        const cuota = formatPesos(p.p_lista / 3);
+        
         return `
-          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col justify-between hover:shadow-md transition relative group">
-            
-            <button onclick="toggleFavorito('${p.id}')" class="absolute top-3 right-3 bg-white/80 backdrop-blur p-2 rounded-full shadow-md hover:scale-110 transition z-10">
-              ${esFav ? '❤️' : '🤍'}
-            </button>
-
-            ${tieneMultiplesFotos ? `<span class="absolute top-3 left-3 bg-black/60 text-white text-xs px-2 py-1 rounded-md z-10 font-bold">📸 ${p.fotos.length} fotos</span>` : ''}
-
-            <!-- CLIC EN FOTO O TARJETA PARA VER TAMAÑO REAL -->
-            <div class="cursor-pointer overflow-hidden" onclick="openImageModal('${p.id}')">
-              <img src="${p.fotos[0]}" class="w-full h-52 object-cover group-hover:scale-105 transition duration-300">
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative flex flex-col justify-between hover:shadow-md">
+            <button onclick="toggleFavorito('${p.id}')" class="absolute top-3 right-3 bg-white/80 p-2 rounded-full z-10">${esFav ? '❤️' : '🤍'}</button>
+            <div class="cursor-pointer" onclick="openImageModal('${p.id}')">
+              <img src="${p.fotos[0]}" class="w-full h-52 object-cover hover:scale-105 transition">
             </div>
-            
             <div class="p-4 flex-1 flex flex-col justify-between">
               <div>
-                <h3 class="font-bold text-gray-800 text-base cursor-pointer hover:text-purple-600 transition" onclick="openImageModal('${p.id}')">${p.titulo}</h3>
-                <p class="text-lg font-black text-purple-700 mt-1">${formatPesos(p.precio_final)}</p>
+                <h3 class="font-bold text-gray-800 text-sm mb-2">${p.titulo}</h3>
+                <div class="bg-gray-50 p-2 rounded-lg border border-gray-100">
+                  <p class="text-xs text-gray-500 line-through">Lista: ${formatPesos(p.p_lista)}</p>
+                  <p class="text-xl font-black text-purple-700 leading-none my-1">${formatPesos(p.p_transf)} <span class="text-[10px] bg-green-100 text-green-700 px-1 py-0.5 rounded font-bold uppercase align-middle">Transf 10% OFF</span></p>
+                  <p class="text-[11px] text-gray-600">3 cuotas sin interés de ${cuota}</p>
+                </div>
               </div>
-              <button onclick="addToCart('${p.id}')" class="mt-4 w-full bg-purple-50 text-purple-700 py-2.5 rounded-xl font-bold hover:bg-purple-100 transition">
-                Agregar al Carrito
-              </button>
+              <button onclick="addToCart('${p.id}')" class="mt-4 w-full bg-purple-50 text-purple-700 py-2.5 rounded-xl font-bold hover:bg-purple-100">Agregar</button>
             </div>
-          </div>
-        `;
+          </div>`;
       }).join('');
     }
 
-    // ABRIR VISOR EN TAMAÑO REAL
     function openImageModal(id) {
-      const prod = productos.find(p => p.id === id);
-      if (!prod) return;
-
-      const modal = document.getElementById('image-modal');
-      const displayImg = document.getElementById('modal-img-display');
-      const thumbnailsContainer = document.getElementById('modal-thumbnails');
-
-      displayImg.src = prod.fotos[0];
-      thumbnailsContainer.innerHTML = '';
-
-      if (prod.fotos.length > 1) {
-        prod.fotos.forEach((foto, idx) => {
-          thumbnailsContainer.innerHTML += `
-            <img src="${foto}" onclick="changeModalImage('${foto}')" class="h-16 w-16 object-cover rounded-lg cursor-pointer border-2 border-white/50 hover:border-purple-500 transition">
-          `;
-        });
-      }
-
-      modal.classList.remove('hidden');
+      const p = productos.find(x => x.id === id);
+      document.getElementById('modal-img-display').src = p.fotos[0];
+      document.getElementById('modal-thumbnails').innerHTML = p.fotos.map(f => `<img src="${f}" onclick="document.getElementById('modal-img-display').src='${f}'" class="h-16 w-16 object-cover cursor-pointer border-2 border-transparent hover:border-purple-500">`).join('');
+      document.getElementById('image-modal').classList.remove('hidden');
     }
-
-    function changeModalImage(src) {
-      document.getElementById('modal-img-display').src = src;
-    }
-
-    function closeImageModal(e) {
-      document.getElementById('image-modal').classList.add('hidden');
-    }
+    function closeImageModal() { document.getElementById('image-modal').classList.add('hidden'); }
 
     function toggleFavorito(id) {
-      if (favoritos.includes(id)) {
-        favoritos = favoritos.filter(item => item !== id);
-      } else {
-        favoritos.push(id);
-      }
-      localStorage.setItem('fav_items', JSON.stringify(favoritos));
-      updateFavUI();
-      renderProducts();
+      favoritos.includes(id) ? favoritos = favoritos.filter(i => i !== id) : favoritos.push(id);
+      localStorage.setItem('fav_items', JSON.stringify(favoritos)); updateFavUI(); renderProducts();
     }
+    function updateFavUI() { document.getElementById('fav-count').innerText = favoritos.length; }
+    function toggleFiltroFavoritos() { mostrandoSoloFavoritos = !mostrandoSoloFavoritos; renderProducts(); }
 
-    function updateFavUI() {
-      document.getElementById('fav-count').innerText = favoritos.length;
-    }
-
-    function toggleFiltroFavoritos() {
-      mostrandoSoloFavoritos = !mostrandoSoloFavoritos;
-      const statusBadge = document.getElementById('fav-badge-status');
-      if (mostrandoSoloFavoritos) {
-        statusBadge.classList.remove('hidden');
-      } else {
-        statusBadge.classList.add('hidden');
-      }
-      renderProducts();
-    }
-
-    function addToCart(id) {
-      const prod = productos.find(p => p.id === id);
-      cart.push(prod);
-      updateCartUI();
-    }
+    function addToCart(id) { cart.push(productos.find(p => p.id === id)); updateCartUI(); }
+    function removeFromCart(idx) { cart.splice(idx, 1); updateCartUI(); }
+    function toggleCart() { document.getElementById('cart-modal').classList.toggle('hidden'); }
 
     function updateCartUI() {
       document.getElementById('cart-count').innerText = cart.length;
-      const container = document.getElementById('cart-items');
-      let total = 0;
-      let pesoTotal = 0;
-
-      container.innerHTML = cart.map((item, index) => {
-        total += item.precio_final;
-        const peso = PESOS_CATEGORIA[item.categoria] || PESOS_CATEGORIA['defecto'];
-        pesoTotal += peso;
-
-        return `
-          <div class="flex justify-between items-center border-b pb-3">
-            <div>
-              <p class="font-bold text-sm text-gray-800">${item.titulo}</p>
-              <p class="text-xs text-gray-500">${formatPesos(item.precio_final)} · ${peso}g</p>
-            </div>
-            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs font-bold">Quitar</button>
-          </div>
-        `;
+      let totLista = 0, totTransf = 0, peso = 0;
+      
+      document.getElementById('cart-items').innerHTML = cart.map((i, idx) => {
+        totLista += i.p_lista; totTransf += i.p_transf; peso += PESOS_CATEGORIA[i.categoria] || PESOS_CATEGORIA['defecto'];
+        return `<div class="flex justify-between border-b pb-2 mb-2">
+          <div><p class="font-bold text-sm">${i.titulo}</p><p class="text-xs text-gray-500">Transf: ${formatPesos(i.p_transf)} | Lista: ${formatPesos(i.p_lista)}</p></div>
+          <button onclick="removeFromCart(${idx})" class="text-red-500 text-xs font-bold">✕</button>
+        </div>`;
       }).join('');
 
-      document.getElementById('cart-total').innerText = formatPesos(total);
-      document.getElementById('total-weight').innerText = `${pesoTotal} g`;
-    }
-
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      updateCartUI();
-    }
-
-    function toggleCart() {
-      document.getElementById('cart-modal').classList.toggle('hidden');
+      document.getElementById('cart-total-lista').innerText = formatPesos(totLista);
+      document.getElementById('cart-total-transf').innerText = formatPesos(totTransf);
+      document.getElementById('total-weight').innerText = `${peso} g`;
     }
 
     function sendOrder() {
-      if (!cart.length) return alert('El carrito está vacío');
-      let msg = `¡Hola *${config.nombre}*! Quiero consultar disponibilidad para el siguiente pedido:\n\n`;
-      let total = 0;
-      let pesoTotal = 0;
-
-      cart.forEach(item => {
-        msg += `• ${item.titulo} - ${formatPesos(item.precio_final)}\n`;
-        total += item.precio_final;
-        pesoTotal += (PESOS_CATEGORIA[item.categoria] || PESOS_CATEGORIA['defecto']);
-      });
-
-      msg += `\n*Total Productos:* ${formatPesos(total)}`;
-      msg += `\n*Peso estimado para Paq.ar:* ${pesoTotal}g`;
-      msg += `\n\n¿Tienen stock para coordinar el pago y envío?`;
-
+      if(!cart.length) return;
+      let msg = `¡Hola *${config.nombre}*! Mi pedido es:\n\n`, totL = 0, totT = 0, peso = 0;
+      cart.forEach(i => { msg += `• ${i.titulo}\n  Transf: ${formatPesos(i.p_transf)} | Lista: ${formatPesos(i.p_lista)}\n`; totL += i.p_lista; totT += i.p_transf; peso += PESOS_CATEGORIA[i.categoria] || PESOS_CATEGORIA['defecto']; });
+      msg += `\n*TOTAL TRANSFERENCIA:* ${formatPesos(totT)}\n*TOTAL LISTA (Cuotas):* ${formatPesos(totL)}\n*Peso:* ${peso}g\n\nQuiero coordinar el pago.`;
       window.open(`https://wa.me/${config.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
