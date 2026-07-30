@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LesLab - Automatizador de Catálogos</title>
+  <style>
+    :root { --primary: #0076d6; --success: #25D366; --bg: #f4f6f9; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; }
+    .panel { max-width: 750px; margin: 0 auto; background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h1 { font-size: 1.5rem; margin-top: 0; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #eee; padding-bottom: 12px; }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    label { font-weight: bold; font-size: 0.85rem; color: #555; }
+    input, select { padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 0.95rem; }
+    input[readonly] { background: #eee; color: #666; cursor: not-allowed; }
+
+    .card-info { background: #e8f4fd; border-left: 4px solid var(--primary); padding: 12px; border-radius: 0 8px 8px 0; font-size: 0.85rem; margin-bottom: 20px; line-height: 1.4; }
+    
+    .btn-main { width: 100%; background: var(--success); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 1.05rem; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+    .btn-main:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .output-area { margin-top: 20px; display: none; }
+    textarea { width: 100%; height: 220px; border-radius: 8px; border: 1px solid #ccc; padding: 10px; font-family: monospace; font-size: 0.8rem; box-sizing: border-box; }
+    .actions { display: flex; gap: 10px; margin-top: 10px; }
+    .btn-sub { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; background: #333; color: white; }
+  </style>
+</head>
+<body>
+
+<div class="panel">
+  <h1>⚡ LesLab Admin — Procesador Masivo</h1>
+  
+  <div class="card-info">
+    <b>Automatización Activa:</b> Calcula precios en 3 cuotas cubriendo Ualá Bis (14.52%) + Impuesto (3.5%), estima pesos automáticos para Paq.ar y sincroniza stock de la tienda elegida.
+  </div>
+
+  <div class="grid">
+    <div class="field">
+      <label>1. Seleccionar Tienda</label>
+      <select id="tienda">
+        <option value="aluney">ALUNEY</option>
+        <option value="tienda2">Tienda 2</option>
+        <option value="tienda3">Tienda 3</option>
+        <option value="tienda4">Tienda 4</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>2. Margen de Ganancia (%)</label>
+      <input type="number" id="margen" value="30" placeholder="Ej: 30">
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="field">
+      <label>Ualá Bis 3 Cuotas (12%+IVA)</label>
+      <input type="text" value="14.52%" readonly>
+    </div>
+    <div class="field">
+      <label>Impuesto Provincial / IIBB</label>
+      <input type="text" value="3.50%" readonly>
+    </div>
+  </div>
+
+  <div class="field" style="margin-bottom: 15px;">
+    <label>3. Subir archivo JSON del Scraper</label>
+    <input type="file" id="archivo-scraper" accept=".json">
+  </div>
+
+  <button class="btn-main" onclick="procesarScraper()">🚀 PROCESAR Y GENERAR CATALOGO</button>
+
+  <div class="output-area" id="bloque-salida">
+    <label> Archivo de Productos Generado:</label>
+    <textarea id="json-resultado" readonly></textarea>
+    <div class="actions">
+      <button class="btn-sub" onclick="copiarAlPortapapeles()">📋 Copiar JSON</button>
+      <button class="btn-sub" style="background: var(--primary);" onclick="descargarJSON()">💾 Descargar productos.json</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Estimador inteligente de peso según la categoría o nombre
+  function estimarPeso(nombre, categoria) {
+    const texto = (nombre + " " + (categoria || "")).toLowerCase();
+    
+    if (texto.includes('máscara') || texto.includes('labial') || texto.includes('delineador') || texto.includes('sombra')) return 100;
+    if (texto.includes('serum') || texto.includes('crema') || texto.includes('tónico') || texto.includes('base')) return 200;
+    if (texto.includes('perfume') || texto.includes('loción') || texto.includes('shampoo')) return 350;
+    if (texto.includes('zapatilla') || texto.includes('calzado') || texto.includes('bota')) return 800;
+    if (texto.includes('remera') || texto.includes('pantalon') || texto.includes('ropa')) return 300;
+    if (texto.includes('anillo') || texto.includes('aro') || texto.includes('cadena') || texto.includes('accesorio')) return 50;
+    
+    return 150; // Peso promedio por defecto (150g)
+  }
+
+  function procesarScraper() {
+    const fileInput = document.getElementById('archivo-scraper');
+    if (!fileInput.files.length) return alert('Por favor selecciona el archivo .json que te entregó el scraper.');
+
+    const tiendaSel = document.getElementById('tienda').value;
+    const margenNeto = parseFloat(document.getElementById('margen').value) / 100;
+
+    // Deducciones exactas: 14.52% (Ualá) + 3.5% (Impuesto) = 18.02%
+    const deduccionTotal = (0.12 * 1.21) + 0.035;
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      try {
+        const datosRaw = JSON.parse(e.target.result);
+
+        const productosProcesados = datosRaw.map((item, idx) => {
+          const costo = parseFloat(item.precio_costo || item.costo || item.precio || 0);
+          
+          // Cálculo de Precio de Lista para cubrir las 3 cuotas sin perder margen
+          const precioLista = Math.round((costo * (1 + margenNeto)) / (1 - deduccionTotal));
+          const pesoEstimado = item.peso ? parseInt(item.peso) : estimarPeso(item.nombre, item.categoria || item.seccion);
+
+          return {
+            tienda: tiendaSel,
+            id: idx + 1,
+            seccion: item.categoria || item.seccion || 'General',
+            nombre: item.nombre,
+            costo: costo,
+            lista: precioLista,
+            cuotas: 3,
+            stock: item.stock !== undefined ? parseInt(item.stock) : 10,
+            variantes: item.variantes || [],
+            peso: pesoEstimado,
+            imagen: item.imagen_url || item.imagen || ''
+          };
+        });
+
+        document.getElementById('json-resultado').value = JSON.stringify(productosProcesados, null, 2);
+        document.getElementById('bloque-salida').style.display = 'block';
+        alert(`¡Listo! Se procesaron ${productosProcesados.length} productos con precios, stock y pesos automáticos.`);
+
+      } catch(err) {
+        alert('Ocurrió un error al leer el JSON del scraper. Revisa que el archivo sea válido.');
+      }
+    };
+
+    reader.readAsText(file);
+  }
+
+  function copiarAlPortapapeles() {
+    const txt = document.getElementById('json-resultado');
+    txt.select();
+    document.execCommand('copy');
+    alert('¡Copiado! Ahora pégalo en tu productos.json en GitHub.');
+  }
+
+  function descargarJSON() {
+    const text = document.getElementById('json-resultado').value;
+    const blob = new Blob([text], { type: "application/json" });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = "productos.json";
+    a.click();
+  }
+</script>
+</body>
+</html>
