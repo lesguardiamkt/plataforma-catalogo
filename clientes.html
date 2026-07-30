@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LesLab — CRM Clientes y Pedidos</title>
+  <style>
+    :root { --primary: #0076d6; --success: #25D366; --warning: #ff9f43; --danger: #ee5253; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+    .container { max-width: 950px; margin: 0 auto; background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h1 { font-size: 1.4rem; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-top: 0; }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; }
+    label { font-weight: bold; font-size: 0.8rem; color: #555; display: block; margin-bottom: 4px; }
+    input, select, textarea { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; }
+    
+    .btn { padding: 10px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; }
+    .btn-save { background: var(--success); width: 100%; font-size: 1rem; }
+    .btn-tool { background: #333; font-size: 0.85rem; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.85rem; }
+    th, td { padding: 10px; border-bottom: 1px solid #eee; text-align: left; }
+    th { background: #f8f9fa; }
+    .badge { padding: 4px 8px; border-radius: 12px; font-weight: bold; font-size: 0.75rem; display: inline-block; }
+    .badge-parcial { background: #fff3cd; color: #856404; }
+    .badge-total { background: #d4edda; color: #155724; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>👥 CRM de Clientes, Pedidos y Pagos (LesLab)</h1>
+
+  <!-- Formulario de Registro -->
+  <form id="form-cliente" onsubmit="guardarCliente(event)">
+    <div class="grid">
+      <div>
+        <label>Tienda / Marca</label>
+        <select id="c-tienda">
+          <option value="aluney">ALUNEY</option>
+          <option value="tienda2">Tienda 2</option>
+          <option value="tienda3">Tienda 3</option>
+          <option value="tienda4">Tienda 4</option>
+        </select>
+      </div>
+      <div>
+        <label>Nombre y Apellido del Cliente</label>
+        <input type="text" id="c-nombre" required placeholder="Ej: Maria Perez">
+      </div>
+      <div>
+        <label>Teléfono / WhatsApp</label>
+        <input type="text" id="c-telefono" placeholder="Ej: 2665123456">
+      </div>
+      <div>
+        <label>Talles / Medidas / Tonos</label>
+        <input type="text" id="c-talle" placeholder="Ej: Calzado 38 / Talle M">
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Detalle del Pedido / Productos</label>
+        <input type="text" id="c-pedido" placeholder="Ej: 1x Serum, 1x Mascara">
+      </div>
+      <div>
+        <label>Monto Total ($)</label>
+        <input type="number" id="c-total" value="0" oninput="calcularSaldo()">
+      </div>
+      <div>
+        <label>Monto Abonado ($)</label>
+        <input type="number" id="c-pagado" value="0" oninput="calcularSaldo()">
+      </div>
+      <div>
+        <label>Saldo Pendiente ($)</label>
+        <input type="number" id="c-saldo" value="0" readonly style="background:#eee;">
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Productos FALTANTES (Sin Stock)</label>
+        <input type="text" id="c-faltante" placeholder="Ej: Labial Tono 02 agotado">
+      </div>
+      <div>
+        <label>Método de Pago</label>
+        <select id="c-metodo">
+          <option value="Transferencia (-10%)">Transferencia (-10%)</option>
+          <option value="UalÁ Bis 3 Cuotas">Ualá Bis 3 Cuotas</option>
+          <option value="Efectivo">Efectivo</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-save">💾 GUARDAR CLIENTE Y PEDIDO</button>
+  </form>
+
+  <!-- Herramientas de Respaldo -->
+  <div style="display: flex; gap: 10px; margin-top: 20px;">
+    <button class="btn btn-tool" onclick="exportarBase()">📥 Exportar Base de Datos (JSON)</button>
+    <button class="btn btn-tool" style="background:#0076d6;" onclick="document.getElementById('input-import').click()">📤 Importar Respaldo</button>
+    <input type="file" id="input-import" accept=".json" style="display:none;" onchange="importarBase(event)">
+  </div>
+
+  <!-- Tabla de Registros -->
+  <h3>Histórico de Pedidos Registrados</h3>
+  <div style="overflow-x: auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Tienda</th>
+          <th>Cliente / Tel.</th>
+          <th>Talles</th>
+          <th>Pedido</th>
+          <th>Total / Pagado / Saldo</th>
+          <th>Faltantes</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody id="tabla-clientes"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  let baseClientes = JSON.parse(localStorage.getItem('crm_clientes')) || [];
+
+  function calcularSaldo() {
+    const total = parseFloat(document.getElementById('c-total').value) || 0;
+    const pagado = parseFloat(document.getElementById('c-pagado').value) || 0;
+    document.getElementById('c-saldo').value = total - pagado;
+  }
+
+  function guardarCliente(e) {
+    e.preventDefault();
+    const cliente = {
+      id: Date.now(),
+      tienda: document.getElementById('c-tienda').value,
+      nombre: document.getElementById('c-nombre').value,
+      telefono: document.getElementById('c-telefono').value,
+      talle: document.getElementById('c-talle').value,
+      pedido: document.getElementById('c-pedido').value,
+      total: parseFloat(document.getElementById('c-total').value) || 0,
+      pagado: parseFloat(document.getElementById('c-pagado').value) || 0,
+      saldo: parseFloat(document.getElementById('c-saldo').value) || 0,
+      faltante: document.getElementById('c-faltante').value,
+      metodo: document.getElementById('c-metodo').value,
+      fecha: new Date().toLocaleDateString('es-AR')
+    };
+
+    baseClientes.push(cliente);
+    localStorage.setItem('crm_clientes', JSON.stringify(baseClientes));
+    document.getElementById('form-cliente').reset();
+    renderTabla();
+  }
+
+  function eliminarCliente(id) {
+    if(confirm('¿Segura que quieres eliminar este registro?')) {
+      baseClientes = baseClientes.filter(c => c.id !== id);
+      localStorage.setItem('crm_clientes', JSON.stringify(baseClientes));
+      renderTabla();
+    }
+  }
+
+  function renderTabla() {
+    const tbody = document.getElementById('tabla-clientes');
+    tbody.innerHTML = '';
+
+    baseClientes.forEach(c => {
+      const estadoPago = c.saldo <= 0 ? 
+        `<span class="badge badge-total">PAGADO TOTAL</span>` : 
+        `<span class="badge badge-parcial">SEÑA ($${c.pagado}) - DEBE $${c.saldo}</span>`;
+
+      tbody.innerHTML += `
+        <tr>
+          <td><b>${c.tienda.toUpperCase()}</b><br><small>${c.fecha}</small></td>
+          <td><b>${c.nombre}</b><br><small>${c.telefono}</small></td>
+          <td>${c.talle || '-'}</td>
+          <td>${c.pedido}</td>
+          <td>$${c.total.toLocaleString('es-AR')}<br>${estadoPago}</td>
+          <td style="color:red;">${c.faltante || 'Ninguno'}</td>
+          <td><button onclick="eliminarCliente(${c.id})" style="color:red; cursor:pointer; background:none; border:none;">❌</button></td>
+        </tr>
+      `;
+    });
+  }
+
+  function exportarBase() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(baseClientes, null, 2));
+    const dlAnchor = document.createElement('a');
+    dlAnchor.setAttribute("href", dataStr);
+    dlAnchor.setAttribute("download", `crm_clientes_leslab_${new Date().toISOString().slice(0,10)}.json`);
+    dlAnchor.click();
+  }
+
+  function importarBase(e) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      baseClientes = JSON.parse(event.target.result);
+      localStorage.setItem('crm_clientes', JSON.stringify(baseClientes));
+      renderTabla();
+      alert('¡Base de clientes cargada con éxito!');
+    };
+    reader.readAsText(e.target.files[0]);
+  }
+
+  renderTabla();
+</script>
+</body>
+</html>
