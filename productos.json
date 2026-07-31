@@ -1,26 +1,2802 @@
 [
   {
-    "id": "1",
-    "titulo": "Serum Hidratante Skincare Coreano",
-    "precio_costo": 4500,
-    "categoria": "accesorios",
-    "imagen": [
-      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800",
-      "https://images.unsplash.com/photo-1608248597309-1a0526e036e0?w=800"
-    ]
+    "tienda": "aluney",
+    "id": 1,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Nocturna PDRN",
+    "nombre": "1785496600-1",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "Colágeno y Péptidos Koec KO89"
+    ],
+    "peso": 100,
+    "imagen": ""
   },
   {
-    "id": "2",
-    "titulo": "Protector Solar Fluido FPS 50+",
-    "precio_costo": 5200,
-    "categoria": "accesorios",
-    "imagen": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=800"
+    "tienda": "aluney",
+    "id": 2,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Ampolla Exfoliante White Rice Koec 30ML KO67",
+    "nombre": "1785496600-2",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.699"
+    ],
+    "peso": 200,
+    "imagen": ""
   },
   {
-    "id": "3",
-    "titulo": "Tinta de Labios Velvet K-Beauty",
-    "precio_costo": 3000,
-    "categoria": "accesorios",
-    "imagen": "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=800"
+    "tienda": "aluney",
+    "id": 3,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Puntos Negros Cpore Koec 75Ml KO12",
+    "nombre": "1785496600-3",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$5.349"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 4,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Ampolla Exfoliante de Arroz Negro Koec 30ML KO68",
+    "nombre": "1785496600-4",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.649"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 5,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Hyaluronico Acid 30 Pcs Koec",
+    "nombre": "1785496600-5",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$13.499"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 6,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Reafirmante Papada Colágeno y Cactus x 4 Pcs Koec",
+    "nombre": "1785496600-6",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$9.199"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 7,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Vitamina C Collageno Koec 30 Pcs KO04",
+    "nombre": "1785496600-7",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$13.499"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 8,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Amino Acids + B5 ORDINARY Rep",
+    "nombre": "1785496600-8",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 9,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Parche Nasal Koec Frutilla Cute X 10 uni KO30",
+    "nombre": "1785496600-9",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$6.199"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 10,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Facial Frutilla + Vitamina C Luminous Skin Sadoer SD82176",
+    "nombre": "1785496600-10",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.499"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 11,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Frutilla + Vitamina C Luminous Skin Sadoer SD82169",
+    "nombre": "1785496600-11",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.849"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 12,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Frutilla + Vitamina C Sadoer SD82152",
+    "nombre": "1785496600-12",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.299"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 13,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Contorno Para Ojos PREMIUM Bifida Ferment Lysate Bioaqua BYQ05519",
+    "nombre": "1785496600-13",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.399"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 14,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Rejuvenecedor Radiante Granada Bioaqua BYQ00525",
+    "nombre": "1785496600-14",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.299"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 15,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Facial Rejuvenecedora Granada Bioaqua BYQ00563",
+    "nombre": "1785496600-15",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.399"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 16,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Hidratante Piel Radiante Granada Bioaqua BYQ00556",
+    "nombre": "1785496600-16",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 17,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Facial Vitamina E + B5 PREMIUM Bioaqua BYQ17925",
+    "nombre": "1785496600-17",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.389"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 18,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Colageno Recombinante Tipo III Bioaqua BYQ86600",
+    "nombre": "1785496600-18",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.399"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 19,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Vitamina E + B5 Complex Bioaqua BYQ17918",
+    "nombre": "1785496600-19",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.499"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 20,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Lip Mask Hidratacion Insta Blueberry Bioaqua BYQ4957",
+    "nombre": "1785496600-20",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.649"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 21,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Para Manos Frutilla + Vitamina C Sadoer SD82190",
+    "nombre": "1785496600-21",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.149"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 22,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Lip Mask Hidratacion Insta Grape Bioaqua BYQ4940",
+    "nombre": "1785496600-22",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.649"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 23,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Lip Mask Hidratacion Insta Honey Peach Bioaqua BYQ4933",
+    "nombre": "1785496600-23",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.649"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 24,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Tonico Rejuvenecedor 98% Organico Granada + Peptidos Bioaqua BYQ00532",
+    "nombre": "1785496600-24",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.399"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 25,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Rosa Organica 98% + Acido Hialuronico Bioaqua BYQ15440",
+    "nombre": "1785496600-25",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 26,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial REVITALITE Hialuronico + Niacinamida TEI TEI8223",
+    "nombre": "1785496600-26",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.399"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 27,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X10 Mascarillas Faciales Pildoras Reparacion + Anti-Age + Hidratacion Kormesic",
+    "nombre": "1785496600-27",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$6.399"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 28,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X5 Mascarilla Facial VB5 Panthenol Kormesic",
+    "nombre": "1785496600-28",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.250"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 29,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X5 Mascarilla Facial HA Hyaluronic Kormesic",
+    "nombre": "1785496600-29",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.250"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 30,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X5 Mascarilla Facial VA Retinol Kormesic",
+    "nombre": "1785496600-30",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.250"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 31,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X5 Mascarilla Facial CO Colageno Firmeza Kormesic",
+    "nombre": "1785496600-31",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.250"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 32,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X5 Mascarilla Facial NP Ceramide Kormesic",
+    "nombre": "1785496600-32",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.250"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 33,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X5 Mascarilla Facial Q10 Coenzyme Antioxidante Kormesic",
+    "nombre": "1785496600-33",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.250"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 34,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X5 Mascarilla Facial VC Vitamina C Blanqueadora Kormesic",
+    "nombre": "1785496600-34",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.250"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 35,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X5 Mascarilla Facial A+B Salicylic Acid Kormesic",
+    "nombre": "1785496600-35",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.250"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 36,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Pasta Dental Serum Blanqueadora Extrema Correccion Color HISMILES",
+    "nombre": "1785496600-36",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.299"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 37,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Facial En Capsula TXA Niacinamida 5% Medicube",
+    "nombre": "1785496600-37",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$9.899"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 38,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X3 Mascarilla Facial HELPS Skin Coreana Kormesic",
+    "nombre": "1785496600-38",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.849"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 39,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X3 Mascarilla Facial Ampoule Mask Coreana Kormesic",
+    "nombre": "1785496600-39",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.849"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 40,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Hidratante Enzimas Vegetales Extract Bioaqua BYQ36704",
+    "nombre": "1785496600-40",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$849"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 41,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Hidratante Blueberry Essence Bioaqua BYQ12401",
+    "nombre": "1785496600-41",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$789"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 42,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Colageno Anti-Age 96% Hidratacion Bioaqua BYQ80854",
+    "nombre": "1785496600-42",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$789"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 43,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Reafirmante Para Bustos Extracto De Mango Organico Bioaqua",
+    "nombre": "1785496600-43",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.799"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 44,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Reparadora Vitamina B5 + Hialuronico Bioaqua",
+    "nombre": "1785496600-44",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$849"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 45,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Jelly Glowing Skin PDRN + Iluminador KOEC",
+    "nombre": "1785496600-45",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$5.199"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 46,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Parches Oculares Hidrogel PDRN + Cafeina + Colageno (60 Parches) KOEC",
+    "nombre": "1785496600-46",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$5.999"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 47,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Parches Oculares Hidrogel PDRN + Vitamina C (60 Parches) KOEC",
+    "nombre": "1785496600-47",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$5.999"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 48,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Crecimiento Cabello Hair Growth Roll-On KOEC",
+    "nombre": "1785496600-48",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.599"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 49,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema REVIVE Elimina Bolsas Ojeras KOEC K-Beauty",
+    "nombre": "1785496600-49",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.399"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 50,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Nocturna 3 en 1 con Astaxantina Acido Tranexamico y Niacinamida KOEC",
+    "nombre": "1785496600-50",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.999"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 51,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Peeling Solution AHA 30% + BHA 2% Ordinary RP",
+    "nombre": "1785496600-51",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 52,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Sakura Hidratante Sadoer SD03027",
+    "nombre": "1785496600-52",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.199"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 53,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Boseine Total Reparacion Tratamiento Sadoer SD42521",
+    "nombre": "1785496600-53",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.199"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 54,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Centella Asiatica Rejuvenecedor Jeringa Depot Sadoer SD77202",
+    "nombre": "1785496600-54",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 55,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Onagra + Vitamina E Reafirmante Sadoer SD11466",
+    "nombre": "1785496600-55",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.299"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 56,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Te Verde + Acido Salicilico Sadoer SD77035",
+    "nombre": "1785496600-56",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.399"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 57,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Cream Avocado 98% Organico Sadoer SD50380",
+    "nombre": "1785496600-57",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.199"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 58,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Neck Para Cuello Anti Arrugas Panal ORO VEZE K-Beauty",
+    "nombre": "1785496600-58",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.399"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 59,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Neck Para Cuello Leche De Oveja ETAE Premium Line",
+    "nombre": "1785496600-59",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.399"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 60,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Luminosa + Suavizante Algas Maringas Koreana CWINTER",
+    "nombre": "1785496600-60",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$949"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 61,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Skincare Anti-Acne Acido Salicilico Bioaqua",
+    "nombre": "1785496600-61",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$999"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 62,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Protector Solar SUN Stick Cotton Soft SPF50+ PA++ TOCOBO Viral",
+    "nombre": "1785496600-62",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.499"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 63,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Para Labios Colageno Retinol Bioaqua",
+    "nombre": "1785496600-63",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$549"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 64,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Para Manos Aclarante + Vitamina C Bioaqua BYQ33406",
+    "nombre": "1785496600-64",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$949"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 65,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Para Manos Perfumada Cake KIWI Bioaqua BYQ36179",
+    "nombre": "1785496600-65",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$949"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 66,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Para Manos Perfumada Cake Orange Bioaqua BYQ36186",
+    "nombre": "1785496600-66",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$949"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 67,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Facial De Rosas + Acido Hialuronico 98% Organica Bioaqua BYQ42613",
+    "nombre": "1785496600-67",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.899"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 68,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Facial Hidratante Colageno Recombinante Tipo III Bioaqua BYQ86594",
+    "nombre": "1785496600-68",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 69,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Poremizing Fresh Ampoule Madagascar Centella",
+    "nombre": "1785496600-69",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$7.399"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 70,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Clasico Ampoule 100% Extracto Centella Asiatica Madagascar Centella",
+    "nombre": "1785496600-70",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$7.399"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 71,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X3 Mascarilla Facial 99% Extracto De Regaliz Coreana Kormesic",
+    "nombre": "1785496600-71",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.849"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 72,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "PACK X3 Mascarilla Facial Centella Asiatica Tea Tree Niacinamida Coreana",
+    "nombre": "1785496600-72",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.849"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 73,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Protector Solar Oil Control Ultra Long Protection 50PA+UVB Kakaziyan",
+    "nombre": "1785496600-73",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.299"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 74,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Nocturna Carrot Acid Limpieza Poros Exfoliacion Sadoer",
+    "nombre": "1785496600-74",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$319"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 75,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Pincel Para Mascarilla Mango Transparente",
+    "nombre": "1785496600-75",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$599"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 76,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum En Ampollas X30 Skin Clinique Colageno Anti-Aging PRO Kiss Beauty",
+    "nombre": "1785496600-76",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$12.499"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 77,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Acido Kojico Blanqueadora Fresh Radiance Kiss Beauty",
+    "nombre": "1785496600-77",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$949"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 78,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Blanqueador Niacinamida Hidratacion Sadoer SD12081",
+    "nombre": "1785496600-78",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.899"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 79,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial En Ampollas Tratamiento PDRN Pink Nutrición (10 Ampollas) KOEC",
+    "nombre": "1785496600-79",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.749"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 80,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Nocturna Colágeno Peel Off + Espátula KOEC",
+    "nombre": "1785496600-80",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$5.899"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 81,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Jelly Lavanda Premium Kounish Moda Koreana K-Beauty",
+    "nombre": "1785496600-81",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.390"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 82,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Jelly Cherry Premium Kounish Moda Koreana K-Beauty",
+    "nombre": "1785496600-82",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.390"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 83,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Nocturna PDRN Pink Caffeine + Espátula KOEC",
+    "nombre": "1785496600-83",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$5.899"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 84,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Acido Salicilico 2% Clinical Formulations ORDINARY RP",
+    "nombre": "1785496600-84",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$5.499"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 85,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum En Ampollas x7 Dosis Tratamiento Antioxidante Vitamina C Rejuvenecimiento Insta Sadoer",
+    "nombre": "1785496600-85",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$6.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 86,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Tratamiento Blanqueadora Niacinamida 3 Pasos Bioaqua BYQ18205",
+    "nombre": "1785496600-86",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.085"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 87,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Tratamiento Repair Aloe Vera 3 Pasos Bioaqua BYQ18236",
+    "nombre": "1785496600-87",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.085"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 88,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Carbon Activado Hidratacion Extrema 98% Organica Sadoer",
+    "nombre": "1785496600-88",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$730"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 89,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial 8D Peptidos + Acido Hialuronico Sadoer",
+    "nombre": "1785496600-89",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$730"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 90,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Arbutin White Multi Efecto Blanqueadora Sadoer",
+    "nombre": "1785496600-90",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$715"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 91,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Anti-Age Reafirmante Miel Pura Bioaqua BYQ56464",
+    "nombre": "1785496600-91",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$829"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 92,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Caviar + Acido Hialuronico Anti-Age Sadoer",
+    "nombre": "1785496600-92",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.399"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 93,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Bruma Facial Rosas Organicas Antioxidante Refresca Revitaliza Bubbaluu",
+    "nombre": "1785496600-93",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.399"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 94,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Agua Micelar Hydra Glow Desmaquilla Hidrata Hialuronico + Niacinamida Bubbaluu",
+    "nombre": "1785496600-94",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.399"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 95,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Toallitas Humedas X 25 Unidades XL Make Up Remover",
+    "nombre": "1785496600-95",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.749"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 96,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Anti Age Para Cuello Neck Pilaten",
+    "nombre": "1785496600-96",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.549"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 97,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Pack X12 Mascarillas Faciales Comprimidas Expandibles",
+    "nombre": "1785496600-97",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.399"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 98,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial De Barro PEPINO Relax Bioaqua",
+    "nombre": "1785496600-98",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$399"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 99,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Para Labios Colageno SNAIL Bioaqua",
+    "nombre": "1785496600-99",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$549"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 100,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Para Labios Colageno VITAMINA C Glossy Bioaqua",
+    "nombre": "1785496600-100",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$549"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 101,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Activador De Colageno Recombinante Tipo 3 Bioaqua",
+    "nombre": "1785496600-101",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.399"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 102,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Facial Centella Asiatica Ultra Reparacion Nourising Bioaqua",
+    "nombre": "1785496600-102",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.749"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 103,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Pack X8 Paquetitos Wipes Toallitas Desmaquillantes Humedas KITTY – LABUBU – STITCH",
+    "nombre": "1785496600-103",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.672"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 104,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Alpha Arbutin 2% + HA ORDINARY Rep",
+    "nombre": "1785496600-104",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.400"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 105,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum BUFFET Multi Tecnologia Full Peptides ORDINARY Rep",
+    "nombre": "1785496600-105",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.400"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 106,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Tonico Alta Hidratacion Exfoliante Suave Hyalu-Cica Madagascar Centella",
+    "nombre": "1785496600-106",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$7.399"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 107,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Tonico Exfoliante Poremizing Sales Minerales Madagascar Centella",
+    "nombre": "1785496600-107",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$7.399"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 108,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Tea-Trica Calmante Inmediato Te + Pino + Cipres Madagascar Centella",
+    "nombre": "1785496600-108",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$7.399"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 109,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Tone Brightening Triple Complex Niaci + Tranexa + Ascorbic Madagascar Centella",
+    "nombre": "1785496600-109",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$7.399"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 110,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Calmante Y Reparador Centella Asiatica + Vitamina B5 Sadoer SD88758",
+    "nombre": "1785496600-110",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.299"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 111,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Reparadora Oil Control Centella Asiatica Bioaqua BYQ12524",
+    "nombre": "1785496600-111",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$799"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 112,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial 5 En 1 Multi Efecto Vitamina E + Hialuronico Bioaqua BYQ42309",
+    "nombre": "1785496600-112",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$820"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 113,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Super Hidratante Con Acido Hialuronico Sadoer SD07513",
+    "nombre": "1785496600-113",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$785"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 114,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Antioxidante Hidratante Con Semilla De Uva Sadoer SD07537",
+    "nombre": "1785496600-114",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$785"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 115,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Parches Hidrogel Antiarrugas Para Lineas Nasogenianas Bioaqua BYQ93260",
+    "nombre": "1785496600-115",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.149"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 116,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Probioticos Esenciales Bioaqua BYQ56280",
+    "nombre": "1785496600-116",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$899"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 117,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Tratamiento Hidratante Hialuronico 3 Pasos Bioaqua BYQ18212",
+    "nombre": "1785496600-117",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.085"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 118,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Tratamiento Rejuvenecedora 3 Pasos Bioaqua BYQ18229",
+    "nombre": "1785496600-118",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.085"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 119,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Rejuvenecedor 98% Flor De Cerezo Bioaqua BYQ83579",
+    "nombre": "1785496600-119",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.399"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 120,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Semilla De Uva Profesional Sadoer SD05779",
+    "nombre": "1785496600-120",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.699"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 121,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno De Ojos Vitamina B5 Calmante Ultra Hidratante Sadoer SD46949",
+    "nombre": "1785496600-121",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.399"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 122,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Astaxanthin Antioxidante Potente Profesional Sadoer SD46161",
+    "nombre": "1785496600-122",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 123,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum 8D Acido Hialuronico + Calendula + Centella Asiatica PRO Sadoer SD05854",
+    "nombre": "1785496600-123",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.649"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 124,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum 15 Ampollas Monodosis 8D Acido Hialuronico Complex Tratamiento Sadoer SD00483",
+    "nombre": "1785496600-124",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.099"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 125,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum 20 Ampollas Monodosis Antioxidante Vitamina C Tratamiento Bioaqua BYQ00506",
+    "nombre": "1785496600-125",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$7.599"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 126,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Shampoo Espuma LASH Limpieza Pestañas Y Cejas",
+    "nombre": "1785496600-126",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.499"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 127,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Set Perfume + Crema VIRAL VV LOVE",
+    "nombre": "1785496600-127",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.949"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 128,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Arabe Skin Clinic Kiss Beauty",
+    "nombre": "1785496600-128",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$849"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 129,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial SkinCare DIAMOND Maximo Brillo Skin Clinic Kiss Beauty",
+    "nombre": "1785496600-129",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.015"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 130,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Fullerene Rejuvenecedor Skin Anti Age Sadoer SD42507",
+    "nombre": "1785496600-130",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.899"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 131,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Salicylic Acid Oil Control Removedor Acne Sadoer SD42491",
+    "nombre": "1785496600-131",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.899"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 132,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum 30 Ampollas Reparacion Inmediata K Beauty KOEC",
+    "nombre": "1785496600-132",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$13.499"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 133,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Perilla Anti Age Bioaqua BYQ41166",
+    "nombre": "1785496600-133",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$849"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 134,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Para Manos Hidratante En Sobre Avocado SD93932",
+    "nombre": "1785496600-134",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$349"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 135,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Para Manos Hidratante En Sobre Honey Peach SD93918",
+    "nombre": "1785496600-135",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$349"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 136,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Blanqueador Papaya Organica Vitamina C Bioaqua BYQ39828",
+    "nombre": "1785496600-136",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.296"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 137,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Camellias Anti Oxidante Reparacion Bioaqua BYQ12494",
+    "nombre": "1785496600-137",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.296"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 138,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum 30 Ampollas Monodosis Retinol Anti Arrugas Tratamiento Bioaqua BYQ96483",
+    "nombre": "1785496600-138",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$6.498"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 139,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Vitamina E + Miel Pura Bioaqua BYQ15914",
+    "nombre": "1785496600-139",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.399"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 140,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Muñequera Toalla Absorvente SkinCare (EL PAR)",
+    "nombre": "1785496600-140",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$998"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 141,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Moda Koreana Pildora Bioaqua 51773",
+    "nombre": "1785496600-141",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$738"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 142,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Skin Clinic Arabe Yara Kiss Beauty",
+    "nombre": "1785496600-142",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.199"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 143,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Pack X6 Mascarilla Facial Skin Care Anti-Age Arabe-Animadas (SURTIDAS) TEI",
+    "nombre": "1785496600-143",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.598"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 144,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Skin Essence Acido Hialuronico + Nicotinamide STRAWBERRY TEI",
+    "nombre": "1785496600-144",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.899"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 145,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Skin Essence Acido Hialuronico + Nicotinamide APPLE TEI",
+    "nombre": "1785496600-145",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.899"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 146,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla De Arcilla Carbon Iluminadora Bioaqua",
+    "nombre": "1785496600-146",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$399"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 147,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Facial Retinol 60GR Bioaqua",
+    "nombre": "1785496600-147",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 148,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Facial Acido Hialuronico 60GR Bioaqua",
+    "nombre": "1785496600-148",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 149,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Facial Antiarrugas Polipeptidos Perilla Bioaqua",
+    "nombre": "1785496600-149",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.499"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 150,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Crema Facial Antiarrugas Hinojo Marino + Acido Hialuronico Bioaqua",
+    "nombre": "1785496600-150",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.499"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 151,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Semilla De Uva Gape Seed Hidratante Sadoer",
+    "nombre": "1785496600-151",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 152,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Acido Hialuronico 8D Sadoer",
+    "nombre": "1785496600-152",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.500"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 153,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla De Arcilla Vitamina C Iluminadora Bioaqua",
+    "nombre": "1785496600-153",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$490"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 154,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Anti-Age Anti-Blemish Anti-Marks PREMIUM PRO SKIN 100% VEGANO",
+    "nombre": "1785496600-154",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.083"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 155,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum 10+ Niacinamide TXA 4 VIRAL ANUA",
+    "nombre": "1785496600-155",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 156,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum 80+ Heartleaf + Panthenol VIRAL ANUA",
+    "nombre": "1785496600-156",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.899"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 157,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Birch 70 + Hyaluron Moisture Boosting VIRAL ANUA",
+    "nombre": "1785496600-157",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$4.999"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 158,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Rose & Green Tea Anti Age +Colageno + Acido Hialuronico DHermosa Pro",
+    "nombre": "1785496600-158",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.688"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 159,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Pomo XL Peel Off Puntos Negros Carbon Sadoer",
+    "nombre": "1785496600-159",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.040"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 160,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Blanqueador Vitamina C PREMIUM Bioaqua",
+    "nombre": "1785496600-160",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.299"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 161,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Facial Acido Hialuronico PREMIUM Bioaqua",
+    "nombre": "1785496600-161",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.399"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 162,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Hidratacion Intensiva Sea Fennel + Acido Hialuronico Bioaqua",
+    "nombre": "1785496600-162",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.998"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 163,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Serum Anti-Age Polypeptide Perilla Extracto PRO Bioaqua",
+    "nombre": "1785496600-163",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.296"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 164,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Pack X6 Mascarilla Anti Ojeras Colageno Animadas Arabes TEI (PROMO)(SURTIDA)",
+    "nombre": "1785496600-164",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.160"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 165,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Pack X6 Mascarilla Para Labios Colageno Animadas Arabes TEI (PROMO)(SURTIDAS)",
+    "nombre": "1785496600-165",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.160"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 166,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Parche Acne Estrellita + Corazones (36 Parches)",
+    "nombre": "1785496600-166",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$1.360"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 167,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Essence Cat Premium Anti-Age Hidratante Recovery (Surtida)",
+    "nombre": "1785496600-167",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$872"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 168,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Facial Hidratante Refrezcante Anti-Age Bioaqua",
+    "nombre": "1785496600-168",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$800"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 169,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Parche Para Ojos Baba Caracola Snail Bioaqua",
+    "nombre": "1785496600-169",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$560"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 170,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Colageno Labios Care",
+    "nombre": "1785496600-170",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$440"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 171,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Enjuague Bucal Monodosis SANDIA Sadoer",
+    "nombre": "1785496600-171",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$480"
+    ],
+    "peso": 150,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 172,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Mascarilla Puntos Negros Peel Off",
+    "nombre": "1785496600-172",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$317"
+    ],
+    "peso": 100,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 173,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Protector Solar SUNSCREEN + Serum Alta Proteccion 24K Gold SPF60 PA+++ Karite",
+    "nombre": "1785496600-173",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.599"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 174,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Protector Solar SUNSCREEN + Serum Alta Proteccion Aloe Vera SPF60 PA+++ Karite",
+    "nombre": "1785496600-174",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$3.599"
+    ],
+    "peso": 200,
+    "imagen": ""
+  },
+  {
+    "tienda": "aluney",
+    "id": 175,
+    "proveedor": "ESTETIC Makeup",
+    "seccion": "Contorno Para Ojos Hidratante NIACINAMIDA Bioaqua",
+    "nombre": "1785496600-175",
+    "costo": 0,
+    "lista": 0,
+    "cuotas": 3,
+    "stock": null,
+    "variantes": [
+      "$2.059"
+    ],
+    "peso": 150,
+    "imagen": ""
   }
 ]
