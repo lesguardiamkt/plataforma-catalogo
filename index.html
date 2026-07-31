@@ -1,291 +1,159 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo Online</title>
-  <style>
-    :root { --primary: #000; --accent: #0076d6; --success: #25D366; --bg: #f8f9fa; }
-    body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 15px; background: var(--bg); color: #333; }
-    
-    /* Header con Logo y Nombre */
-    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid #ddd; margin-bottom: 15px; }
-    .brand-container { display: flex; align-items: center; gap: 12px; }
-    .brand-logo { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; display: none; }
-    h1 { margin: 0; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px; }
-    
-    .btn-fav-top { background: #fff; border: 1px solid #ff4757; color: #ff4757; padding: 6px 14px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-    
-    /* Categorías / Secciones */
-    .secciones { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
-    .secciones button { background: #e9ecef; border: none; padding: 8px 14px; border-radius: 15px; cursor: pointer; white-space: nowrap; font-size: 0.9rem; }
-    .secciones button.activo { background: #333; color: #fff; }
+<!-- VISOR DE IMÁGENES A TAMAÑO REAL Y GALERÍA (LIGHTBOX) -->
+<style>
+  .img-zoomable { cursor: zoom-in !important; transition: transform 0.2s ease; }
+  .img-zoomable:hover { transform: scale(1.03); }
 
-    /* Cards de Productos */
-    .grid-productos { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; margin-bottom: 90px; }
-    .card { background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: relative; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; }
-    .card-img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; background: #f0f0f0; }
-    .card-title { font-size: 1.05rem; font-weight: bold; margin-bottom: 8px; padding-right: 25px; }
-    
-    /* VARIANTES Y STOCK */
-    .stock-badge { font-size: 0.75rem; color: #d63031; font-weight: bold; margin-bottom: 8px; }
-    .select-variante { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 10px; font-size: 0.85rem; }
+  #lightbox-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(15, 23, 42, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 999999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  #lightbox-overlay.active { display: flex !important; }
 
-    /* ORDEN DE PRECIOS: Lista -> 3 Cuotas -> Transferencia */
-    .precio-lista { font-size: 0.85rem; color: #666; margin-bottom: 4px; }
-    .precio-cuotas { color: var(--accent); font-weight: 600; font-size: 0.95rem; margin-bottom: 8px; }
-    .precio-transf { background: #e8f5e9; color: #1b5e20; padding: 6px 10px; border-radius: 6px; font-weight: bold; font-size: 0.88rem; display: inline-block; margin-bottom: 12px; }
+  .lightbox-content {
+    position: relative;
+    max-width: 92vw;
+    max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .btn-fav { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .btn-add { width: 100%; background: #000; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    .btn-add:disabled { background: #ccc; cursor: not-allowed; }
+  .lightbox-img {
+    max-width: 90vw;
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+    cursor: zoom-out;
+  }
 
-    /* Barra Inferior del Carrito */
-    .bar-pedido { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 12px 20px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; z-index: 100; }
-    .btn-wsp { background: var(--success); color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.95rem; }
-  </style>
-</head>
-<body>
+  .lightbox-btn-close {
+    position: absolute;
+    top: 20px; right: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: none;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    z-index: 1000000;
+  }
+  .lightbox-btn-close:hover { background: rgba(255, 255, 255, 0.4); }
 
-  <header>
-    <div class="brand-container">
-      <img id="logo-tienda" class="brand-logo" src="" alt="Logo">
-      <h1 id="titulo-tienda">Cargando...</h1>
-    </div>
-    <button class="btn-fav-top" onclick="filtrarFavoritos()">❤️ (<span id="count-favs">0</span>)</button>
-  </header>
+  .lightbox-nav-btn {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: none;
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    font-size: 26px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    z-index: 1000000;
+  }
+  .lightbox-nav-btn:hover { background: rgba(255, 255, 255, 0.4); }
+  .lightbox-prev { left: 20px; }
+  .lightbox-next { right: 20px; }
 
-  <!-- Filtro por Secciones -->
-  <div class="secciones" id="contenedor-secciones">
-    <button class="activo" onclick="filtrarSeccion('todos', this)">Todos</button>
-  </div>
+  .lightbox-caption {
+    color: #f1f5f9;
+    margin-top: 14px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+  }
+</style>
 
-  <!-- Contenedor de Productos -->
-  <main id="contenedor-productos" class="grid-productos"></main>
-
-  <!-- Barra Fija del Carrito -->
-  <div class="bar-pedido">
-    <div id="resumen-carrito">Carrito vacío</div>
-    <button class="btn-wsp" onclick="enviarWhatsApp()">Enviar por WhatsApp 💬</button>
-  </div>
-
-  <script>
-    // Configurar la tienda desde la URL
-    const params = new URLSearchParams(window.location.search);
-    const nombreTienda = (params.get('tienda') || 'ALUNEY').toLowerCase();
-    
-    document.getElementById('titulo-tienda').innerText = nombreTienda.toUpperCase();
-
-    // Cargar Logo de la marca activa
-    const logoImg = document.getElementById('logo-tienda');
-    logoImg.src = `logo-${nombreTienda}.png`;
-    logoImg.onload = () => { logoImg.style.display = 'block'; };
-    logoImg.onerror = () => { logoImg.style.display = 'none'; };
-
-    let productosTiendaActual = [];
-    let productosFiltrados = [];
-    let carrito = [];
-    let favoritos = JSON.parse(localStorage.getItem('favs_' + nombreTienda)) || [];
-
-    async function cargarDatos() {
-      try {
-        const resp = await fetch('productos.json');
-        const todosLosProductos = await resp.json();
-        
-        // Filtrar productos que pertenecen a esta tienda
-        productosTiendaActual = todosLosProductos.filter(p => p.tienda && p.tienda.toLowerCase() === nombreTienda);
-      } catch (e) {
-        productosTiendaActual = [];
-      }
-
-      productosFiltrados = [...productosTiendaActual];
-      generarBotonesSecciones();
-      renderProductos(productosFiltrados);
-    }
-
-    function generarBotonesSecciones() {
-      const seccionesUnicas = ['todos', ...new Set(productosTiendaActual.map(p => p.seccion).filter(Boolean))];
-      const cont = document.getElementById('contenedor-secciones');
-      cont.innerHTML = seccionesUnicas.map(s => 
-        `<button class="${s === 'todos' ? 'activo' : ''}" onclick="filtrarSeccion('${s}', this)">${s.charAt(0).toUpperCase() + s.slice(1)}</button>`
-      ).join('');
-    }
-
-    function renderProductos(lista) {
-      const cont = document.getElementById('contenedor-productos');
-      cont.innerHTML = '';
-
-      if(lista.length === 0) {
-        cont.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 20px;">No hay productos disponibles en esta tienda.</p>';
-        return;
-      }
-      
-      lista.forEach(p => {
-        const valorCuota = Math.round(p.lista / (p.cuotas || 3)).toLocaleString('es-AR');
-        const precioTransf = Math.round(p.lista * 0.90).toLocaleString('es-AR');
-        const esFav = favoritos.includes(p.id) ? '❤️' : '🤍';
-        const imgTag = p.imagen ? `<img src="${p.imagen}" class="card-img" alt="${p.nombre}">` : '';
-
-        // Manejo de Variantes (Talles/Colores)
-        let htmlVariantes = '';
-        if(p.variantes && p.variantes.length > 0) {
-          const opciones = p.variantes.map(v => `<option value="${v}">${v}</option>`).join('');
-          htmlVariantes = `<select class="select-variante" id="var-${p.id}">${opciones}</select>`;
-        }
-
-        // Manejo de Stock
-        const sinStock = p.stock !== undefined && p.stock <= 0;
-        const textoStock = sinStock ? '<div class="stock-badge">AGOTADO</div>' : (p.stock < 5 ? `<div class="stock-badge">¡Últimas ${p.stock} unidades!</div>` : '');
-
-        cont.innerHTML += `
-          <div class="card">
-            <div>
-              <button class="btn-fav" onclick="toggleFavorito(${p.id})">${esFav}</button>
-              ${imgTag}
-              <div class="card-title">${p.nombre}</div>
-              ${textoStock}
-              ${htmlVariantes}
-            </div>
-            
-            <div>
-              <div class="precio-lista">Precio de lista: $ ${p.lista.toLocaleString('es-AR')}</div>
-              <div class="precio-cuotas">💳 ${p.cuotas || 3} cuotas sin interés de $ ${valorCuota}</div>
-              <div class="precio-transf">🏷️ $ ${precioTransf} con Transferencia (-10%)</div>
-              
-              <button class="btn-add" ${sinStock ? 'disabled' : ''} onclick="agregarAlCarrito(${p.id})">
-                ${sinStock ? 'Sin Stock' : 'Agregar al pedido'}
-              </button>
-            </div>
-          </div>
-        `;
-      });
-      actualizarContadorFavs();
-    }
-
-    function filtrarSeccion(seccion, btn) {
-      document.querySelectorAll('.secciones button').forEach(b => b.classList.remove('activo'));
-      if(btn) btn.classList.add('activo');
-
-      if (seccion === 'todos') {
-        productosFiltrados = [...productosTiendaActual];
-      } else {
-        productosFiltrados = productosTiendaActual.filter(p => p.seccion === seccion);
-      }
-      renderProductos(productosFiltrados);
-    }
-
-    function toggleFavorito(id) {
-      if (favoritos.includes(id)) favoritos = favoritos.filter(favId => favId !== id);
-      else favoritos.push(id);
-      
-      localStorage.setItem('favs_' + nombreTienda, JSON.stringify(favoritos));
-      renderProductos(productosFiltrados);
-    }
-
-    function filtrarFavoritos() {
-      document.querySelectorAll('.secciones button').forEach(b => b.classList.remove('activo'));
-      const prodsFavs = productosTiendaActual.filter(p => favoritos.includes(p.id));
-      renderProductos(prodsFavs);
-    }
-
-    function actualizarContadorFavs() {
-      document.getElementById('count-favs').innerText = favoritos.length;
-    }
-
-    function agregarAlCarrito(id) {
-      const prod = productosTiendaActual.find(p => p.id === id);
-      
-      // Obtener variante seleccionada si existe
-      const selectVar = document.getElementById(`var-${id}`);
-      const varianteElegida = selectVar ? selectVar.value : '';
-
-      carrito.push({ ...prod, varianteElegida });
-      actualizarBarra();
-    }
-
-    function actualizarBarra() {
-      const total = carrito.reduce((acc, p) => acc + p.lista, 0);
-      document.getElementById('resumen-carrito').innerHTML = `<b>${carrito.length} prod.</b> | Total: $ ${total.toLocaleString('es-AR')}`;
-    }
-
-    function enviarWhatsApp() {
-      if (carrito.length === 0) return alert('Por favor, agrega al menos un producto al carrito.');
-
-      let totalLista = 0;
-      let pesoTotal = 0;
-      let detalle = '';
-
-      carrito.forEach(p => {
-        totalLista += p.lista;
-        pesoTotal += (p.peso || 150);
-        const textoVar = p.varianteElegida ? ` (${p.varianteElegida})` : '';
-        detalle += `• ${p.nombre}${textoVar} - $ ${p.lista.toLocaleString('es-AR')}\n`;
-      });
-
-      const texto = `¡Hola ${nombreTienda.toUpperCase()}! Quiero consultar disponibilidad para el siguiente pedido:\n\n` +
-        `${detalle}\n` +
-        `Total Productos: $ ${totalLista.toLocaleString('es-AR')}\n` +
-        `Peso estimado para Paq.ar: ${pesoTotal}g\n\n` +
-        `¿Tienen stock para coordinar el pago y envío?`;
-
-      const url = `https://wa.me/5492665329231?text=${encodeURIComponent(texto)}`;
-      window.open(url, '_blank');
-    }
-
-    cargarDatos();
-  </script>
-  <!-- Modal / Visor de Imagen Ampliada -->
-<div id="modal-visor-foto" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; backdrop-filter:blur(5px);">
-  <span onclick="cerrarVisorFoto()" style="position:absolute; top:20px; right:30px; color:white; font-size:40px; font-weight:bold; cursor:pointer;">&times;</span>
+<div id="lightbox-overlay" onclick="cerrarLightbox(event)">
+  <button class="lightbox-btn-close" onclick="cerrarLightboxForce()">&times;</button>
+  <button id="lightbox-prev-btn" class="lightbox-nav-btn lightbox-prev" onclick="navegarLightbox(-1, event)">&#10094;</button>
   
-  <button id="btn-foto-prev" onclick="cambiarFotoModal(-1)" style="position:absolute; left:20px; color:white; background:rgba(255,255,255,0.2); border:none; border-radius:50%; width:45px; height:45px; font-size:24px; cursor:pointer;">&#10094;</button>
-  
-  <div style="text-align:center; max-width:90%; max-height:85%;">
-    <img id="img-ampliada" src="" style="max-width:100%; max-height:75vh; border-radius:12px; box-shadow:0 8px 25px rgba(0,0,0,0.5); object-fit:contain;">
-    <div id="contador-fotos" style="color:white; margin-top:10px; font-weight:600; font-size:0.9rem;"></div>
+  <div class="lightbox-content" onclick="event.stopPropagation()">
+    <img id="lightbox-img-target" class="lightbox-img" src="" alt="Foto ampliada" onclick="cerrarLightboxForce()">
   </div>
 
-  <button id="btn-foto-next" onclick="cambiarFotoModal(1)" style="position:absolute; right:20px; color:white; background:rgba(255,255,255,0.2); border:none; border-radius:50%; width:45px; height:45px; font-size:24px; cursor:pointer;">&#10095;</button>
+  <button id="lightbox-next-btn" class="lightbox-nav-btn lightbox-next" onclick="navegarLightbox(1, event)">&#10095;</button>
+  <div id="lightbox-caption-text" class="lightbox-caption"></div>
 </div>
 
 <script>
-  let fotosActuales = [];
-  let indiceFotoActual = 0;
+  let lightboxGaleria = [];
+  let lightboxIndex = 0;
 
-  function abrirVisorFoto(listaFotos, indexInicial = 0) {
-    if (!listaFotos || listaFotos.length === 0) return;
-    fotosActuales = Array.isArray(listaFotos) ? listaFotos : [listaFotos];
-    indiceFotoActual = indexInicial;
-    actualizarModalFoto();
-    document.getElementById('modal-visor-foto').style.display = 'flex';
+  function abrirFotoAmpliada(itemFotos, indexInicial = 0) {
+    if (!itemFotos) return;
+    if (typeof itemFotos === 'string') {
+      lightboxGaleria = [itemFotos];
+    } else if (Array.isArray(itemFotos)) {
+      lightboxGaleria = itemFotos.filter(f => f && typeof f === 'string');
+    }
+    if (lightboxGaleria.length === 0) return;
+
+    lightboxIndex = indexInicial >= 0 && indexInicial < lightboxGaleria.length ? indexInicial : 0;
+    renderizarLightbox();
+    document.getElementById('lightbox-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden'; // Bloquea el scroll de fondo
   }
 
-  function cerrarVisorFoto() {
-    document.getElementById('modal-visor-foto').style.display = 'none';
-  }
+  function renderizarLightbox() {
+    const imgEl = document.getElementById('lightbox-img-target');
+    const txtEl = document.getElementById('lightbox-caption-text');
+    const btnPrev = document.getElementById('lightbox-prev-btn');
+    const btnNext = document.getElementById('lightbox-next-btn');
 
-  function cambiarFotoModal(direccion) {
-    indiceFotoActual += direccion;
-    if (indiceFotoActual < 0) indiceFotoActual = fotosActuales.length - 1;
-    if (indiceFotoActual >= fotosActuales.length) indiceFotoActual = 0;
-    actualizarModalFoto();
-  }
+    imgEl.src = lightboxGaleria[lightboxIndex];
 
-  function actualizarModalFoto() {
-    const imgEl = document.getElementById('img-ampliada');
-    const cntEl = document.getElementById('contador-fotos');
-    imgEl.src = fotosActuales[indiceFotoActual];
-
-    if (fotosActuales.length > 1) {
-      cntEl.innerText = `Imagen ${indiceFotoActual + 1} de ${fotosActuales.length}`;
-      document.getElementById('btn-foto-prev').style.display = 'block';
-      document.getElementById('btn-foto-next').style.display = 'block';
+    if (lightboxGaleria.length > 1) {
+      txtEl.innerText = `Foto ${lightboxIndex + 1} de ${lightboxGaleria.length}`;
+      btnPrev.style.display = 'flex';
+      btnNext.style.display = 'flex';
     } else {
-      cntEl.innerText = '';
-      document.getElementById('btn-foto-prev').style.display = 'none';
-      document.getElementById('btn-foto-next').style.display = 'none';
+      txtEl.innerText = 'Toca fuera o la cruz para cerrar';
+      btnPrev.style.display = 'none';
+      btnNext.style.display = 'none';
     }
   }
+
+  function navegarLightbox(dir, e) {
+    if (e) e.stopPropagation();
+    lightboxIndex += dir;
+    if (lightboxIndex < 0) lightboxIndex = lightboxGaleria.length - 1;
+    if (lightboxIndex >= lightboxGaleria.length) lightboxIndex = 0;
+    renderizarLightbox();
+  }
+
+  function cerrarLightbox(e) {
+    if (e.target.id === 'lightbox-overlay') cerrarLightboxForce();
+  }
+
+  function cerrarLightboxForce() {
+    document.getElementById('lightbox-overlay').classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+
+  // Teclas de acceso rápido (Esc para cerrar, flechas para navegar)
+  document.addEventListener('keydown', function(e) {
+    const overlay = document.getElementById('lightbox-overlay');
+    if (overlay && overlay.classList.contains('active')) {
+      if (e.key === 'Escape') cerrarLightboxForce();
+      if (e.key === 'ArrowLeft') navegarLightbox(-1);
+      if (e.key === 'ArrowRight') navegarLightbox(1);
+    }
+  });
 </script>
-</body>
-</html>
