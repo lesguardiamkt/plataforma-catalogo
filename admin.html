@@ -26,9 +26,9 @@
 
 <div class="container">
   <div class="card">
-    <h1>⚙️ Hub Admin — Procesador Acumulativo de Proveedores</h1>
+    <h1>⚙️ Hub Admin — Procesador Inteligente Multi-Scraper</h1>
     <div class="box-info">
-      💡 <b>Modo Inteligente Anti-Duplicados:</b> Podés subir catálogos de distintos proveedores uno tras otro. La herramienta descargará automáticamente tu <code>productos.json</code> actual de GitHub, sumará los productos nuevos y actualizará los existentes sin borrar nada.
+      💡 <b>Parseador Inteligente Activado:</b> Lee correctamente archivos con comas internas, detecta URLs de fotos automáticamente y asigna stock real.
     </div>
   </div>
 
@@ -47,7 +47,7 @@
 
       <div class="field">
         <label>Nombre del Proveedor (Privado)</label>
-        <input type="text" id="nombre-proveedor" placeholder="Ej: MayoristaBio, ImportadorX" required>
+        <input type="text" id="nombre-proveedor" value="EsteticMakeup" placeholder="Ej: EsteticMakeup, ImportadorX" required>
       </div>
 
       <div class="field">
@@ -69,7 +69,7 @@
     <h2>2. Margen Neto Deseado por Categoría (%)</h2>
     <div class="grid">
       <div class="field">
-        <label>Maquillaje / Facial (%)</label>
+        <label>Maquillaje / Skincare / Facial (%)</label>
         <input type="number" id="m-maquillaje" value="45">
       </div>
       <div class="field">
@@ -116,9 +116,69 @@
     document.getElementById('val-comision-uala').value = (modo === 'cuotas') ? "14.52" : "5.93";
   }
 
+  function parseCSVRobusto(texto) {
+    let lineas = [];
+    let fila = [];
+    let enComillas = false;
+    let valorActual = '';
+
+    for (let i = 0; i < texto.length; i++) {
+      let char = texto[i];
+      let siguienteChar = texto[i + 1];
+
+      if (char === '"') {
+        if (enComillas && siguienteChar === '"') {
+          valorActual += '"';
+          i++;
+        } else {
+          enComillas = !enComillas;
+        }
+      } else if (char === ',' && !enComillas) {
+        fila.push(valorActual.trim());
+        valorActual = '';
+      } else if ((char === '\r' || char === '\n') && !enComillas) {
+        if (char === '\r' && siguienteChar === '\n') i++;
+        fila.push(valorActual.trim());
+        if (fila.length > 1 || (fila.length === 1 && fila[0] !== '')) lineas.push(fila);
+        fila = [];
+        valorActual = '';
+      } else {
+        valorActual += char;
+      }
+    }
+    if (valorActual !== '' || fila.length > 0) {
+      fila.push(valorActual.trim());
+      if (fila.length > 1 || (fila.length === 1 && fila[0] !== '')) lineas.push(fila);
+    }
+    return lineas;
+  }
+
+  function parsearPrecio(valStr) {
+    if (!valStr) return 0;
+    let s = String(valStr).replace(/\$/g, '').trim();
+    if (!s) return 0;
+
+    if (s.includes('.') && s.includes(',')) {
+      s = s.replace(/\./g, '').replace(',', '.');
+    } else if (s.includes('.')) {
+      let partes = s.split('.');
+      if (partes.length > 1 && partes[partes.length - 1].length === 3) {
+        s = partes.join('');
+      }
+    } else if (s.includes(',')) {
+      let partes = s.split(',');
+      if (partes.length > 1 && partes[partes.length - 1].length === 3) {
+        s = partes.join('');
+      } else {
+        s = s.replace(',', '.');
+      }
+    }
+    return parseFloat(s) || 0;
+  }
+
   function obtenerMargenPorCategoria(cat) {
     const c = (cat || "").toLowerCase();
-    if (c.includes('maquillaje') || c.includes('facial') || c.includes('crema') || c.includes('serum') || c.includes('mascarilla')) return parseFloat(document.getElementById('m-maquillaje').value) / 100;
+    if (c.includes('maquillaje') || c.includes('facial') || c.includes('crema') || c.includes('serum') || c.includes('mascarilla') || c.includes('ampolla') || c.includes('skincare')) return parseFloat(document.getElementById('m-maquillaje').value) / 100;
     if (c.includes('calzado') || c.includes('zapatilla') || c.includes('bota')) return parseFloat(document.getElementById('m-calzado').value) / 100;
     if (c.includes('ropa') || c.includes('indumentaria') || c.includes('remera')) return parseFloat(document.getElementById('m-ropa').value) / 100;
     if (c.includes('accesorio') || c.includes('aro') || c.includes('anillo')) return parseFloat(document.getElementById('m-accesorios').value) / 100;
@@ -136,9 +196,7 @@
   async function obtenerProductosExistentes() {
     try {
       const resp = await fetch('productos.json?v=' + new Date().getTime());
-      if (resp.ok) {
-        return await resp.json();
-      }
+      if (resp.ok) return await resp.json();
     } catch (e) {
       console.log("Iniciando catálogo desde cero.");
     }
@@ -159,7 +217,6 @@
     const modo = document.getElementById('tipo-comision').value;
     const cuotasAsignadas = (modo === 'cuotas') ? 3 : 1;
 
-    // 1. Cargar productos que ya estaban publicados
     let productosExistentes = await obtenerProductosExistentes();
 
     const file = fileInput.files[0];
@@ -171,16 +228,45 @@
         const contenido = e.target.result;
 
         if (file.name.toLowerCase().endsWith('.csv')) {
-          const lineas = contenido.split('\n').filter(l => l.trim() !== '');
-          for (let i = 1; i < lineas.length; i++) {
-            const cols = lineas[i].split(',').map(c => c.trim().replace(/"/g, ''));
-            if (cols.length >= 2) {
+          const filas = parseCSVRobusto(contenido);
+          if (filas.length < 2) return alert('El archivo CSV está vacío o sin datos.');
+
+          const encabezados = filas[0].map(h => h.toLowerCase().replace(/[^a-z0-9_]/g, ''));
+
+          let idxNombre = -1, idxPrecio = -1, idxImagen = -1, idxCat = -1, idxStock = -1;
+
+          encabezados.forEach((h, idx) => {
+            if (h.includes('image') || h.includes('imagen') || h.includes('foto') || h.includes('src')) idxImagen = idx;
+            if (h === 'data' || h.includes('nombre') || h.includes('title') || h.includes('producto')) {
+              if (idxNombre === -1) idxNombre = idx;
+            }
+            if (h === 'data2' || h.includes('precio') || h.includes('price') || h.includes('costo')) {
+              if (idxPrecio === -1) idxPrecio = idx;
+            }
+            if (h.includes('categoria') || h.includes('seccion')) idxCat = idx;
+            if (h.includes('stock') || h.includes('cantidad')) idxStock = idx;
+          });
+
+          // Escaneo de respaldo si las cabeceras varían
+          if (filas.length > 1) {
+            filas[1].forEach((val, idx) => {
+              if (idxImagen === -1 && (val.startsWith('http://') || val.startsWith('https://') || val.includes('.webp') || val.includes('.jpg'))) idxImagen = idx;
+              if (idxPrecio === -1 && val.includes('$')) idxPrecio = idx;
+            });
+          }
+
+          if (idxNombre === -1) idxNombre = 0;
+          if (idxPrecio === -1) idxPrecio = 1;
+
+          for (let i = 1; i < filas.length; i++) {
+            const row = filas[i];
+            if (row.length > idxNombre && row[idxNombre] !== '') {
               datosNuevosRaw.push({
-                nombre: cols[0],
-                precio_costo: cols[1],
-                categoria: cols[2] || 'General',
-                variantes: cols[3] || '',
-                stock: cols[4] || 10
+                nombre: row[idxNombre],
+                precio_costo: row[idxPrecio] || '0',
+                imagen: idxImagen !== -1 ? row[idxImagen] : '',
+                categoria: idxCat !== -1 ? row[idxCat] : 'Cuidado Facial / Skincare',
+                stock: idxStock !== -1 && row[idxStock] !== '' ? row[idxStock] : 10
               });
             }
           }
@@ -188,23 +274,17 @@
           datosNuevosRaw = JSON.parse(contenido);
         }
 
-        // Map para control de duplicados
         let mapaProductos = new Map();
 
-        // Cargar los existentes en el mapa
         productosExistentes.forEach(p => {
           const claveUnica = `${p.tienda.toLowerCase()}_${p.nombre.trim().toLowerCase()}`;
           mapaProductos.set(claveUnica, p);
         });
 
-        // Procesar e integrar los nuevos
         datosNuevosRaw.forEach(item => {
-          let precioLimpio = String(item.precio_costo || item.costo || item.precio || item.price || 0)
-            .replace(/\$/g, '').replace(/\./g, '').replace(/,/g, '.').trim();
-
-          const costo = parseFloat(precioLimpio) || 0;
-          const categoria = item.categoria || item.seccion || item.category || 'General';
-          const nombre = (item.nombre || item.title || item.product_name || 'Producto sin nombre').trim();
+          const costo = parsearPrecio(item.precio_costo || item.costo || item.precio || 0);
+          const categoria = item.categoria || item.seccion || 'Cuidado Facial / Skincare';
+          const nombre = (item.nombre || item.title || 'Producto sin nombre').trim();
 
           let variantes = item.variantes || item.talles || item.colores || [];
           if (typeof variantes === 'string' && variantes.length > 0) {
@@ -217,7 +297,11 @@
           const precioLista = Math.round((costo * (1 + margenNeto)) / (1 - deduccionTotal));
           const claveUnica = `${tiendaSel.toLowerCase()}_${nombre.toLowerCase()}`;
 
-          // Objeto procesado
+          let stockNum = 10;
+          if (item.stock !== undefined && item.stock !== null && item.stock !== '' && !isNaN(parseInt(item.stock))) {
+            stockNum = parseInt(item.stock);
+          }
+
           const prodObj = {
             tienda: tiendaSel,
             id: mapaProductos.has(claveUnica) ? mapaProductos.get(claveUnica).id : (mapaProductos.size + 1),
@@ -227,17 +311,15 @@
             costo: costo,
             lista: precioLista,
             cuotas: cuotasAsignadas,
-            stock: item.stock !== undefined ? parseInt(item.stock) : 10,
+            stock: stockNum,
             variantes: variantes,
             peso: item.peso ? parseInt(item.peso) : estimarPesoInteligente(nombre, categoria),
             imagen: item.imagen_url || item.imagen || item.image || (mapaProductos.has(claveUnica) ? mapaProductos.get(claveUnica).imagen : '')
           };
 
-          // Guarda o actualiza (elimina duplicado)
           mapaProductos.set(claveUnica, prodObj);
         });
 
-        // Convertir de vuelta a Array y reindexar IDs
         const listaFinal = Array.from(mapaProductos.values()).map((prod, index) => {
           prod.id = index + 1;
           return prod;
@@ -245,10 +327,10 @@
 
         document.getElementById('json-resultado').value = JSON.stringify(listaFinal, null, 2);
         document.getElementById('bloque-salida').style.display = 'block';
-        alert(`¡Éxito! El catálogo ahora tiene ${listaFinal.length} productos totales acumulados y sin duplicados.`);
+        alert(`¡Perfecto! Se procesaron los ${datosNuevosRaw.length} productos de ${nomProveedor}. Total acumulado en catálogo: ${listaFinal.length} productos.`);
 
       } catch(err) {
-        alert('Error al fusionar archivos. Asegúrate de que el formato sea válido.');
+        alert('Error al procesar el archivo. Revisa que sea un formato válido.');
       }
     };
 
