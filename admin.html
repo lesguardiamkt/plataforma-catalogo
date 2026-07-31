@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LesLab — Hub Admin (Stock Real & Categorización Fina)</title>
+  <title>LesLab — Hub Admin (Categoría Específica por Producto)</title>
   <style>
     :root { --primary: #0076d6; --success: #25D366; --bg: #f4f6f9; --border: #cbd5e1; }
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #1e293b; }
@@ -26,9 +26,9 @@
 
 <div class="container">
   <div class="card">
-    <h1>⚙️ Hub Admin — Categorización Autoguiada & Stock Real</h1>
+    <h1>⚙️ Hub Admin — Categorización Individual por Tipo de Producto</h1>
     <div class="box-info">
-      💡 <b>Precisión en Stock y Categorías:</b> Lee si el proveedor tiene el producto disponible para comprar o agotado, y clasifica automáticamente los artículos en Categorías y Subcategorías (Sérums, Mascarillas, Cremas, Contorno de ojos, etc.).
+      💡 <b>Categorías Específicas:</b> Asigna automáticamente una categoría individual detallada a cada producto (ej. <i>Mascarillas Nocturnas</i>, <i>Sérums Faciales</i>, <i>Ampollas Exfoliantes</i>, <i>Contorno de Ojos</i>) para filtrar en la tienda.
     </div>
   </div>
 
@@ -38,10 +38,10 @@
       <div class="field">
         <label>Emprendimiento Destino</label>
         <select id="tienda-destino">
-          <option value="aluney">ALUNEY</option>
-          <option value="tienda2">Tienda 2</option>
-          <option value="tienda3">Tienda 3</option>
-          <option value="tienda4">Tienda 4</option>
+          <option value="ALUNEY">ALUNEY</option>
+          <option value="Tienda 2">Tienda 2</option>
+          <option value="Tienda 3">Tienda 3</option>
+          <option value="Tienda 4">Tienda 4</option>
         </select>
       </div>
 
@@ -97,11 +97,11 @@
       <input type="file" id="file-input" accept=".csv, .json">
     </div>
 
-    <button class="btn-main" onclick="procesarScraperAcumulativo()">⚡ PROCESAR CATEGORÍAS Y STOCK REAL</button>
+    <button class="btn-main" onclick="procesarScraperAcumulativo()">⚡ GENERAR CATEGORÍAS ESPECÍFICAS Y PROCESAR</button>
   </div>
 
   <div class="card" id="bloque-salida" style="display: none;">
-    <h2>4. Catálogo Categorizado Generado</h2>
+    <h2>4. JSON Generado para productos.json</h2>
     <textarea id="json-resultado" readonly></textarea>
     <div class="actions">
       <button class="btn-sub" onclick="copiarJSON()">📋 Copiar JSON Completo</button>
@@ -176,39 +176,41 @@
     return parseFloat(s) || 0;
   }
 
-  function clasificarProducto(nombreRaw) {
+  function clasificarProductoEspecifico(nombreRaw) {
     const n = (nombreRaw || "").toLowerCase();
     
-    let cat = "Cuidado Facial";
-    let subcat = "Tratamientos Específicos";
+    let rubro = "Cuidado Facial";
+    let catEspecifica = "Tratamientos Faciales";
 
-    if (n.includes('serum') || n.includes('ampolla') || n.includes('suero') || n.includes('essence')) {
-      cat = "Cuidado Facial";
-      subcat = "Sérums y Ampollas";
-    } else if (n.includes('mascarilla') || n.includes('parche') || n.includes('mascara') || n.includes('peel off') || n.includes('puntos negros')) {
-      cat = "Cuidado Facial";
-      subcat = "Mascarillas y Parches";
-    } else if (n.includes('crema') || n.includes('hidratante') || n.includes('humectante') || n.includes('gel')) {
-      cat = "Cuidado Facial";
-      subcat = "Cremas y Geles Hidratantes";
-    } else if (n.includes('contorno') || n.includes('ojos')) {
-      cat = "Cuidado Facial";
-      subcat = "Contorno de Ojos";
-    } else if (n.includes('exfoliante') || n.includes('scrub') || n.includes('limpiador') || n.includes('espuma') || n.includes('jabon') || n.includes('tonico')) {
-      cat = "Cuidado Facial";
-      subcat = "Limpieza y Exfoliación";
-    } else if (n.includes('labial') || n.includes('labios') || n.includes('balsamo') || n.includes('gloss')) {
-      cat = "Maquillaje";
-      subcat = "Labios";
-    } else if (n.includes('base') || n.includes('corrector') || n.includes('polvo') || n.includes('primer')) {
-      cat = "Maquillaje";
-      subcat = "Rostro";
-    } else if (n.includes('pestañina') || n.includes('delineador') || n.includes('sombra') || n.includes('cejas') || n.includes('rimel')) {
-      cat = "Maquillaje";
-      subcat = "Ojos";
+    // Clasificación específica por tipo de artículo
+    if (n.includes('mascarilla nocturna') || n.includes('mascarilla de noche')) {
+      catEspecifica = "Mascarillas Nocturnas";
+    } else if (n.includes('mascarilla puntos negros') || n.includes('peel off') || n.includes('parche nasal')) {
+      catEspecifica = "Mascarillas y Parches Puntos Negros";
+    } else if (n.includes('mascarilla') || n.includes('mascara')) {
+      catEspecifica = "Mascarillas Faciales";
+    } else if (n.includes('ampolla exfoliante') || n.includes('exfoliante')) {
+      catEspecifica = "Ampollas y Exfoliantes";
+    } else if (n.includes('ampolla')) {
+      catEspecifica = "Ampollas Concentradas";
+    } else if (n.includes('serum facial') || n.includes('serum anti-age') || n.includes('serum')) {
+      catEspecifica = "Sérums Faciales";
+    } else if (n.includes('contorno para ojos') || n.includes('contorno de ojos') || n.includes('ojos')) {
+      catEspecifica = "Contorno de Ojos";
+    } else if (n.includes('crema facial') || n.includes('crema hidratante') || n.includes('crema')) {
+      catEspecifica = "Cremas Faciales";
+    } else if (n.includes('mascarilla colageno labios') || n.includes('labial') || n.includes('labios')) {
+      rubro = "Maquillaje";
+      catEspecifica = "Cuidado de Labios";
+    } else if (n.includes('base') || n.includes('corrector') || n.includes('polvo')) {
+      rubro = "Maquillaje";
+      catEspecifica = "Maquillaje de Rostro";
+    } else if (n.includes('delineador') || n.includes('sombra') || n.includes('pestañina')) {
+      rubro = "Maquillaje";
+      catEspecifica = "Maquillaje de Ojos";
     }
 
-    return { categoria: cat, subcategoria: subcat };
+    return { rubro: rubro, categoriaEspecifica: catEspecifica };
   }
 
   function estimarPesoInteligente(nombre) {
@@ -260,7 +262,6 @@
             const row = filas[i];
             if (row.length > idxNombre && row[idxNombre] !== '') {
               const textoBoton = row[idxBotonStock] || '';
-              // Si el botón dice "Añadir al carrito", hay stock real (=10), sino 0 (Agotado)
               const stockReal = (textoBoton.toLowerCase().includes('añadir') || textoBoton.toLowerCase().includes('agregar') || textoBoton.toLowerCase().includes('carrito')) ? 10 : 0;
 
               datosNuevosRaw.push({
@@ -278,7 +279,7 @@
         let listaFinal = datosNuevosRaw.map((item, index) => {
           const costo = parsearPrecio(item.precio_costo || item.costo || item.precio || 0);
           const nombre = (item.nombre || item.title || 'Producto sin nombre').trim();
-          const clasif = clasificarProducto(nombre);
+          const clasif = clasificarProductoEspecifico(nombre);
           const imgUrl = item.imagen || item.imagen_url || item.image || '';
 
           const margenNeto = parseFloat(document.getElementById('m-maquillaje').value) / 100;
@@ -288,8 +289,10 @@
             tienda: tiendaSel,
             id: index + 1,
             proveedor: nomProveedor,
-            seccion: clasif.categoria,
-            subcategoria: clasif.subcategoria,
+            rubro: clasif.rubro,
+            seccion: clasif.categoriaEspecifica,
+            categoria: clasif.categoriaEspecifica,
+            subcategoria: clasif.categoriaEspecifica,
             nombre: nombre,
             costo: costo,
             lista: precioLista,
@@ -298,7 +301,8 @@
             variantes: [],
             peso: estimarPesoInteligente(nombre),
             imagen: imgUrl,
-            imagen_url: imgUrl
+            imagen_url: imgUrl,
+            img: imgUrl
           };
         });
 
@@ -307,7 +311,7 @@
 
         const enStock = listaFinal.filter(p => p.stock > 0).length;
         const agotados = listaFinal.filter(p => p.stock === 0).length;
-        alert(`¡Categorización completa!\nTotal: ${listaFinal.length} productos.\nDisponibles: ${enStock}\nAgotados en proveedor: ${agotados}`);
+        alert(`¡Categorías individuales creadas!\nTotal procesados: ${listaFinal.length}\nEn Stock: ${enStock}\nAgotados: ${agotados}`);
 
       } catch(err) {
         alert('Error al procesar el archivo. Revisa que sea un formato válido.');
