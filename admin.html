@@ -3,37 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LesLab - Automatizador con Márgenes por Categoria</title>
+  <title>LesLab - Hub de Automatización & Multi-Scraper</title>
   <style>
-    :root { --primary: #0076d6; --success: #25D366; --bg: #f4f6f9; }
+    :root { --primary: #0076d6; --success: #25D366; --bg: #f4f6f9; --border: #e2e8f0; }
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; }
-    .panel { max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    h1 { font-size: 1.4rem; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 12px; }
-    
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; }
-    .field { display: flex; flex-direction: column; gap: 4px; }
-    label { font-weight: bold; font-size: 0.85rem; color: #555; }
-    input, select { padding: 9px; border: 1px solid #ccc; border-radius: 8px; font-size: 0.9rem; }
-    
-    .box-margenes { background: #fff8e7; border: 1px solid #ffeaa7; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
-    .box-margenes h3 { margin-top: 0; font-size: 1rem; color: #d63031; }
-
-    .btn-main { width: 100%; background: var(--success); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; }
-    .output-area { margin-top: 20px; display: none; }
-    textarea { width: 100%; height: 200px; border-radius: 8px; border: 1px solid #ccc; padding: 10px; font-family: monospace; font-size: 0.8rem; box-sizing: border-box; }
+    .container { max-width: 950px; margin: 0 auto; background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    h1 { font-size: 1.5rem; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 12px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    label { font-weight: 600; font-size: 0.85rem; color: #475569; }
+    input, select { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; }
+    .btn-main { width: 100%; background: var(--success); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 1.05rem; font-weight: bold; cursor: pointer; }
+    textarea { width: 100%; height: 220px; border-radius: 8px; border: 1px solid var(--border); padding: 10px; font-family: monospace; font-size: 0.8rem; background: #0f172a; color: #38bdf8; box-sizing: border-box; }
     .actions { display: flex; gap: 10px; margin-top: 10px; }
     .btn-sub { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; background: #333; color: white; }
   </style>
 </head>
 <body>
 
-<div class="panel">
-  <h1>⚡ LesLab Admin — Procesador con Margen por Categoría</h1>
+<div class="container">
+  <h1>⚙️ Hub Integrador de Scrapers (Soporte CSV + JSON)</h1>
 
   <div class="grid">
     <div class="field">
-      <label>1. Seleccionar Tienda</label>
-      <select id="tienda">
+      <label>1. Emprendimiento Destino</label>
+      <select id="tienda-destino">
         <option value="aluney">ALUNEY</option>
         <option value="tienda2">Tienda 2</option>
         <option value="tienda3">Tienda 3</option>
@@ -45,136 +39,120 @@
       <label>2. Comisión Ualá Bis</label>
       <select id="tipo-comision">
         <option value="cuotas">3 Cuotas (12% + IVA = 14.52%)</option>
-        <option value="directo">1 Pago / Link (4.9% + IVA = 5.93%)</option>
+        <option value="directo">1 Pago (4.9% + IVA = 5.93%)</option>
       </select>
     </div>
   </div>
 
-  <!-- SECCIÓN DE MÁRGENES POR CATEGORÍA -->
-  <div class="box-margenes">
-    <h3>📊 Reglas de Ganancia Neto por Categoría (%)</h3>
-    <div class="grid">
-      <div class="field">
-        <label>Maquillaje / Facial (%)</label>
-        <input type="number" id="m-maquillaje" value="45">
-      </div>
-      <div class="field">
-        <label>Calzado / Zapatillas (%)</label>
-        <input type="number" id="m-calzado" value="25">
-      </div>
-      <div class="field">
-        <label>Ropa / Indumentaria (%)</label>
-        <input type="number" id="m-ropa" value="35">
-      </div>
-      <div class="field">
-        <label>Accesorios / Bisutería (%)</label>
-        <input type="number" id="m-accesorios" value="60">
-      </div>
-      <div class="field">
-        <label>Otras Categorías (%)</label>
-        <input type="number" id="m-general" value="30">
-      </div>
+  <div class="grid">
+    <div class="field">
+      <label>3. Margen de Ganancia Neto (%)</label>
+      <input type="number" id="margen" value="30">
+    </div>
+
+    <div class="field">
+      <label>4. Subir Archivo (.CSV o .JSON)</label>
+      <input type="file" id="file-input" accept=".csv, .json">
     </div>
   </div>
 
-  <div class="field" style="margin-bottom: 15px;">
-    <label>3. Subir archivo JSON del Scraper</label>
-    <input type="file" id="archivo-scraper" accept=".json">
-  </div>
+  <button class="btn-main" onclick="procesarArchivo()">🚀 PROCESAR Y GENERAR CATALOGO</button>
 
-  <button class="btn-main" onclick="procesarScraper()">🚀 PROCESAR CATEGORÍAS, VARIANTES Y PRECIOS</button>
-
-  <div class="output-area" id="bloque-salida">
+  <div style="margin-top: 20px; display: none;" id="bloque-salida">
     <textarea id="json-resultado" readonly></textarea>
     <div class="actions">
-      <button class="btn-sub" onclick="copiarAlPortapapeles()">📋 Copiar JSON</button>
+      <button class="btn-sub" onclick="copiarJSON()">📋 Copiar JSON</button>
       <button class="btn-sub" style="background: var(--primary);" onclick="descargarJSON()">💾 Descargar productos.json</button>
     </div>
   </div>
 </div>
 
 <script>
-  function obtenerMargenPorCategoria(cat) {
-    const c = (cat || "").toLowerCase();
-    if (c.includes('maquillaje') || c.includes('facial') || c.includes('crema') || c.includes('serum')) {
-      return parseFloat(document.getElementById('m-maquillaje').value) / 100;
-    }
-    if (c.includes('calzado') || c.includes('zapatilla') || c.includes('bota') || c.includes('sandalia')) {
-      return parseFloat(document.getElementById('m-calzado').value) / 100;
-    }
-    if (c.includes('ropa') || c.includes('indumentaria') || c.includes('remera') || c.includes('pantalon')) {
-      return parseFloat(document.getElementById('m-ropa').value) / 100;
-    }
-    if (c.includes('accesorio') || c.includes('aro') || c.includes('anillo') || c.includes('cadena')) {
-      return parseFloat(document.getElementById('m-accesorios').value) / 100;
-    }
-    return parseFloat(document.getElementById('m-general').value) / 100;
-  }
-
-  function estimarPeso(nombre, categoria) {
-    const texto = (nombre + " " + (categoria || "")).toLowerCase();
-    if (texto.includes('máscara') || texto.includes('labial')) return 100;
-    if (texto.includes('serum') || texto.includes('crema')) return 200;
-    if (texto.includes('zapatilla') || texto.includes('calzado')) return 800;
-    if (texto.includes('remera') || texto.includes('ropa')) return 300;
-    if (texto.includes('anillo') || texto.includes('accesorio')) return 50;
+  function estimarPesoInteligente(nombre) {
+    const txt = (nombre || "").toLowerCase();
+    if (txt.includes('máscara') || txt.includes('mascarilla') || txt.includes('labial')) return 100;
+    if (txt.includes('ampolla') || txt.includes('serum') || txt.includes('crema')) return 200;
+    if (txt.includes('zapatilla') || txt.includes('calzado')) return 800;
     return 150;
   }
 
-  function procesarScraper() {
-    const fileInput = document.getElementById('archivo-scraper');
-    if (!fileInput.files.length) return alert('Selecciona el archivo .json del scraper.');
+  function procesarArchivo() {
+    const fileInput = document.getElementById('file-input');
+    if (!fileInput.files.length) return alert('Por favor selecciona el archivo .CSV descargado de tu scraper.');
 
-    const tiendaSel = document.getElementById('tienda').value;
+    const tiendaSel = document.getElementById('tienda-destino').value;
+    const margenNeto = parseFloat(document.getElementById('margen').value) / 100;
     const tipoComision = document.getElementById('tipo-comision').value;
 
     let comisionUala = (tipoComision === 'cuotas') ? (0.12 * 1.21) : (0.049 * 1.21);
-    const impuestoProvincial = 0.035;
-    const deduccionTotal = comisionUala + impuestoProvincial;
+    const deduccionTotal = comisionUala + 0.035;
 
     const file = fileInput.files[0];
     const reader = new FileReader();
 
     reader.onload = function(e) {
       try {
-        const datosRaw = JSON.parse(e.target.result);
+        let listaOriginal = [];
+        const contenido = e.target.result;
 
-        const productosProcesados = datosRaw.map((item, idx) => {
-          const costo = parseFloat(item.precio_costo || item.costo || item.precio || 0);
-          const categoria = item.categoria || item.seccion || 'General';
+        if (file.name.endsWith('.csv')) {
+          // Parseador de CSV
+          const lineas = contenido.split('\n').filter(l => l.trim() !== '');
+          const cabeceras = lineas[0].split(',').map(c => c.trim().replace(/"/g, ''));
+
+          for (let i = 1; i < lineas.length; i++) {
+            const columnas = lineas[i].split(',').map(c => c.trim().replace(/"/g, ''));
+            if (columnas.length >= 2) {
+              listaOriginal.push({
+                nombre: columnas[0], // Primera columna (data)
+                precio_costo: columnas[1] // Segunda columna (data2)
+              });
+            }
+          }
+        } else {
+          listaOriginal = JSON.parse(contenido);
+        }
+
+        const productosProcesados = listaOriginal.map((item, idx) => {
+          // Limpia el formato de precio ($5.299 -> 5299)
+          let precioLimpio = String(item.precio_costo || item.costo || item.precio || 0)
+            .replace(/\$/g, '')
+            .replace(/\./g, '')
+            .replace(/,/g, '.')
+            .trim();
           
-          // Selecciona el margen dinámico según la categoría detectada
-          const margenNeto = obtenerMargenPorCategoria(categoria);
+          const costo = parseFloat(precioLimpio) || 0;
+          const nombre = item.nombre || 'Producto sin nombre';
           const precioLista = Math.round((costo * (1 + margenNeto)) / (1 - deduccionTotal));
 
           return {
             tienda: tiendaSel,
             id: idx + 1,
-            seccion: categoria,
-            nombre: item.nombre,
+            seccion: 'Cuidado Facial',
+            nombre: nombre,
             costo: costo,
             lista: precioLista,
             cuotas: (tipoComision === 'cuotas') ? 3 : 1,
-            stock: item.stock !== undefined ? parseInt(item.stock) : 10,
-            variantes: item.variantes || item.talles || item.colores || [], // Captura Talles / Colores / Tonos
-            peso: item.peso ? parseInt(item.peso) : estimarPeso(item.nombre, categoria),
-            imagen: item.imagen_url || item.imagen || ''
+            stock: 10,
+            variantes: [],
+            peso: estimarPesoInteligente(nombre),
+            imagen: ''
           };
         });
 
         document.getElementById('json-resultado').value = JSON.stringify(productosProcesados, null, 2);
         document.getElementById('bloque-salida').style.display = 'block';
-        alert(`¡Completado! Se procesaron ${productosProcesados.length} productos aplicando márgenes por categoría, variantes y comisiones.`);
+        alert(`¡Éxito! Se procesaron ${productosProcesados.length} productos desde el archivo CSV.`);
 
       } catch(err) {
-        alert('Error al leer el JSON del scraper.');
+        alert('Ocurrió un error al procesar el archivo CSV.');
       }
     };
 
     reader.readAsText(file);
   }
 
-  function copiarAlPortapapeles() {
+  function copiarJSON() {
     const txt = document.getElementById('json-resultado');
     txt.select();
     document.execCommand('copy');
