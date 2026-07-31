@@ -1,117 +1,375 @@
-<!-- VISOR DE IMÁGENES A TAMAÑO REAL Y GALERÍA (LIGHTBOX) -->
-<style>
-  .img-zoomable { cursor: zoom-in !important; transition: transform 0.2s ease; }
-  .img-zoomable:hover { transform: scale(1.03); }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo Online — ALUNEY</title>
+  <style>
+    :root {
+      --primary: #0076d6;
+      --primary-dark: #005bb5;
+      --success: #25D366;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
+    }
 
-  #lightbox-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(15, 23, 42, 0.94);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 999999;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-  #lightbox-overlay.active { display: flex !important; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 60px; }
 
-  .lightbox-content {
-    position: relative;
-    max-width: 92vw;
-    max-height: 85vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+    .header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .brand-title { font-size: 1.4rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+    .search-box { flex: 1; max-width: 400px; min-width: 200px; }
+    .search-box input {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      outline: none;
+      background: #f1f5f9;
+    }
+    .search-box input:focus { border-color: var(--primary); background: #fff; }
 
-  .lightbox-img {
-    max-width: 90vw;
-    max-height: 82vh;
-    object-fit: contain;
-    border-radius: 12px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.7);
-    cursor: zoom-out;
-  }
+    .nav-categories {
+      max-width: 1100px;
+      margin: 10px auto 0;
+      padding: 0 20px 15px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-categories::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      background: #e2e8f0;
+      border: none;
+      padding: 7px 15px;
+      border-radius: 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .cat-btn.active, .cat-btn:hover { background: var(--primary); color: white; }
 
-  .lightbox-btn-close {
-    position: absolute;
-    top: 20px; right: 25px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    border: none;
-    width: 46px; height: 46px;
-    border-radius: 50%;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
-    z-index: 1000000;
-  }
-  .lightbox-btn-close:hover { background: rgba(255, 255, 255, 0.4); }
+    .container { max-width: 1100px; margin: 20px auto; padding: 0 20px; }
+    
+    .grid-products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 20px;
+    }
 
-  .lightbox-nav-btn {
-    position: absolute;
-    top: 50%; transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    border: none;
-    width: 50px; height: 50px;
-    border-radius: 50%;
-    font-size: 26px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
-    z-index: 1000000;
-  }
-  .lightbox-nav-btn:hover { background: rgba(255, 255, 255, 0.4); }
-  .lightbox-prev { left: 20px; }
-  .lightbox-next { right: 20px; }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.06); }
 
-  .lightbox-caption {
-    color: #f1f5f9;
-    margin-top: 14px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    text-align: center;
-  }
-</style>
+    .img-wrapper {
+      width: 100%;
+      height: 220px;
+      background: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+    }
+    .img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+    .img-wrapper img:hover { transform: scale(1.05); }
 
-<div id="lightbox-overlay" onclick="cerrarLightbox(event)">
-  <button class="lightbox-btn-close" onclick="cerrarLightboxForce()">&times;</button>
-  <button id="lightbox-prev-btn" class="lightbox-nav-btn lightbox-prev" onclick="navegarLightbox(-1, event)">&#10094;</button>
-  
-  <div class="lightbox-content" onclick="event.stopPropagation()">
-    <img id="lightbox-img-target" class="lightbox-img" src="" alt="Foto ampliada" onclick="cerrarLightboxForce()">
+    .badge-out {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ef4444;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+    .badge-cat {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(15, 23, 42, 0.75);
+      color: white;
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+    }
+
+    .card-body { padding: 15px; display: flex; flex-direction: column; flex: 1; justify-content: space-between; gap: 10px; }
+    .product-title { font-size: 0.95rem; font-weight: 700; line-height: 1.3; color: var(--text); }
+    
+    .price-box { margin-top: 5px; }
+    .price-main { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
+    .price-installment { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+
+    .btn-ws {
+      width: 100%;
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-ws:hover { background: #1eb956; }
+    .btn-ws.disabled { background: #cbd5e1; cursor: not-allowed; }
+
+    /* VISOR LIGHTBOX */
+    #lightbox-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(6px);
+      z-index: 999999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    #lightbox-overlay.active { display: flex !important; }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px; right: 25px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white; border: none;
+      width: 44px; height: 44px;
+      border-radius: 50%; font-size: 28px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      color: white; border: none;
+      width: 48px; height: 48px;
+      border-radius: 50%; font-size: 24px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+    .lightbox-caption { color: #e2e8f0; margin-top: 12px; font-size: 0.9rem; font-weight: 500; }
+    
+    .empty-msg { text-align: center; padding: 60px 20px; color: var(--text-muted); width: 100%; grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <div class="brand-title" id="nombre-tienda">ALUNEY</div>
+    <div class="search-box">
+      <input type="text" id="input-search" placeholder="Buscar productos..." oninput="filtrarProductos()">
+    </div>
   </div>
+  <div class="nav-categories" id="contenedor-categorias">
+    <!-- Categorías dinámicas -->
+  </div>
+</header>
 
-  <button id="lightbox-next-btn" class="lightbox-nav-btn lightbox-next" onclick="navegarLightbox(1, event)">&#10095;</button>
+<div class="container">
+  <div id="grid-productos" class="grid-products">
+    <div class="empty-msg">Cargando catálogo...</div>
+  </div>
+</div>
+
+<!-- LIGHTBOX PARA AMPLIAR FOTOS -->
+<div id="lightbox-overlay" onclick="cerrarLightbox(event)">
+  <button class="lightbox-close" onclick="cerrarLightboxForce()">&times;</button>
+  <button id="lightbox-prev-btn" class="lightbox-nav lightbox-prev" onclick="navegarLightbox(-1, event)">&#10094;</button>
+  <div class="lightbox-content" onclick="event.stopPropagation()">
+    <img id="lightbox-img-target" class="lightbox-img" src="" alt="Foto ampliada">
+  </div>
+  <button id="lightbox-next-btn" class="lightbox-nav lightbox-next" onclick="navegarLightbox(1, event)">&#10095;</button>
   <div id="lightbox-caption-text" class="lightbox-caption"></div>
 </div>
 
 <script>
+  let todosLosProductos = [];
+  let categoriaActual = 'Todas';
+  const NUMERO_WHATSAPP = '5491112345678'; // Reemplazar por tu número oficial de WhatsApp
+
+  // Obtener nombre de tienda desde URL (insensible a mayúsculas)
+  const params = new URLSearchParams(window.location.search);
+  const tiendaUrl = (params.get('tienda') || 'ALUNEY').toLowerCase();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('nombre-tienda').innerText = tiendaUrl.toUpperCase();
+    cargarCatalogo();
+  });
+
+  async function cargarCatalogo() {
+    try {
+      const resp = await fetch('productos.json?v=' + new Date().getTime());
+      if (!resp.ok) throw new Error("No se pudo cargar productos.json");
+      
+      const data = await resp.json();
+      
+      // Filtrado por tienda flexible (minúsculas vs mayúsculas)
+      todosLosProductos = data.filter(p => p.tienda && p.tienda.toLowerCase() === tiendaUrl);
+
+      renderizarCategorias();
+      filtrarProductos();
+    } catch (err) {
+      document.getElementById('grid-productos').innerHTML = `
+        <div class="empty-msg">
+          <p>⚠️ No se pudieron cargar los productos.</p>
+          <small>Verifica que el archivo <code>productos.json</code> esté guardado en GitHub.</small>
+        </div>`;
+    }
+  }
+
+  function renderizarCategorias() {
+    const contenedor = document.getElementById('contenedor-categorias');
+    const categorias = ['Todas', ...new Set(todosLosProductos.map(p => p.categoria || p.seccion || 'General'))];
+
+    contenedor.innerHTML = categorias.map(cat => `
+      <button class="cat-btn ${cat === categoriaActual ? 'active' : ''}" onclick="seleccionarCategoria('${cat}')">
+        ${cat}
+      </button>
+    `).join('');
+  }
+
+  function seleccionarCategoria(cat) {
+    categoriaActual = cat;
+    renderizarCategorias();
+    filtrarProductos();
+  }
+
+  function filtrarProductos() {
+    const query = document.getElementById('input-search').value.toLowerCase().trim();
+
+    const filtrados = todosLosProductos.filter(p => {
+      const coincideCat = (categoriaActual === 'Todas') || (p.categoria === categoriaActual || p.seccion === categoriaActual);
+      const coincideBusqueda = (p.nombre || '').toLowerCase().includes(query);
+      return coincideCat && coincideBusqueda;
+    });
+
+    renderizarGrid(filtrados);
+  }
+
+  function renderizarGrid(lista) {
+    const grid = document.getElementById('grid-productos');
+
+    if (lista.length === 0) {
+      grid.innerHTML = `<div class="empty-msg">No se encontraron productos en esta sección.</div>`;
+      return;
+    }
+
+    grid.innerHTML = lista.map(p => {
+      const disponible = (p.stock === undefined || p.stock > 0);
+      const precio = (p.lista || p.precio || 0).toLocaleString('es-AR');
+      const cuotaMonto = Math.round((p.lista || p.precio || 0) / (p.cuotas || 3)).toLocaleString('es-AR');
+      
+      const fotos = (p.imagenes && p.imagenes.length) ? p.imagenes : [(p.imagen_url || p.imagen || p.img || '')];
+      const fotoPrincipal = fotos[0] || 'https://via.placeholder.com/300?text=Sin+Foto';
+      const fotosJSON = JSON.stringify(fotos).replace(/"/g, '&quot;');
+
+      const msgWhatsApp = encodeURIComponent(`¡Hola ${tiendaUrl.toUpperCase()}! Quisiera consultar disponibilidad del siguiente producto:\n\n• ${p.nombre} - $${precio}\n\n¿Tienen stock disponible?`);
+
+      return `
+        <div class="card">
+          <div class="img-wrapper">
+            <img src="${fotoPrincipal}" alt="${p.nombre}" onclick="abrirFotoAmpliada(${fotosJSON})">
+            ${!disponible ? `<span class="badge-out">AGOTADO</span>` : ''}
+            <span class="badge-cat">${p.categoria || p.seccion || 'Skincare'}</span>
+          </div>
+
+          <div class="card-body">
+            <div class="product-title">${p.nombre}</div>
+            
+            <div class="price-box">
+              <div class="price-main">$ ${precio}</div>
+              <div class="price-installment">${p.cuotas || 3} cuotas sin interés de $ ${cuotaMonto}</div>
+            </div>
+
+            ${disponible 
+              ? `<a href="https://wa.me/${NUMERO_WHATSAPP}?text=${msgWhatsApp}" target="_blank" class="btn-ws">💬 Enviar por WhatsApp</a>`
+              : `<button class="btn-ws disabled" disabled>Agotado</button>`
+            }
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  /* LÓGICA DEL VISOR LIGHTBOX */
   let lightboxGaleria = [];
   let lightboxIndex = 0;
 
-  function abrirFotoAmpliada(itemFotos, indexInicial = 0) {
-    if (!itemFotos) return;
-    if (typeof itemFotos === 'string') {
-      lightboxGaleria = [itemFotos];
-    } else if (Array.isArray(itemFotos)) {
-      lightboxGaleria = itemFotos.filter(f => f && typeof f === 'string');
-    }
-    if (lightboxGaleria.length === 0) return;
-
-    lightboxIndex = indexInicial >= 0 && indexInicial < lightboxGaleria.length ? indexInicial : 0;
-    renderizarLightbox();
+  function abrirFotoAmpliada(fotos, indexInicial = 0) {
+    if (!fotos || fotos.length === 0) return;
+    lightboxGaleria = Array.isArray(fotos) ? fotos : [fotos];
+    lightboxIndex = indexInicial;
+    
+    actualizarLightbox();
     document.getElementById('lightbox-overlay').classList.add('active');
-    document.body.style.overflow = 'hidden'; // Bloquea el scroll de fondo
   }
 
-  function renderizarLightbox() {
+  function actualizarLightbox() {
     const imgEl = document.getElementById('lightbox-img-target');
     const txtEl = document.getElementById('lightbox-caption-text');
     const btnPrev = document.getElementById('lightbox-prev-btn');
@@ -120,11 +378,11 @@
     imgEl.src = lightboxGaleria[lightboxIndex];
 
     if (lightboxGaleria.length > 1) {
-      txtEl.innerText = `Foto ${lightboxIndex + 1} de ${lightboxGaleria.length}`;
+      txtEl.innerText = `Imagen ${lightboxIndex + 1} de ${lightboxGaleria.length}`;
       btnPrev.style.display = 'flex';
       btnNext.style.display = 'flex';
     } else {
-      txtEl.innerText = 'Toca fuera o la cruz para cerrar';
+      txtEl.innerText = 'Haz clic fuera o en la X para cerrar';
       btnPrev.style.display = 'none';
       btnNext.style.display = 'none';
     }
@@ -135,7 +393,7 @@
     lightboxIndex += dir;
     if (lightboxIndex < 0) lightboxIndex = lightboxGaleria.length - 1;
     if (lightboxIndex >= lightboxGaleria.length) lightboxIndex = 0;
-    renderizarLightbox();
+    actualizarLightbox();
   }
 
   function cerrarLightbox(e) {
@@ -144,16 +402,8 @@
 
   function cerrarLightboxForce() {
     document.getElementById('lightbox-overlay').classList.remove('active');
-    document.body.style.overflow = 'auto';
   }
-
-  // Teclas de acceso rápido (Esc para cerrar, flechas para navegar)
-  document.addEventListener('keydown', function(e) {
-    const overlay = document.getElementById('lightbox-overlay');
-    if (overlay && overlay.classList.contains('active')) {
-      if (e.key === 'Escape') cerrarLightboxForce();
-      if (e.key === 'ArrowLeft') navegarLightbox(-1);
-      if (e.key === 'ArrowRight') navegarLightbox(1);
-    }
-  });
 </script>
+
+</body>
+</html>
