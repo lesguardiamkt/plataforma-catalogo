@@ -3,149 +3,245 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LesLab - Hub de Automatización & Multi-Scraper</title>
+  <title>LesLab - Hub Completo de Automatización & Scraper</title>
   <style>
     :root { --primary: #0076d6; --success: #25D366; --bg: #f4f6f9; --border: #e2e8f0; }
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; }
-    .container { max-width: 950px; margin: 0 auto; background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    h1 { font-size: 1.5rem; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 12px; }
+    .container { max-width: 950px; margin: 0 auto; }
+    
+    .card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+    h1 { font-size: 1.5rem; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 12px; color: #1e293b; }
+    h2 { font-size: 1.15rem; margin-top: 0; color: #0f172a; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
+    
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
     .field { display: flex; flex-direction: column; gap: 5px; }
     label { font-weight: 600; font-size: 0.85rem; color: #475569; }
-    input, select { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; }
-    .btn-main { width: 100%; background: var(--success); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 1.05rem; font-weight: bold; cursor: pointer; }
-    textarea { width: 100%; height: 220px; border-radius: 8px; border: 1px solid var(--border); padding: 10px; font-family: monospace; font-size: 0.8rem; background: #0f172a; color: #38bdf8; box-sizing: border-box; }
+    input, select { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; background: #fafafa; }
+    
+    .box-rule { background: #fffbe6; border: 1px solid #ffe58f; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+    .box-rule h3 { margin: 0 0 8px 0; font-size: 0.95rem; color: #d48806; }
+
+    .btn-main { width: 100%; background: var(--success); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+    .btn-main:hover { opacity: 0.95; }
+
+    textarea { width: 100%; height: 230px; border-radius: 10px; border: 1px solid var(--border); padding: 12px; font-family: monospace; font-size: 0.82rem; background: #0f172a; color: #38bdf8; box-sizing: border-box; }
     .actions { display: flex; gap: 10px; margin-top: 10px; }
-    .btn-sub { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; background: #333; color: white; }
+    .btn-sub { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; background: #334155; }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>⚙️ Hub Integrador de Scrapers (Soporte CSV + JSON)</h1>
+  <div class="card">
+    <h1>⚙️ Hub Completo de Automatización & Scraper (LesLab)</h1>
+    <p style="color: #64748b; font-size: 0.9rem; margin-top: -5px;">Soporta archivos .CSV y .JSON, calcula comisiones editables de Ualá Bis, retenciones y márgenes dinámicos por categoría.</p>
+  </div>
 
-  <div class="grid">
-    <div class="field">
-      <label>1. Emprendimiento Destino</label>
-      <select id="tienda-destino">
-        <option value="aluney">ALUNEY</option>
-        <option value="tienda2">Tienda 2</option>
-        <option value="tienda3">Tienda 3</option>
-        <option value="tienda4">Tienda 4</option>
-      </select>
-    </div>
+  <!-- 1. CONFIGURACIÓN GENERAL Y COMISIONES -->
+  <div class="card">
+    <h2>1. Emprendimiento y Ajustes Financieros Editables</h2>
+    <div class="grid">
+      <div class="field">
+        <label>Emprendimiento Destino</label>
+        <select id="tienda-destino">
+          <option value="aluney">ALUNEY</option>
+          <option value="tienda2">Tienda 2</option>
+          <option value="tienda3">Tienda 3</option>
+          <option value="tienda4">Tienda 4</option>
+        </select>
+      </div>
 
-    <div class="field">
-      <label>2. Comisión Ualá Bis</label>
-      <select id="tipo-comision">
-        <option value="cuotas">3 Cuotas (12% + IVA = 14.52%)</option>
-        <option value="directo">1 Pago (4.9% + IVA = 5.93%)</option>
-      </select>
+      <div class="field">
+        <label>Modo de Cobro Ualá Bis</label>
+        <select id="tipo-comision" onchange="actualizarComisionModo()">
+          <option value="cuotas">3 Cuotas sin interés (12% + IVA)</option>
+          <option value="directo">1 Pago / Link de Pago (4.9% + IVA)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Comisión Ualá Bis + IVA (%)</label>
+        <input type="number" id="val-comision-uala" value="14.52" step="0.01">
+      </div>
+
+      <div class="field">
+        <label>Impuesto Provincial / IIBB (%)</label>
+        <input type="number" id="val-impuesto" value="3.50" step="0.01">
+      </div>
     </div>
   </div>
 
-  <div class="grid">
-    <div class="field">
-      <label>3. Margen de Ganancia Neto (%)</label>
-      <input type="number" id="margen" value="30">
+  <!-- 2. MÁRGENES DE GANANCIA POR CATEGORÍA -->
+  <div class="card">
+    <h2>2. Margen de Ganancia Neto por Categoría (%)</h2>
+    <div class="box-rule">
+      <h3>💡 Control de Ganancia por Rubro</h3>
+      <p style="margin:0; font-size:0.85rem; color:#8c6b00;">Define el porcentaje exacto de ganancia deseado para cada tipo de producto. La herramienta cubrirá además las comisiones e impuestos arriba configurados.</p>
     </div>
 
-    <div class="field">
-      <label>4. Subir Archivo (.CSV o .JSON)</label>
+    <div class="grid">
+      <div class="field">
+        <label>Maquillaje / Facial (%)</label>
+        <input type="number" id="m-maquillaje" value="45">
+      </div>
+      <div class="field">
+        <label>Calzado / Zapatillas (%)</label>
+        <input type="number" id="m-calzado" value="25">
+      </div>
+      <div class="field">
+        <label>Ropa / Indumentaria (%)</label>
+        <input type="number" id="m-ropa" value="35">
+      </div>
+      <div class="field">
+        <label>Accesorios / Bisutería (%)</label>
+        <input type="number" id="m-accesorios" value="60">
+      </div>
+      <div class="field">
+        <label>Otras Categorías (%)</label>
+        <input type="number" id="m-general" value="30">
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. ARCHIVO Y PROCESAMIENTO -->
+  <div class="card">
+    <h2>3. Subir Archivo del Scraper (.CSV o .JSON)</h2>
+    <div class="field" style="margin-bottom: 15px;">
       <input type="file" id="file-input" accept=".csv, .json">
     </div>
+
+    <button class="btn-main" onclick="procesarScraperCompleto()">🚀 PROCESAR Y GENERAR CATALOGO MULTITIENDA</button>
   </div>
 
-  <button class="btn-main" onclick="procesarArchivo()">🚀 PROCESAR Y GENERAR CATALOGO</button>
-
-  <div style="margin-top: 20px; display: none;" id="bloque-salida">
+  <!-- RESULTADO -->
+  <div class="card" id="bloque-salida" style="display: none;">
+    <h2>4. Resultado Listo para productos.json</h2>
     <textarea id="json-resultado" readonly></textarea>
     <div class="actions">
-      <button class="btn-sub" onclick="copiarJSON()">📋 Copiar JSON</button>
+      <button class="btn-sub" onclick="copiarJSON()">📋 Copiar JSON al Portapapeles</button>
       <button class="btn-sub" style="background: var(--primary);" onclick="descargarJSON()">💾 Descargar productos.json</button>
     </div>
   </div>
 </div>
 
 <script>
-  function estimarPesoInteligente(nombre) {
-    const txt = (nombre || "").toLowerCase();
-    if (txt.includes('máscara') || txt.includes('mascarilla') || txt.includes('labial')) return 100;
-    if (txt.includes('ampolla') || txt.includes('serum') || txt.includes('crema')) return 200;
-    if (txt.includes('zapatilla') || txt.includes('calzado')) return 800;
+  function actualizarComisionModo() {
+    const modo = document.getElementById('tipo-comision').value;
+    const inputUala = document.getElementById('val-comision-uala');
+    if (modo === 'cuotas') {
+      inputUala.value = "14.52"; // 12% + IVA
+    } else {
+      inputUala.value = "5.93";  // 4.9% + IVA
+    }
+  }
+
+  function obtenerMargenPorCategoria(cat) {
+    const c = (cat || "").toLowerCase();
+    if (c.includes('maquillaje') || c.includes('facial') || c.includes('crema') || c.includes('serum') || c.includes('mascarilla') || c.includes('ampolla')) {
+      return parseFloat(document.getElementById('m-maquillaje').value) / 100;
+    }
+    if (c.includes('calzado') || c.includes('zapatilla') || c.includes('bota') || c.includes('sandalia')) {
+      return parseFloat(document.getElementById('m-calzado').value) / 100;
+    }
+    if (c.includes('ropa') || c.includes('indumentaria') || c.includes('remera') || c.includes('pantalon')) {
+      return parseFloat(document.getElementById('m-ropa').value) / 100;
+    }
+    if (c.includes('accesorio') || c.includes('aro') || c.includes('anillo') || c.includes('cadena')) {
+      return parseFloat(document.getElementById('m-accesorios').value) / 100;
+    }
+    return parseFloat(document.getElementById('m-general').value) / 100;
+  }
+
+  function estimarPesoInteligente(nombre, categoria) {
+    const txt = (nombre + " " + (categoria || "")).toLowerCase();
+    if (txt.includes('máscara') || txt.includes('mascarilla') || txt.includes('labial') || txt.includes('delineador')) return 100;
+    if (txt.includes('ampolla') || txt.includes('serum') || txt.includes('crema') || txt.includes('base')) return 200;
+    if (txt.includes('perfume') || txt.includes('shampoo')) return 350;
+    if (txt.includes('zapatilla') || txt.includes('calzado') || txt.includes('bota')) return 800;
+    if (txt.includes('remera') || txt.includes('pantalon') || txt.includes('ropa')) return 300;
+    if (txt.includes('anillo') || txt.includes('aro') || txt.includes('accesorio')) return 50;
     return 150;
   }
 
-  function procesarArchivo() {
+  function procesarScraperCompleto() {
     const fileInput = document.getElementById('file-input');
-    if (!fileInput.files.length) return alert('Por favor selecciona el archivo .CSV descargado de tu scraper.');
+    if (!fileInput.files.length) return alert('Por favor selecciona el archivo (.CSV o .JSON) de tu scraper.');
 
     const tiendaSel = document.getElementById('tienda-destino').value;
-    const margenNeto = parseFloat(document.getElementById('margen').value) / 100;
-    const tipoComision = document.getElementById('tipo-comision').value;
+    const comisionUala = parseFloat(document.getElementById('val-comision-uala').value) / 100;
+    const impuestoProvincial = parseFloat(document.getElementById('val-impuesto').value) / 100;
+    const deduccionTotal = comisionUala + impuestoProvincial;
 
-    let comisionUala = (tipoComision === 'cuotas') ? (0.12 * 1.21) : (0.049 * 1.21);
-    const deduccionTotal = comisionUala + 0.035;
+    const modo = document.getElementById('tipo-comision').value;
+    const cuotasAsignadas = (modo === 'cuotas') ? 3 : 1;
 
     const file = fileInput.files[0];
     const reader = new FileReader();
 
     reader.onload = function(e) {
       try {
-        let listaOriginal = [];
+        let datosRaw = [];
         const contenido = e.target.result;
 
-        if (file.name.endsWith('.csv')) {
-          // Parseador de CSV
+        if (file.name.toLowerCase().endsWith('.csv')) {
           const lineas = contenido.split('\n').filter(l => l.trim() !== '');
-          const cabeceras = lineas[0].split(',').map(c => c.trim().replace(/"/g, ''));
-
           for (let i = 1; i < lineas.length; i++) {
-            const columnas = lineas[i].split(',').map(c => c.trim().replace(/"/g, ''));
-            if (columnas.length >= 2) {
-              listaOriginal.push({
-                nombre: columnas[0], // Primera columna (data)
-                precio_costo: columnas[1] // Segunda columna (data2)
+            const cols = lineas[i].split(',').map(c => c.trim().replace(/"/g, ''));
+            if (cols.length >= 2) {
+              datosRaw.push({
+                nombre: cols[0],
+                precio_costo: cols[1],
+                categoria: cols[2] || 'General',
+                variantes: cols[3] || ''
               });
             }
           }
         } else {
-          listaOriginal = JSON.parse(contenido);
+          datosRaw = JSON.parse(contenido);
         }
 
-        const productosProcesados = listaOriginal.map((item, idx) => {
-          // Limpia el formato de precio ($5.299 -> 5299)
-          let precioLimpio = String(item.precio_costo || item.costo || item.precio || 0)
+        const productosProcesados = datosRaw.map((item, idx) => {
+          let precioLimpio = String(item.precio_costo || item.costo || item.precio || item.price || 0)
             .replace(/\$/g, '')
             .replace(/\./g, '')
             .replace(/,/g, '.')
             .trim();
-          
+
           const costo = parseFloat(precioLimpio) || 0;
-          const nombre = item.nombre || 'Producto sin nombre';
+          const categoria = item.categoria || item.seccion || item.category || 'General';
+          const nombre = item.nombre || item.title || item.product_name || 'Producto sin nombre';
+
+          let variantes = item.variantes || item.talles || item.colores || [];
+          if (typeof variantes === 'string' && variantes.length > 0) {
+            variantes = variantes.split(',').map(v => v.trim());
+          } else if (!Array.isArray(variantes)) {
+            variantes = [];
+          }
+
+          const margenNeto = obtenerMargenPorCategoria(categoria);
           const precioLista = Math.round((costo * (1 + margenNeto)) / (1 - deduccionTotal));
 
           return {
             tienda: tiendaSel,
             id: idx + 1,
-            seccion: 'Cuidado Facial',
+            seccion: categoria,
             nombre: nombre,
             costo: costo,
             lista: precioLista,
-            cuotas: (tipoComision === 'cuotas') ? 3 : 1,
-            stock: 10,
-            variantes: [],
-            peso: estimarPesoInteligente(nombre),
-            imagen: ''
+            cuotas: cuotasAsignadas,
+            stock: item.stock !== undefined ? parseInt(item.stock) : 10,
+            variantes: variantes,
+            peso: item.peso ? parseInt(item.peso) : estimarPesoInteligente(nombre, categoria),
+            imagen: item.imagen_url || item.imagen || item.image || ''
           };
         });
 
         document.getElementById('json-resultado').value = JSON.stringify(productosProcesados, null, 2);
         document.getElementById('bloque-salida').style.display = 'block';
-        alert(`¡Éxito! Se procesaron ${productosProcesados.length} productos desde el archivo CSV.`);
+        alert(`¡Éxito! Se procesaron ${productosProcesados.length} productos con todas tus reglas financieras y de categoría.`);
 
       } catch(err) {
-        alert('Ocurrió un error al procesar el archivo CSV.');
+        alert('Error al leer el archivo. Asegúrate de seleccionar un archivo .CSV o .JSON válido.');
       }
     };
 
