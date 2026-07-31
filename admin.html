@@ -3,43 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LesLab - Hub Completo de Automatización & Scraper</title>
+  <title>LesLab — Centro de Control & Admin Multi-Tienda</title>
   <style>
-    :root { --primary: #0076d6; --success: #25D366; --bg: #f4f6f9; --border: #e2e8f0; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; }
+    :root {
+      --primary: #0076d6;
+      --success: #25D366;
+      --bg: #f4f6f9;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --border: #cbd5e1;
+    }
+
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; line-height: 1.5; }
     .container { max-width: 950px; margin: 0 auto; }
-    
-    .card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
-    h1 { font-size: 1.5rem; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 12px; color: #1e293b; }
+
+    .card { background: var(--card-bg); padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+    h1 { font-size: 1.5rem; margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; color: #0f172a; }
     h2 { font-size: 1.15rem; margin-top: 0; color: #0f172a; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
     
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 15px; margin-bottom: 15px; }
     .field { display: flex; flex-direction: column; gap: 5px; }
     label { font-weight: 600; font-size: 0.85rem; color: #475569; }
-    input, select { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; background: #fafafa; }
+    input, select { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; background: #fafafa; transition: border 0.2s; }
+    input:focus, select:focus { border-color: var(--primary); outline: none; background: #fff; }
     
     .box-rule { background: #fffbe6; border: 1px solid #ffe58f; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
-    .box-rule h3 { margin: 0 0 8px 0; font-size: 0.95rem; color: #d48806; }
+    .box-rule h3 { margin: 0 0 6px 0; font-size: 0.95rem; color: #d48806; }
+    .box-rule p { margin: 0; font-size: 0.85rem; color: #8c6b00; }
 
-    .btn-main { width: 100%; background: var(--success); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+    .btn-main { width: 100%; background: var(--success); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: opacity 0.2s; }
     .btn-main:hover { opacity: 0.95; }
 
     textarea { width: 100%; height: 230px; border-radius: 10px; border: 1px solid var(--border); padding: 12px; font-family: monospace; font-size: 0.82rem; background: #0f172a; color: #38bdf8; box-sizing: border-box; }
     .actions { display: flex; gap: 10px; margin-top: 10px; }
     .btn-sub { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; background: #334155; }
+    .btn-sub:hover { opacity: 0.9; }
   </style>
 </head>
 <body>
 
 <div class="container">
   <div class="card">
-    <h1>⚙️ Hub Completo de Automatización & Scraper (LesLab)</h1>
-    <p style="color: #64748b; font-size: 0.9rem; margin-top: -5px;">Soporta archivos .CSV y .JSON, calcula comisiones editables de Ualá Bis, retenciones y márgenes dinámicos por categoría.</p>
+    <h1>⚙️ Centro de Control Multitienda & Procesador (LesLab)</h1>
+    <p style="color: #64748b; font-size: 0.9rem; margin-top: -5px;">Carga tus archivos .CSV o .JSON de scrapers, calcula las comisiones oficiales de Ualá Bis (Link de Pago 1 Pago o 3 Cuotas) + Impuestos y asigna márgenes netos por categoría.</p>
   </div>
 
-  <!-- 1. CONFIGURACIÓN GENERAL Y COMISIONES -->
+  <!-- 1. CONFIGURACIÓN TIENDA Y PASARELA -->
   <div class="card">
-    <h2>1. Emprendimiento y Ajustes Financieros Editables</h2>
+    <h2>1. Emprendimiento Destino y Pasarela Ualá Bis</h2>
     <div class="grid">
       <div class="field">
         <label>Emprendimiento Destino</label>
@@ -52,10 +64,10 @@
       </div>
 
       <div class="field">
-        <label>Modo de Cobro Ualá Bis</label>
+        <label>Tipo de Link de Pago Ualá Bis</label>
         <select id="tipo-comision" onchange="actualizarComisionModo()">
-          <option value="cuotas">3 Cuotas sin interés (12% + IVA)</option>
-          <option value="directo">1 Pago / Link de Pago (4.9% + IVA)</option>
+          <option value="cuotas">Link 3 Cuotas sin interés (12% + IVA)</option>
+          <option value="directo">Link 1 Pago / Débito / Crédito (4.9% + IVA)</option>
         </select>
       </div>
 
@@ -73,10 +85,10 @@
 
   <!-- 2. MÁRGENES DE GANANCIA POR CATEGORÍA -->
   <div class="card">
-    <h2>2. Margen de Ganancia Neto por Categoría (%)</h2>
+    <h2>2. Margen de Ganancia Neto Deseado por Categoría (%)</h2>
     <div class="box-rule">
-      <h3>💡 Control de Ganancia por Rubro</h3>
-      <p style="margin:0; font-size:0.85rem; color:#8c6b00;">Define el porcentaje exacto de ganancia deseado para cada tipo de producto. La herramienta cubrirá además las comisiones e impuestos arriba configurados.</p>
+      <h3>💡 Ganancia Limpia en Mano</h3>
+      <p>El sistema toma el costo base del producto, le suma este porcentaje de ganancia neto y luego le recarga las comisiones de Ualá e impuestos para que tu margen sea 100% real.</p>
     </div>
 
     <div class="grid">
@@ -103,19 +115,19 @@
     </div>
   </div>
 
-  <!-- 3. ARCHIVO Y PROCESAMIENTO -->
+  <!-- 3. CARGA DE ARCHIVOS -->
   <div class="card">
-    <h2>3. Subir Archivo del Scraper (.CSV o .JSON)</h2>
+    <h2>3. Subir Archivo Scrapeado (.CSV o .JSON)</h2>
     <div class="field" style="margin-bottom: 15px;">
       <input type="file" id="file-input" accept=".csv, .json">
     </div>
 
-    <button class="btn-main" onclick="procesarScraperCompleto()">🚀 PROCESAR Y GENERAR CATALOGO MULTITIENDA</button>
+    <button class="btn-main" onclick="procesarScraperCompleto()">🚀 PROCESAR PRECIOS, STOCK Y PAQ.AR</button>
   </div>
 
   <!-- RESULTADO -->
   <div class="card" id="bloque-salida" style="display: none;">
-    <h2>4. Resultado Listo para productos.json</h2>
+    <h2>4. Resultado Generado para productos.json</h2>
     <textarea id="json-resultado" readonly></textarea>
     <div class="actions">
       <button class="btn-sub" onclick="copiarJSON()">📋 Copiar JSON al Portapapeles</button>
@@ -165,7 +177,7 @@
 
   function procesarScraperCompleto() {
     const fileInput = document.getElementById('file-input');
-    if (!fileInput.files.length) return alert('Por favor selecciona el archivo (.CSV o .JSON) de tu scraper.');
+    if (!fileInput.files.length) return alert('Por favor selecciona el archivo (.CSV o .JSON) descargado de tu scraper.');
 
     const tiendaSel = document.getElementById('tienda-destino').value;
     const comisionUala = parseFloat(document.getElementById('val-comision-uala').value) / 100;
@@ -184,6 +196,7 @@
         const contenido = e.target.result;
 
         if (file.name.toLowerCase().endsWith('.csv')) {
+          // Parseador universal de CSV con limpieza de strings
           const lineas = contenido.split('\n').filter(l => l.trim() !== '');
           for (let i = 1; i < lineas.length; i++) {
             const cols = lineas[i].split(',').map(c => c.trim().replace(/"/g, ''));
@@ -201,6 +214,7 @@
         }
 
         const productosProcesados = datosRaw.map((item, idx) => {
+          // Limpia formato de precios ($5.299 -> 5299)
           let precioLimpio = String(item.precio_costo || item.costo || item.precio || item.price || 0)
             .replace(/\$/g, '')
             .replace(/\./g, '')
@@ -211,6 +225,7 @@
           const categoria = item.categoria || item.seccion || item.category || 'General';
           const nombre = item.nombre || item.title || item.product_name || 'Producto sin nombre';
 
+          // Extraer variantes de talles / tonos / colores
           let variantes = item.variantes || item.talles || item.colores || [];
           if (typeof variantes === 'string' && variantes.length > 0) {
             variantes = variantes.split(',').map(v => v.trim());
@@ -218,6 +233,7 @@
             variantes = [];
           }
 
+          // Fórmula financiera con margen dinámico por categoría
           const margenNeto = obtenerMargenPorCategoria(categoria);
           const precioLista = Math.round((costo * (1 + margenNeto)) / (1 - deduccionTotal));
 
@@ -238,10 +254,10 @@
 
         document.getElementById('json-resultado').value = JSON.stringify(productosProcesados, null, 2);
         document.getElementById('bloque-salida').style.display = 'block';
-        alert(`¡Éxito! Se procesaron ${productosProcesados.length} productos con todas tus reglas financieras y de categoría.`);
+        alert(`¡Éxito! Se procesaron ${productosProcesados.length} productos con comisiones, stock y pesos para Paq.ar.`);
 
       } catch(err) {
-        alert('Error al leer el archivo. Asegúrate de seleccionar un archivo .CSV o .JSON válido.');
+        alert('Error al procesar el archivo. Asegúrate de que sea un archivo .CSV o .JSON válido.');
       }
     };
 
@@ -252,7 +268,7 @@
     const txt = document.getElementById('json-resultado');
     txt.select();
     document.execCommand('copy');
-    alert('¡Copiado! Pégalo en tu productos.json en GitHub.');
+    alert('¡Copiado al portapapeles! Ya puedes pegarlo dentro de productos.json en GitHub.');
   }
 
   function descargarJSON() {
