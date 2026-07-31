@@ -234,5 +234,58 @@
 
     cargarDatos();
   </script>
+  <!-- Modal / Visor de Imagen Ampliada -->
+<div id="modal-visor-foto" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; backdrop-filter:blur(5px);">
+  <span onclick="cerrarVisorFoto()" style="position:absolute; top:20px; right:30px; color:white; font-size:40px; font-weight:bold; cursor:pointer;">&times;</span>
+  
+  <button id="btn-foto-prev" onclick="cambiarFotoModal(-1)" style="position:absolute; left:20px; color:white; background:rgba(255,255,255,0.2); border:none; border-radius:50%; width:45px; height:45px; font-size:24px; cursor:pointer;">&#10094;</button>
+  
+  <div style="text-align:center; max-width:90%; max-height:85%;">
+    <img id="img-ampliada" src="" style="max-width:100%; max-height:75vh; border-radius:12px; box-shadow:0 8px 25px rgba(0,0,0,0.5); object-fit:contain;">
+    <div id="contador-fotos" style="color:white; margin-top:10px; font-weight:600; font-size:0.9rem;"></div>
+  </div>
+
+  <button id="btn-foto-next" onclick="cambiarFotoModal(1)" style="position:absolute; right:20px; color:white; background:rgba(255,255,255,0.2); border:none; border-radius:50%; width:45px; height:45px; font-size:24px; cursor:pointer;">&#10095;</button>
+</div>
+
+<script>
+  let fotosActuales = [];
+  let indiceFotoActual = 0;
+
+  function abrirVisorFoto(listaFotos, indexInicial = 0) {
+    if (!listaFotos || listaFotos.length === 0) return;
+    fotosActuales = Array.isArray(listaFotos) ? listaFotos : [listaFotos];
+    indiceFotoActual = indexInicial;
+    actualizarModalFoto();
+    document.getElementById('modal-visor-foto').style.display = 'flex';
+  }
+
+  function cerrarVisorFoto() {
+    document.getElementById('modal-visor-foto').style.display = 'none';
+  }
+
+  function cambiarFotoModal(direccion) {
+    indiceFotoActual += direccion;
+    if (indiceFotoActual < 0) indiceFotoActual = fotosActuales.length - 1;
+    if (indiceFotoActual >= fotosActuales.length) indiceFotoActual = 0;
+    actualizarModalFoto();
+  }
+
+  function actualizarModalFoto() {
+    const imgEl = document.getElementById('img-ampliada');
+    const cntEl = document.getElementById('contador-fotos');
+    imgEl.src = fotosActuales[indiceFotoActual];
+
+    if (fotosActuales.length > 1) {
+      cntEl.innerText = `Imagen ${indiceFotoActual + 1} de ${fotosActuales.length}`;
+      document.getElementById('btn-foto-prev').style.display = 'block';
+      document.getElementById('btn-foto-next').style.display = 'block';
+    } else {
+      cntEl.innerText = '';
+      document.getElementById('btn-foto-prev').style.display = 'none';
+      document.getElementById('btn-foto-next').style.display = 'none';
+    }
+  }
+</script>
 </body>
 </html>
