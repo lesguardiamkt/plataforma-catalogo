@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LesLab — Admin Multi-Tienda</title>
+  <title>LesLab — Hub Admin Acumulativo & Anti-Duplicados</title>
   <style>
     :root { --primary: #0076d6; --success: #25D366; --bg: #f4f6f9; --border: #cbd5e1; }
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #1e293b; }
@@ -15,6 +15,7 @@
     .field { display: flex; flex-direction: column; gap: 5px; }
     label { font-weight: 600; font-size: 0.85rem; color: #475569; }
     input, select { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; background: #fafafa; }
+    .box-info { background: #e0f2fe; border: 1px solid #7dd3fc; padding: 12px; border-radius: 10px; font-size: 0.85rem; color: #0369a1; margin-bottom: 15px; }
     .btn-main { width: 100%; background: var(--success); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
     textarea { width: 100%; height: 230px; border-radius: 10px; border: 1px solid var(--border); padding: 12px; font-family: monospace; font-size: 0.82rem; background: #0f172a; color: #38bdf8; box-sizing: border-box; }
     .actions { display: flex; gap: 10px; margin-top: 10px; }
@@ -25,12 +26,14 @@
 
 <div class="container">
   <div class="card">
-    <h1>⚙️ Hub Admin con Identificador Privado de Proveedor</h1>
-    <p style="color: #64748b; font-size: 0.9rem; margin-top: -5px;">Asigna proveedores de forma interna a tus productos sin que tus clientes los vean en la web.</p>
+    <h1>⚙️ Hub Admin — Procesador Acumulativo de Proveedores</h1>
+    <div class="box-info">
+      💡 <b>Modo Inteligente Anti-Duplicados:</b> Podés subir catálogos de distintos proveedores uno tras otro. La herramienta descargará automáticamente tu <code>productos.json</code> actual de GitHub, sumará los productos nuevos y actualizará los existentes sin borrar nada.
+    </div>
   </div>
 
   <div class="card">
-    <h2>1. Tienda, Pasarela y Proveedor Privado</h2>
+    <h2>1. Datos del Proveedor y Ajustes Financieros</h2>
     <div class="grid">
       <div class="field">
         <label>Emprendimiento Destino</label>
@@ -43,7 +46,7 @@
       </div>
 
       <div class="field">
-        <label>Nombre / Tag del Proveedor (PRIVADO)</label>
+        <label>Nombre del Proveedor (Privado)</label>
         <input type="text" id="nombre-proveedor" placeholder="Ej: MayoristaBio, ImportadorX" required>
       </div>
 
@@ -63,7 +66,7 @@
   </div>
 
   <div class="card">
-    <h2>2. Margen de Ganancia Neto por Categoría (%)</h2>
+    <h2>2. Margen Neto Deseado por Categoría (%)</h2>
     <div class="grid">
       <div class="field">
         <label>Maquillaje / Facial (%)</label>
@@ -89,19 +92,19 @@
   </div>
 
   <div class="card">
-    <h2>3. Subir Archivo Scrapeado (.CSV o .JSON)</h2>
+    <h2>3. Cargar Lista del Proveedor (.CSV o .JSON)</h2>
     <div class="field" style="margin-bottom: 15px;">
       <input type="file" id="file-input" accept=".csv, .json">
     </div>
 
-    <button class="btn-main" onclick="procesarScraperCompleto()">⚡ PROCESAR Y ETIQUETAR PROVEEDOR</button>
+    <button class="btn-main" onclick="procesarScraperAcumulativo()">⚡ PROCESAR Y MEZCLAR CON CATALOGO EXISTENTE</button>
   </div>
 
   <div class="card" id="bloque-salida" style="display: none;">
-    <h2>4. JSON Generado para productos.json</h2>
+    <h2>4. Catálogo Total Unificado y Listo</h2>
     <textarea id="json-resultado" readonly></textarea>
     <div class="actions">
-      <button class="btn-sub" onclick="copiarJSON()">📋 Copiar JSON</button>
+      <button class="btn-sub" onclick="copiarJSON()">📋 Copiar JSON Completo</button>
       <button class="btn-sub" style="background: var(--primary);" onclick="descargarJSON()">💾 Descargar productos.json</button>
     </div>
   </div>
@@ -130,12 +133,24 @@
     return 150;
   }
 
-  function procesarScraperCompleto() {
+  async function obtenerProductosExistentes() {
+    try {
+      const resp = await fetch('productos.json?v=' + new Date().getTime());
+      if (resp.ok) {
+        return await resp.json();
+      }
+    } catch (e) {
+      console.log("Iniciando catálogo desde cero.");
+    }
+    return [];
+  }
+
+  async function procesarScraperAcumulativo() {
     const fileInput = document.getElementById('file-input');
     const nomProveedor = document.getElementById('nombre-proveedor').value.trim();
 
-    if (!nomProveedor) return alert('Por favor escribe el Nombre del Proveedor para poder identificarlo en tu CRM.');
-    if (!fileInput.files.length) return alert('Por favor selecciona el archivo .CSV o .JSON.');
+    if (!nomProveedor) return alert('Escribe el Nombre del Proveedor.');
+    if (!fileInput.files.length) return alert('Selecciona el archivo .CSV o .JSON.');
 
     const tiendaSel = document.getElementById('tienda-destino').value;
     const comisionUala = parseFloat(document.getElementById('val-comision-uala').value) / 100;
@@ -144,12 +159,15 @@
     const modo = document.getElementById('tipo-comision').value;
     const cuotasAsignadas = (modo === 'cuotas') ? 3 : 1;
 
+    // 1. Cargar productos que ya estaban publicados
+    let productosExistentes = await obtenerProductosExistentes();
+
     const file = fileInput.files[0];
     const reader = new FileReader();
 
     reader.onload = function(e) {
       try {
-        let datosRaw = [];
+        let datosNuevosRaw = [];
         const contenido = e.target.result;
 
         if (file.name.toLowerCase().endsWith('.csv')) {
@@ -157,7 +175,7 @@
           for (let i = 1; i < lineas.length; i++) {
             const cols = lineas[i].split(',').map(c => c.trim().replace(/"/g, ''));
             if (cols.length >= 2) {
-              datosRaw.push({
+              datosNuevosRaw.push({
                 nombre: cols[0],
                 precio_costo: cols[1],
                 categoria: cols[2] || 'General',
@@ -167,16 +185,26 @@
             }
           }
         } else {
-          datosRaw = JSON.parse(contenido);
+          datosNuevosRaw = JSON.parse(contenido);
         }
 
-        const productosProcesados = datosRaw.map((item, idx) => {
+        // Map para control de duplicados
+        let mapaProductos = new Map();
+
+        // Cargar los existentes en el mapa
+        productosExistentes.forEach(p => {
+          const claveUnica = `${p.tienda.toLowerCase()}_${p.nombre.trim().toLowerCase()}`;
+          mapaProductos.set(claveUnica, p);
+        });
+
+        // Procesar e integrar los nuevos
+        datosNuevosRaw.forEach(item => {
           let precioLimpio = String(item.precio_costo || item.costo || item.precio || item.price || 0)
             .replace(/\$/g, '').replace(/\./g, '').replace(/,/g, '.').trim();
 
           const costo = parseFloat(precioLimpio) || 0;
           const categoria = item.categoria || item.seccion || item.category || 'General';
-          const nombre = item.nombre || item.title || item.product_name || 'Producto sin nombre';
+          const nombre = (item.nombre || item.title || item.product_name || 'Producto sin nombre').trim();
 
           let variantes = item.variantes || item.talles || item.colores || [];
           if (typeof variantes === 'string' && variantes.length > 0) {
@@ -187,11 +215,13 @@
 
           const margenNeto = obtenerMargenPorCategoria(categoria);
           const precioLista = Math.round((costo * (1 + margenNeto)) / (1 - deduccionTotal));
+          const claveUnica = `${tiendaSel.toLowerCase()}_${nombre.toLowerCase()}`;
 
-          return {
+          // Objeto procesado
+          const prodObj = {
             tienda: tiendaSel,
-            id: idx + 1,
-            proveedor: nomProveedor, // <-- PROVEEDOR GUARDADO PRIVADAMENTE
+            id: mapaProductos.has(claveUnica) ? mapaProductos.get(claveUnica).id : (mapaProductos.size + 1),
+            proveedor: nomProveedor,
             seccion: categoria,
             nombre: nombre,
             costo: costo,
@@ -200,16 +230,25 @@
             stock: item.stock !== undefined ? parseInt(item.stock) : 10,
             variantes: variantes,
             peso: item.peso ? parseInt(item.peso) : estimarPesoInteligente(nombre, categoria),
-            imagen: item.imagen_url || item.imagen || item.image || ''
+            imagen: item.imagen_url || item.imagen || item.image || (mapaProductos.has(claveUnica) ? mapaProductos.get(claveUnica).imagen : '')
           };
+
+          // Guarda o actualiza (elimina duplicado)
+          mapaProductos.set(claveUnica, prodObj);
         });
 
-        document.getElementById('json-resultado').value = JSON.stringify(productosProcesados, null, 2);
+        // Convertir de vuelta a Array y reindexar IDs
+        const listaFinal = Array.from(mapaProductos.values()).map((prod, index) => {
+          prod.id = index + 1;
+          return prod;
+        });
+
+        document.getElementById('json-resultado').value = JSON.stringify(listaFinal, null, 2);
         document.getElementById('bloque-salida').style.display = 'block';
-        alert(`¡Éxito! ${productosProcesados.length} productos procesados y asociados internamente al proveedor '${nomProveedor}'.`);
+        alert(`¡Éxito! El catálogo ahora tiene ${listaFinal.length} productos totales acumulados y sin duplicados.`);
 
       } catch(err) {
-        alert('Error al leer el archivo. Verifica que sea un formato válido.');
+        alert('Error al fusionar archivos. Asegúrate de que el formato sea válido.');
       }
     };
 
