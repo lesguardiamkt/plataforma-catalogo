@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LesLab — Hub Admin (Categoría Específica por Producto)</title>
+  <title>LesLab — Hub Admin (Múltiples Fotos y Categorías)</title>
   <style>
     :root { --primary: #0076d6; --success: #25D366; --bg: #f4f6f9; --border: #cbd5e1; }
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #1e293b; }
@@ -26,9 +26,9 @@
 
 <div class="container">
   <div class="card">
-    <h1>⚙️ Hub Admin — Categorización Individual por Tipo de Producto</h1>
+    <h1>⚙️ Hub Admin — Procesador de Múltiples Fotos y Categorías Fine-Tuned</h1>
     <div class="box-info">
-      💡 <b>Categorías Específicas:</b> Asigna automáticamente una categoría individual detallada a cada producto (ej. <i>Mascarillas Nocturnas</i>, <i>Sérums Faciales</i>, <i>Ampollas Exfoliantes</i>, <i>Contorno de Ojos</i>) para filtrar en la tienda.
+      💡 <b>Fotos Múltiples y Galería:</b> Si un producto tiene varias fotos en la lista, las extrae todas para que los clientes puedan ampliarlas y deslizarlas en la tienda.
     </div>
   </div>
 
@@ -47,7 +47,7 @@
 
       <div class="field">
         <label>Nombre del Proveedor (Privado)</label>
-        <input type="text" id="nombre-proveedor" value="EsteticMakeup" placeholder="Ej: EsteticMakeup, ImportadorX" required>
+        <input type="text" id="nombre-proveedor" value="EsteticMakeup" placeholder="Ej: EsteticMakeup" required>
       </div>
 
       <div class="field">
@@ -69,7 +69,7 @@
     <h2>2. Margen Neto Deseado por Categoría (%)</h2>
     <div class="grid">
       <div class="field">
-        <label>Cuidado Facial / Skincare (%)</label>
+        <label>Skincare / Cuidado Facial (%)</label>
         <input type="number" id="m-maquillaje" value="45">
       </div>
       <div class="field">
@@ -77,27 +77,27 @@
         <input type="number" id="m-maquillaje-real" value="45">
       </div>
       <div class="field">
-        <label>Calzado / Zapatillas (%)</label>
+        <label>Calzado (%)</label>
         <input type="number" id="m-calzado" value="25">
       </div>
       <div class="field">
-        <label>Ropa / Indumentaria (%)</label>
+        <label>Indumentaria / Ropa (%)</label>
         <input type="number" id="m-ropa" value="35">
       </div>
       <div class="field">
-        <label>Accesorios / Bisutería (%)</label>
+        <label>Accesorios (%)</label>
         <input type="number" id="m-accesorios" value="60">
       </div>
     </div>
   </div>
 
   <div class="card">
-    <h2>3. Cargar Lista del Proveedor (.CSV)</h2>
+    <h2>3. Cargar Lista del Proveedor (.CSV o .JSON)</h2>
     <div class="field" style="margin-bottom: 15px;">
       <input type="file" id="file-input" accept=".csv, .json">
     </div>
 
-    <button class="btn-main" onclick="procesarScraperAcumulativo()">⚡ GENERAR CATEGORÍAS ESPECÍFICAS Y PROCESAR</button>
+    <button class="btn-main" onclick="procesarScraperAcumulativo()">⚡ PROCESAR GALERÍAS Y CATEGORÍAS</button>
   </div>
 
   <div class="card" id="bloque-salida" style="display: none;">
@@ -176,49 +176,49 @@
     return parseFloat(s) || 0;
   }
 
-  function clasificarProductoEspecifico(nombreRaw) {
+  function clasificarProductoOptimo(nombreRaw) {
     const n = (nombreRaw || "").toLowerCase();
     
     let rubro = "Cuidado Facial";
-    let catEspecifica = "Tratamientos Faciales";
+    let cat = "Tratamientos Faciales";
 
-    // Clasificación específica por tipo de artículo
     if (n.includes('mascarilla nocturna') || n.includes('mascarilla de noche')) {
-      catEspecifica = "Mascarillas Nocturnas";
-    } else if (n.includes('mascarilla puntos negros') || n.includes('peel off') || n.includes('parche nasal')) {
-      catEspecifica = "Mascarillas y Parches Puntos Negros";
+      cat = "Mascarillas Nocturnas";
+    } else if (n.includes('puntos negros') || n.includes('peel off') || n.includes('parche nasal')) {
+      cat = "Limpieza de Puntos Negros";
     } else if (n.includes('mascarilla') || n.includes('mascara')) {
-      catEspecifica = "Mascarillas Faciales";
-    } else if (n.includes('ampolla exfoliante') || n.includes('exfoliante')) {
-      catEspecifica = "Ampollas y Exfoliantes";
+      cat = "Mascarillas Faciales";
+    } else if (n.includes('ampolla') && n.includes('exfoliante')) {
+      cat = "Ampollas Exfoliantes";
     } else if (n.includes('ampolla')) {
-      catEspecifica = "Ampollas Concentradas";
-    } else if (n.includes('serum facial') || n.includes('serum anti-age') || n.includes('serum')) {
-      catEspecifica = "Sérums Faciales";
-    } else if (n.includes('contorno para ojos') || n.includes('contorno de ojos') || n.includes('ojos')) {
-      catEspecifica = "Contorno de Ojos";
-    } else if (n.includes('crema facial') || n.includes('crema hidratante') || n.includes('crema')) {
-      catEspecifica = "Cremas Faciales";
-    } else if (n.includes('mascarilla colageno labios') || n.includes('labial') || n.includes('labios')) {
+      cat = "Ampollas Concentradas";
+    } else if (n.includes('serum') || n.includes('suero') || n.includes('essence')) {
+      cat = "Sérums Faciales";
+    } else if (n.includes('contorno') || n.includes('ojos')) {
+      cat = "Contorno de Ojos";
+    } else if (n.includes('crema facial') || n.includes('crema')) {
+      cat = "Cremas Hidratantes";
+    } else if (n.includes('labial') || n.includes('labios') || n.includes('balsamo')) {
       rubro = "Maquillaje";
-      catEspecifica = "Cuidado de Labios";
+      cat = "Cuidado de Labios";
     } else if (n.includes('base') || n.includes('corrector') || n.includes('polvo')) {
       rubro = "Maquillaje";
-      catEspecifica = "Maquillaje de Rostro";
+      cat = "Maquillaje de Rostro";
     } else if (n.includes('delineador') || n.includes('sombra') || n.includes('pestañina')) {
       rubro = "Maquillaje";
-      catEspecifica = "Maquillaje de Ojos";
+      cat = "Maquillaje de Ojos";
     }
 
-    return { rubro: rubro, categoriaEspecifica: catEspecifica };
+    return { rubro: rubro, categoria: cat };
   }
 
-  function estimarPesoInteligente(nombre) {
-    const txt = (nombre || "").toLowerCase();
-    if (txt.includes('máscara') || txt.includes('mascarilla') || txt.includes('labial')) return 100;
-    if (txt.includes('ampolla') || txt.includes('serum') || txt.includes('crema')) return 200;
-    if (txt.includes('zapatilla') || txt.includes('calzado')) return 800;
-    return 150;
+  function extraerImagenesMultiples(cadenaRaw) {
+    if (!cadenaRaw) return [];
+    if (Array.isArray(cadenaRaw)) return cadenaRaw;
+    
+    // Separa por comas, punto y coma, o saltos de línea si vienen varias fotos en la celda
+    const urls = cadenaRaw.split(/[,;\n]/).map(u => u.trim()).filter(u => u.startsWith('http://') || u.startsWith('https://'));
+    return [...new Set(urls)]; // Evita duplicados
   }
 
   async function procesarScraperAcumulativo() {
@@ -267,7 +267,7 @@
               datosNuevosRaw.push({
                 nombre: row[idxNombre],
                 precio_costo: row[idxPrecio] || '0',
-                imagen: row[idxImagen] || '',
+                imagen_raw: row[idxImagen] || '',
                 stock: stockReal
               });
             }
@@ -279,8 +279,10 @@
         let listaFinal = datosNuevosRaw.map((item, index) => {
           const costo = parsearPrecio(item.precio_costo || item.costo || item.precio || 0);
           const nombre = (item.nombre || item.title || 'Producto sin nombre').trim();
-          const clasif = clasificarProductoEspecifico(nombre);
-          const imgUrl = item.imagen || item.imagen_url || item.image || '';
+          const clasif = clasificarProductoOptimo(nombre);
+          
+          let fotos = extraerImagenesMultiples(item.imagen_raw || item.imagen || item.imagen_url || item.image || '');
+          const fotoPrincipal = fotos.length > 0 ? fotos[0] : '';
 
           const margenNeto = parseFloat(document.getElementById('m-maquillaje').value) / 100;
           const precioLista = Math.round((costo * (1 + margenNeto)) / (1 - deduccionTotal));
@@ -290,28 +292,27 @@
             id: index + 1,
             proveedor: nomProveedor,
             rubro: clasif.rubro,
-            seccion: clasif.categoriaEspecifica,
-            categoria: clasif.categoriaEspecifica,
-            subcategoria: clasif.categoriaEspecifica,
+            seccion: clasif.categoria,
+            categoria: clasif.categoria,
+            subcategoria: clasif.categoria,
             nombre: nombre,
             costo: costo,
             lista: precioLista,
             cuotas: cuotasAsignadas,
             stock: item.stock !== undefined ? item.stock : 10,
             variantes: [],
-            peso: estimarPesoInteligente(nombre),
-            imagen: imgUrl,
-            imagen_url: imgUrl,
-            img: imgUrl
+            peso: 200,
+            imagen: fotoPrincipal,
+            imagen_url: fotoPrincipal,
+            img: fotoPrincipal,
+            imagenes: fotos // Array completo de fotos para el lightbox/modal
           };
         });
 
         document.getElementById('json-resultado').value = JSON.stringify(listaFinal, null, 2);
         document.getElementById('bloque-salida').style.display = 'block';
 
-        const enStock = listaFinal.filter(p => p.stock > 0).length;
-        const agotados = listaFinal.filter(p => p.stock === 0).length;
-        alert(`¡Categorías individuales creadas!\nTotal procesados: ${listaFinal.length}\nEn Stock: ${enStock}\nAgotados: ${agotados}`);
+        alert(`¡Completado!\nTotal procesados: ${listaFinal.length}\nFotos extraídas correctamente por producto.`);
 
       } catch(err) {
         alert('Error al procesar el archivo. Revisa que sea un formato válido.');
