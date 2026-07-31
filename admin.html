@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LesLab — Hub Admin Acumulativo & Anti-Duplicados</title>
+  <title>LesLab — Hub Admin (Stock Real & Categorización Fina)</title>
   <style>
     :root { --primary: #0076d6; --success: #25D366; --bg: #f4f6f9; --border: #cbd5e1; }
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #1e293b; }
@@ -26,9 +26,9 @@
 
 <div class="container">
   <div class="card">
-    <h1>⚙️ Hub Admin — Procesador Inteligente Multi-Scraper</h1>
+    <h1>⚙️ Hub Admin — Categorización Autoguiada & Stock Real</h1>
     <div class="box-info">
-      💡 <b>Parseador Inteligente Activado:</b> Lee correctamente archivos con comas internas, detecta URLs de fotos automáticamente y asigna stock real.
+      💡 <b>Precisión en Stock y Categorías:</b> Lee si el proveedor tiene el producto disponible para comprar o agotado, y clasifica automáticamente los artículos en Categorías y Subcategorías (Sérums, Mascarillas, Cremas, Contorno de ojos, etc.).
     </div>
   </div>
 
@@ -69,8 +69,12 @@
     <h2>2. Margen Neto Deseado por Categoría (%)</h2>
     <div class="grid">
       <div class="field">
-        <label>Maquillaje / Skincare / Facial (%)</label>
+        <label>Cuidado Facial / Skincare (%)</label>
         <input type="number" id="m-maquillaje" value="45">
+      </div>
+      <div class="field">
+        <label>Maquillaje (%)</label>
+        <input type="number" id="m-maquillaje-real" value="45">
       </div>
       <div class="field">
         <label>Calzado / Zapatillas (%)</label>
@@ -84,24 +88,20 @@
         <label>Accesorios / Bisutería (%)</label>
         <input type="number" id="m-accesorios" value="60">
       </div>
-      <div class="field">
-        <label>Otras Categorías (%)</label>
-        <input type="number" id="m-general" value="30">
-      </div>
     </div>
   </div>
 
   <div class="card">
-    <h2>3. Cargar Lista del Proveedor (.CSV o .JSON)</h2>
+    <h2>3. Cargar Lista del Proveedor (.CSV)</h2>
     <div class="field" style="margin-bottom: 15px;">
       <input type="file" id="file-input" accept=".csv, .json">
     </div>
 
-    <button class="btn-main" onclick="procesarScraperAcumulativo()">⚡ PROCESAR Y MEZCLAR CON CATALOGO EXISTENTE</button>
+    <button class="btn-main" onclick="procesarScraperAcumulativo()">⚡ PROCESAR CATEGORÍAS Y STOCK REAL</button>
   </div>
 
   <div class="card" id="bloque-salida" style="display: none;">
-    <h2>4. Catálogo Total Unificado y Listo</h2>
+    <h2>4. Catálogo Categorizado Generado</h2>
     <textarea id="json-resultado" readonly></textarea>
     <div class="actions">
       <button class="btn-sub" onclick="copiarJSON()">📋 Copiar JSON Completo</button>
@@ -176,31 +176,47 @@
     return parseFloat(s) || 0;
   }
 
-  function obtenerMargenPorCategoria(cat) {
-    const c = (cat || "").toLowerCase();
-    if (c.includes('maquillaje') || c.includes('facial') || c.includes('crema') || c.includes('serum') || c.includes('mascarilla') || c.includes('ampolla') || c.includes('skincare')) return parseFloat(document.getElementById('m-maquillaje').value) / 100;
-    if (c.includes('calzado') || c.includes('zapatilla') || c.includes('bota')) return parseFloat(document.getElementById('m-calzado').value) / 100;
-    if (c.includes('ropa') || c.includes('indumentaria') || c.includes('remera')) return parseFloat(document.getElementById('m-ropa').value) / 100;
-    if (c.includes('accesorio') || c.includes('aro') || c.includes('anillo')) return parseFloat(document.getElementById('m-accesorios').value) / 100;
-    return parseFloat(document.getElementById('m-general').value) / 100;
+  function clasificarProducto(nombreRaw) {
+    const n = (nombreRaw || "").toLowerCase();
+    
+    let cat = "Cuidado Facial";
+    let subcat = "Tratamientos Específicos";
+
+    if (n.includes('serum') || n.includes('ampolla') || n.includes('suero') || n.includes('essence')) {
+      cat = "Cuidado Facial";
+      subcat = "Sérums y Ampollas";
+    } else if (n.includes('mascarilla') || n.includes('parche') || n.includes('mascara') || n.includes('peel off') || n.includes('puntos negros')) {
+      cat = "Cuidado Facial";
+      subcat = "Mascarillas y Parches";
+    } else if (n.includes('crema') || n.includes('hidratante') || n.includes('humectante') || n.includes('gel')) {
+      cat = "Cuidado Facial";
+      subcat = "Cremas y Geles Hidratantes";
+    } else if (n.includes('contorno') || n.includes('ojos')) {
+      cat = "Cuidado Facial";
+      subcat = "Contorno de Ojos";
+    } else if (n.includes('exfoliante') || n.includes('scrub') || n.includes('limpiador') || n.includes('espuma') || n.includes('jabon') || n.includes('tonico')) {
+      cat = "Cuidado Facial";
+      subcat = "Limpieza y Exfoliación";
+    } else if (n.includes('labial') || n.includes('labios') || n.includes('balsamo') || n.includes('gloss')) {
+      cat = "Maquillaje";
+      subcat = "Labios";
+    } else if (n.includes('base') || n.includes('corrector') || n.includes('polvo') || n.includes('primer')) {
+      cat = "Maquillaje";
+      subcat = "Rostro";
+    } else if (n.includes('pestañina') || n.includes('delineador') || n.includes('sombra') || n.includes('cejas') || n.includes('rimel')) {
+      cat = "Maquillaje";
+      subcat = "Ojos";
+    }
+
+    return { categoria: cat, subcategoria: subcat };
   }
 
-  function estimarPesoInteligente(nombre, categoria) {
-    const txt = (nombre + " " + (categoria || "")).toLowerCase();
+  function estimarPesoInteligente(nombre) {
+    const txt = (nombre || "").toLowerCase();
     if (txt.includes('máscara') || txt.includes('mascarilla') || txt.includes('labial')) return 100;
     if (txt.includes('ampolla') || txt.includes('serum') || txt.includes('crema')) return 200;
     if (txt.includes('zapatilla') || txt.includes('calzado')) return 800;
     return 150;
-  }
-
-  async function obtenerProductosExistentes() {
-    try {
-      const resp = await fetch('productos.json?v=' + new Date().getTime());
-      if (resp.ok) return await resp.json();
-    } catch (e) {
-      console.log("Iniciando catálogo desde cero.");
-    }
-    return [];
   }
 
   async function procesarScraperAcumulativo() {
@@ -208,7 +224,7 @@
     const nomProveedor = document.getElementById('nombre-proveedor').value.trim();
 
     if (!nomProveedor) return alert('Escribe el Nombre del Proveedor.');
-    if (!fileInput.files.length) return alert('Selecciona el archivo .CSV o .JSON.');
+    if (!fileInput.files.length) return alert('Selecciona el archivo .CSV.');
 
     const tiendaSel = document.getElementById('tienda-destino').value;
     const comisionUala = parseFloat(document.getElementById('val-comision-uala').value) / 100;
@@ -216,8 +232,6 @@
 
     const modo = document.getElementById('tipo-comision').value;
     const cuotasAsignadas = (modo === 'cuotas') ? 3 : 1;
-
-    let productosExistentes = await obtenerProductosExistentes();
 
     const file = fileInput.files[0];
     const reader = new FileReader();
@@ -229,44 +243,31 @@
 
         if (file.name.toLowerCase().endsWith('.csv')) {
           const filas = parseCSVRobusto(contenido);
-          if (filas.length < 2) return alert('El archivo CSV está vacío o sin datos.');
+          if (filas.length < 2) return alert('El archivo CSV está vacío.');
 
           const encabezados = filas[0].map(h => h.toLowerCase().replace(/[^a-z0-9_]/g, ''));
 
-          let idxNombre = -1, idxPrecio = -1, idxImagen = -1, idxCat = -1, idxStock = -1;
+          let idxNombre = 2, idxPrecio = 3, idxBotonStock = 5, idxImagen = 11;
 
           encabezados.forEach((h, idx) => {
-            if (h.includes('image') || h.includes('imagen') || h.includes('foto') || h.includes('src')) idxImagen = idx;
-            if (h === 'data' || h.includes('nombre') || h.includes('title') || h.includes('producto')) {
-              if (idxNombre === -1) idxNombre = idx;
-            }
-            if (h === 'data2' || h.includes('precio') || h.includes('price') || h.includes('costo')) {
-              if (idxPrecio === -1) idxPrecio = idx;
-            }
-            if (h.includes('categoria') || h.includes('seccion')) idxCat = idx;
-            if (h.includes('stock') || h.includes('cantidad')) idxStock = idx;
+            if (h.includes('image') || h.includes('imagen') || h.includes('foto')) idxImagen = idx;
+            if (h === 'data' || h.includes('nombre') || h.includes('title')) idxNombre = idx;
+            if (h === 'data2' || h.includes('precio') || h.includes('costo')) idxPrecio = idx;
+            if (h === 'data4' || h.includes('carrito') || h.includes('stock')) idxBotonStock = idx;
           });
-
-          // Escaneo de respaldo si las cabeceras varían
-          if (filas.length > 1) {
-            filas[1].forEach((val, idx) => {
-              if (idxImagen === -1 && (val.startsWith('http://') || val.startsWith('https://') || val.includes('.webp') || val.includes('.jpg'))) idxImagen = idx;
-              if (idxPrecio === -1 && val.includes('$')) idxPrecio = idx;
-            });
-          }
-
-          if (idxNombre === -1) idxNombre = 0;
-          if (idxPrecio === -1) idxPrecio = 1;
 
           for (let i = 1; i < filas.length; i++) {
             const row = filas[i];
             if (row.length > idxNombre && row[idxNombre] !== '') {
+              const textoBoton = row[idxBotonStock] || '';
+              // Si el botón dice "Añadir al carrito", hay stock real (=10), sino 0 (Agotado)
+              const stockReal = (textoBoton.toLowerCase().includes('añadir') || textoBoton.toLowerCase().includes('agregar') || textoBoton.toLowerCase().includes('carrito')) ? 10 : 0;
+
               datosNuevosRaw.push({
                 nombre: row[idxNombre],
                 precio_costo: row[idxPrecio] || '0',
-                imagen: idxImagen !== -1 ? row[idxImagen] : '',
-                categoria: idxCat !== -1 ? row[idxCat] : 'Cuidado Facial / Skincare',
-                stock: idxStock !== -1 && row[idxStock] !== '' ? row[idxStock] : 10
+                imagen: row[idxImagen] || '',
+                stock: stockReal
               });
             }
           }
@@ -274,60 +275,39 @@
           datosNuevosRaw = JSON.parse(contenido);
         }
 
-        let mapaProductos = new Map();
-
-        productosExistentes.forEach(p => {
-          const claveUnica = `${p.tienda.toLowerCase()}_${p.nombre.trim().toLowerCase()}`;
-          mapaProductos.set(claveUnica, p);
-        });
-
-        datosNuevosRaw.forEach(item => {
+        let listaFinal = datosNuevosRaw.map((item, index) => {
           const costo = parsearPrecio(item.precio_costo || item.costo || item.precio || 0);
-          const categoria = item.categoria || item.seccion || 'Cuidado Facial / Skincare';
           const nombre = (item.nombre || item.title || 'Producto sin nombre').trim();
+          const clasif = clasificarProducto(nombre);
+          const imgUrl = item.imagen || item.imagen_url || item.image || '';
 
-          let variantes = item.variantes || item.talles || item.colores || [];
-          if (typeof variantes === 'string' && variantes.length > 0) {
-            variantes = variantes.split(';').join(',').split(',').map(v => v.trim());
-          } else if (!Array.isArray(variantes)) {
-            variantes = [];
-          }
-
-          const margenNeto = obtenerMargenPorCategoria(categoria);
+          const margenNeto = parseFloat(document.getElementById('m-maquillaje').value) / 100;
           const precioLista = Math.round((costo * (1 + margenNeto)) / (1 - deduccionTotal));
-          const claveUnica = `${tiendaSel.toLowerCase()}_${nombre.toLowerCase()}`;
 
-          let stockNum = 10;
-          if (item.stock !== undefined && item.stock !== null && item.stock !== '' && !isNaN(parseInt(item.stock))) {
-            stockNum = parseInt(item.stock);
-          }
-
-          const prodObj = {
+          return {
             tienda: tiendaSel,
-            id: mapaProductos.has(claveUnica) ? mapaProductos.get(claveUnica).id : (mapaProductos.size + 1),
+            id: index + 1,
             proveedor: nomProveedor,
-            seccion: categoria,
+            seccion: clasif.categoria,
+            subcategoria: clasif.subcategoria,
             nombre: nombre,
             costo: costo,
             lista: precioLista,
             cuotas: cuotasAsignadas,
-            stock: stockNum,
-            variantes: variantes,
-            peso: item.peso ? parseInt(item.peso) : estimarPesoInteligente(nombre, categoria),
-            imagen: item.imagen_url || item.imagen || item.image || (mapaProductos.has(claveUnica) ? mapaProductos.get(claveUnica).imagen : '')
+            stock: item.stock !== undefined ? item.stock : 10,
+            variantes: [],
+            peso: estimarPesoInteligente(nombre),
+            imagen: imgUrl,
+            imagen_url: imgUrl
           };
-
-          mapaProductos.set(claveUnica, prodObj);
-        });
-
-        const listaFinal = Array.from(mapaProductos.values()).map((prod, index) => {
-          prod.id = index + 1;
-          return prod;
         });
 
         document.getElementById('json-resultado').value = JSON.stringify(listaFinal, null, 2);
         document.getElementById('bloque-salida').style.display = 'block';
-        alert(`¡Perfecto! Se procesaron los ${datosNuevosRaw.length} productos de ${nomProveedor}. Total acumulado en catálogo: ${listaFinal.length} productos.`);
+
+        const enStock = listaFinal.filter(p => p.stock > 0).length;
+        const agotados = listaFinal.filter(p => p.stock === 0).length;
+        alert(`¡Categorización completa!\nTotal: ${listaFinal.length} productos.\nDisponibles: ${enStock}\nAgotados en proveedor: ${agotados}`);
 
       } catch(err) {
         alert('Error al procesar el archivo. Revisa que sea un formato válido.');
