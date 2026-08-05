@@ -1,30 +1,635 @@
-{
-  "nombre": "ALUNEY",
-  "whatsapp": "5492665329231",
-  "color_primario": "#8A4FFF",
-  "motor_precios": {
-    "margen_ganancia": 100,
-    "impuestos_porcentaje": 3.5,
-    "comision_pasarela_porcentaje": 15,
-    "descuento_transferencia_porcentaje": 10
-  },
-  "secciones": [
-    {
-      "titulo": "Sobre ALUNEY",
-      "contenido": "Traemos las mejores tendencias de K-Beauty y Cosmética Coreana. Trabajamos con catálogo actualizado para brindarte la mejor atención directa por WhatsApp."
-    },
-    {
-      "titulo": "Envíos y Compras",
-      "items": [
-        {
-          "pregunta": "¿Cómo realizan los envíos?",
-          "respuesta": "Realizamos envíos a todo el país a través de Correo Argentino (Paq.ar). Te enviaremos el código de seguimiento en cuanto despachemos tu paquete."
-        },
-        {
-          "pregunta": "¿Cuáles son los medios de pago?",
-          "respuesta": "Aceptamos Mercado Pago, Ualá y tarjetas en hasta 3 cuotas sin interés. Además tenés un 10% OFF pagando por Transferencia Bancaria."
-        }
-      ]
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo Online — ALUNEY</title>
+  <style>
+    :root {
+      --primary: #0076d6;
+      --primary-dark: #005bb5;
+      --success: #25D366;
+      --heart: #ef4444;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
     }
-  ]
-}
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 60px; }
+
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      padding: 10px 0;
+    }
+    .header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    /* CONTENEDOR Y LOGO GIGANTE (5X MÁS GRANDE) */
+    .brand-logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      text-decoration: none;
+    }
+    .brand-logo-img {
+      height: 180px; /* Tamaño 5x incrementado */
+      max-height: 220px;
+      max-width: 420px;
+      object-fit: contain;
+      transition: transform 0.2s ease;
+    }
+    .brand-logo-img:hover { transform: scale(1.02); }
+
+    .header-actions { display: flex; align-items: center; gap: 12px; flex: 1; justify-content: flex-end; min-width: 280px; }
+
+    .search-box { flex: 1; max-width: 350px; min-width: 180px; }
+    .search-box input {
+      width: 100%;
+      padding: 12px 18px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      font-size: 0.92rem;
+      outline: none;
+      background: #f1f5f9;
+    }
+    .search-box input:focus { border-color: var(--primary); background: #fff; }
+
+    .btn-user {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      padding: 10px 18px;
+      border-radius: 24px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .btn-user:hover { background: #e2e8f0; }
+
+    .nav-categories {
+      max-width: 1100px;
+      margin: 12px auto 0;
+      padding: 0 20px 10px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-categories::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      background: #e2e8f0;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .cat-btn.active, .cat-btn:hover { background: var(--primary); color: white; }
+    .cat-btn.fav-btn.active { background: var(--heart); color: white; }
+
+    .container { max-width: 1100px; margin: 20px auto; padding: 0 20px; }
+    
+    .grid-products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.06); }
+
+    .img-wrapper {
+      width: 100%;
+      height: 220px;
+      background: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+    }
+    .img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+    .img-wrapper img:hover { transform: scale(1.05); }
+
+    .btn-fav {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: transform 0.2s, background 0.2s;
+      z-index: 5;
+    }
+    .btn-fav:hover { transform: scale(1.1); }
+    .btn-fav.active { color: var(--heart); background: #ffffff; }
+
+    .badge-out {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ef4444;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+    .badge-cat {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(15, 23, 42, 0.75);
+      color: white;
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+    }
+
+    .card-body { padding: 15px; display: flex; flex-direction: column; flex: 1; justify-content: space-between; gap: 10px; }
+    .product-title { font-size: 0.95rem; font-weight: 700; line-height: 1.3; color: var(--text); }
+    
+    .price-box { margin-top: 5px; }
+    .price-main { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
+    .price-installment { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+
+    .btn-ws {
+      width: 100%;
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-ws:hover { background: #1eb956; }
+    .btn-ws.disabled { background: #cbd5e1; cursor: not-allowed; }
+
+    /* MODALES Y VISOR LIGHTBOX */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 999999;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active { display: flex !important; }
+
+    .modal-box {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    .modal-box h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--text); }
+    .modal-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .modal-box button.btn-save {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    .lightbox-close, .modal-close {
+      position: absolute;
+      top: 15px; right: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white; border: none;
+      width: 36px; height: 36px;
+      border-radius: 50%; font-size: 24px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .modal-close { color: var(--text); background: #f1f5f9; }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      color: white; border: none;
+      width: 48px; height: 48px;
+      border-radius: 50%; font-size: 24px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+    .lightbox-caption { color: #e2e8f0; margin-top: 12px; font-size: 0.9rem; font-weight: 500; }
+    
+    .empty-msg { text-align: center; padding: 60px 20px; color: var(--text-muted); width: 100%; grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <a href="#" class="brand-logo-container">
+      <img id="img-logo-tienda" class="brand-logo-img" src="logo.png" alt="ALUNEY" onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/d/1A1_FAu-ueAj4T7ATdxvyeV36oipAytuw';">
+    </a>
+
+    <div class="header-actions">
+      <div class="search-box">
+        <input type="text" id="input-search" placeholder="Buscar productos..." oninput="filtrarProductos()">
+      </div>
+      <button class="btn-user" onclick="abrirModalLogin()" id="btn-login-header">
+        👤 <span id="txt-login-header">Ingresar</span>
+      </button>
+    </div>
+  </div>
+  <div class="nav-categories" id="contenedor-categorias">
+    <!-- Categorías dinámicas -->
+  </div>
+</header>
+
+<div class="container">
+  <div id="grid-productos" class="grid-products">
+    <div class="empty-msg">Cargando catálogo...</div>
+  </div>
+</div>
+
+<!-- MODAL LOGIN / PERFIL -->
+<div id="modal-login" class="modal-overlay" onclick="cerrarModalLogin(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarModalLoginForce()">&times;</button>
+    <h2 id="modal-login-title">👤 Mi Perfil de Cliente</h2>
+    <div id="form-login-fields">
+      <input type="text" id="user-name" placeholder="Tu Nombre y Apellido">
+      <input type="text" id="user-contact" placeholder="Teléfono o Email (para tus compras)">
+      <button class="btn-save" onclick="guardarUsuario()">Iniciar Sesión y Sincronizar</button>
+    </div>
+    <div id="user-logged-info" style="display:none; text-align:center;">
+      <p style="font-size: 1.1rem; margin-bottom: 10px;">¡Hola, <b id="display-user-name"></b>!</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;" id="display-user-contact"></p>
+      <button class="btn-save" style="background: #ef4444;" onclick="cerrarSesionUsuario()">Cerrar Sesión</button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX PARA AMPLIAR FOTOS -->
+<div id="lightbox-overlay" class="modal-overlay" onclick="cerrarLightbox(event)">
+  <button class="lightbox-close" onclick="cerrarLightboxForce()">&times;</button>
+  <button id="lightbox-prev-btn" class="lightbox-nav lightbox-prev" onclick="navegarLightbox(-1, event)">&#10094;</button>
+  <div class="lightbox-content" onclick="event.stopPropagation()">
+    <img id="lightbox-img-target" class="lightbox-img" src="" alt="Foto ampliada">
+  </div>
+  <button id="lightbox-next-btn" class="lightbox-nav lightbox-next" onclick="navegarLightbox(1, event)">&#10095;</button>
+  <div id="lightbox-caption-text" class="lightbox-caption"></div>
+</div>
+
+<script>
+  let todosLosProductos = [];
+  let categoriaActual = 'Todas';
+  let listaFavoritos = [];
+  let usuarioActual = null;
+
+  const NUMERO_WHATSAPP = '5491112345678'; // Tu número de WhatsApp para pedidos
+
+  const params = new URLSearchParams(window.location.search);
+  const tiendaUrl = (params.get('tienda') || 'ALUNEY').toLowerCase();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    cargarUsuario();
+    cargarCatalogo();
+  });
+
+  /* LÓGICA DE USUARIOS Y SESIÓN */
+  function cargarUsuario() {
+    const rawUser = localStorage.getItem(`leslab_user_${tiendaUrl}`);
+    if (rawUser) {
+      usuarioActual = JSON.parse(rawUser);
+      document.getElementById('txt-login-header').innerText = usuarioActual.nombre.split(' ')[0];
+    } else {
+      document.getElementById('txt-login-header').innerText = 'Ingresar';
+    }
+    cargarFavoritos();
+  }
+
+  function abrirModalLogin() {
+    if (usuarioActual) {
+      document.getElementById('display-user-name').innerText = usuarioActual.nombre;
+      document.getElementById('display-user-contact').innerText = usuarioActual.contacto;
+      document.getElementById('form-login-fields').style.display = 'none';
+      document.getElementById('user-logged-info').style.display = 'block';
+    } else {
+      document.getElementById('form-login-fields').style.display = 'block';
+      document.getElementById('user-logged-info').style.display = 'none';
+    }
+    document.getElementById('modal-login').classList.add('active');
+  }
+
+  function cerrarModalLogin(e) {
+    if (e.target.id === 'modal-login') cerrarModalLoginForce();
+  }
+  function cerrarModalLoginForce() {
+    document.getElementById('modal-login').classList.remove('active');
+  }
+
+  function guardarUsuario() {
+    const name = document.getElementById('user-name').value.trim();
+    const contact = document.getElementById('user-contact').value.trim();
+
+    if (!name) return alert('Por favor escribe tu Nombre.');
+
+    usuarioActual = { nombre: name, contacto: contact };
+    localStorage.setItem(`leslab_user_${tiendaUrl}`, JSON.stringify(usuarioActual));
+    
+    document.getElementById('txt-login-header').innerText = name.split(' ')[0];
+    cerrarModalLoginForce();
+    cargarFavoritos();
+    alert(`¡Bienvenido/a ${name}! Tus favoritos ahora están guardados.`);
+  }
+
+  function cerrarSesionUsuario() {
+    localStorage.removeItem(`leslab_user_${tiendaUrl}`);
+    usuarioActual = null;
+    document.getElementById('txt-login-header').innerText = 'Ingresar';
+    cerrarModalLoginForce();
+    cargarFavoritos();
+    filtrarProductos();
+  }
+
+  /* LÓGICA DE FAVORITOS */
+  function getFavKey() {
+    const idUser = usuarioActual ? usuarioActual.nombre.toLowerCase().replace(/\s+/g, '_') : 'guest';
+    return `leslab_favs_${tiendaUrl}_${idUser}`;
+  }
+
+  function cargarFavoritos() {
+    const rawFavs = localStorage.getItem(getFavKey());
+    listaFavoritos = rawFavs ? JSON.parse(rawFavs) : [];
+    renderizarCategorias();
+  }
+
+  function toggleFavorito(prodId, e) {
+    if (e) e.stopPropagation();
+    
+    if (!usuarioActual && listaFavoritos.length >= 2) {
+      if (confirm("Inicia sesión para guardar ilimitados productos favoritos en tu perfil. ¿Deseas ingresar ahora?")) {
+        return abrirModalLogin();
+      }
+    }
+
+    const index = listaFavoritos.indexOf(prodId);
+    if (index === -1) {
+      listaFavoritos.push(prodId);
+    } else {
+      listaFavoritos.splice(index, 1);
+    }
+
+    localStorage.setItem(getFavKey(), JSON.stringify(listaFavoritos));
+    renderizarCategorias();
+    filtrarProductos();
+  }
+
+  /* CARGA DE CATÁLOGO Y RENDER */
+  async function cargarCatalogo() {
+    try {
+      const resp = await fetch('productos.json?v=' + new Date().getTime());
+      if (!resp.ok) throw new Error("No se pudo cargar productos.json");
+      
+      const data = await resp.json();
+      todosLosProductos = data.filter(p => p.tienda && p.tienda.toLowerCase() === tiendaUrl);
+
+      renderizarCategorias();
+      filtrarProductos();
+    } catch (err) {
+      document.getElementById('grid-productos').innerHTML = `
+        <div class="empty-msg">
+          <p>⚠️ No se pudieron cargar los productos.</p>
+          <small>Verifica que el archivo <code>productos.json</code> esté guardado en GitHub.</small>
+        </div>`;
+    }
+  }
+
+  function renderizarCategorias() {
+    const contenedor = document.getElementById('contenedor-categorias');
+    const categorias = ['Todas', ...new Set(todosLosProductos.map(p => p.categoria || p.seccion || 'General'))];
+
+    contenedor.innerHTML = `
+      <button class="cat-btn fav-btn ${categoriaActual === 'Favoritos' ? 'active' : ''}" onclick="seleccionarCategoria('Favoritos')">
+        ❤️ Mis Favoritos (${listaFavoritos.length})
+      </button>
+      ${categorias.map(cat => `
+        <button class="cat-btn ${cat === categoriaActual ? 'active' : ''}" onclick="seleccionarCategoria('${cat}')">
+          ${cat}
+        </button>
+      `).join('')}
+    `;
+  }
+
+  function seleccionarCategoria(cat) {
+    categoriaActual = cat;
+    renderizarCategorias();
+    filtrarProductos();
+  }
+
+  function filtrarProductos() {
+    const query = document.getElementById('input-search').value.toLowerCase().trim();
+
+    const filtrados = todosLosProductos.filter(p => {
+      let coincideCat = false;
+      if (categoriaActual === 'Todas') {
+        coincideCat = true;
+      } else if (categoriaActual === 'Favoritos') {
+        coincideCat = listaFavoritos.includes(p.id);
+      } else {
+        coincideCat = (p.categoria === categoriaActual || p.seccion === categoriaActual);
+      }
+
+      const coincideBusqueda = (p.nombre || '').toLowerCase().includes(query);
+      return coincideCat && coincideBusqueda;
+    });
+
+    renderizarGrid(filtrados);
+  }
+
+  function renderizarGrid(lista) {
+    const grid = document.getElementById('grid-productos');
+
+    if (lista.length === 0) {
+      if (categoriaActual === 'Favoritos') {
+        grid.innerHTML = `<div class="empty-msg">Aún no agregaste productos a tus Favoritos.<br>¡Toca el corazón ♡ en cualquier producto para guardarlo!</div>`;
+      } else {
+        grid.innerHTML = `<div class="empty-msg">No se encontraron productos en esta sección.</div>`;
+      }
+      return;
+    }
+
+    grid.innerHTML = lista.map(p => {
+      const disponible = (p.stock === undefined || p.stock > 0);
+      const esFav = listaFavoritos.includes(p.id);
+      const precio = (p.lista || p.precio || 0).toLocaleString('es-AR');
+      const cuotaMonto = Math.round((p.lista || p.precio || 0) / (p.cuotas || 3)).toLocaleString('es-AR');
+      
+      const fotos = (p.imagenes && p.imagenes.length) ? p.imagenes : [(p.imagen_url || p.imagen || p.img || '')];
+      const fotoPrincipal = fotos[0] || 'https://via.placeholder.com/300?text=Sin+Foto';
+      const fotosJSON = JSON.stringify(fotos).replace(/"/g, '&quot;');
+
+      const clienteTexto = usuarioActual ? `Cliente: ${usuarioActual.nombre}\n` : '';
+      const msgWhatsApp = encodeURIComponent(`¡Hola ${tiendaUrl.toUpperCase()}!\n${clienteTexto}Quisiera encargar el siguiente producto:\n\n• ${p.nombre} - $${precio}\n\n¿Tienen stock para confirmar el pedido?`);
+
+      return `
+        <div class="card">
+          <div class="img-wrapper">
+            <button class="btn-fav ${esFav ? 'active' : ''}" onclick="toggleFavorito(${p.id}, event)" title="Guardar en Favoritos">
+              ${esFav ? '♥' : '♡'}
+            </button>
+            <img src="${fotoPrincipal}" alt="${p.nombre}" onclick="abrirFotoAmpliada(${fotosJSON})">
+            ${!disponible ? `<span class="badge-out">AGOTADO</span>` : ''}
+            <span class="badge-cat">${p.categoria || p.seccion || 'Skincare'}</span>
+          </div>
+
+          <div class="card-body">
+            <div class="product-title">${p.nombre}</div>
+            
+            <div class="price-box">
+              <div class="price-main">$ ${precio}</div>
+              <div class="price-installment">${p.cuotas || 3} cuotas sin interés de $ ${cuotaMonto}</div>
+            </div>
+
+            ${disponible 
+              ? `<a href="https://wa.me/${NUMERO_WHATSAPP}?text=${msgWhatsApp}" target="_blank" class="btn-ws">💬 Enviar por WhatsApp</a>`
+              : `<button class="btn-ws disabled" disabled>Agotado</button>`
+            }
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  /* LÓGICA DEL VISOR LIGHTBOX */
+  let lightboxGaleria = [];
+  let lightboxIndex = 0;
+
+  function abrirFotoAmpliada(fotos, indexInicial = 0) {
+    if (!fotos || fotos.length === 0) return;
+    lightboxGaleria = Array.isArray(fotos) ? fotos : [fotos];
+    lightboxIndex = indexInicial;
+    
+    actualizarLightbox();
+    document.getElementById('lightbox-overlay').classList.add('active');
+  }
+
+  function actualizarLightbox() {
+    const imgEl = document.getElementById('lightbox-img-target');
+    const txtEl = document.getElementById('lightbox-caption-text');
+    const btnPrev = document.getElementById('lightbox-prev-btn');
+    const btnNext = document.getElementById('lightbox-next-btn');
+
+    imgEl.src = lightboxGaleria[lightboxIndex];
+
+    if (lightboxGaleria.length > 1) {
+      txtEl.innerText = `Imagen ${lightboxIndex + 1} de ${lightboxGaleria.length}`;
+      btnPrev.style.display = 'flex';
+      btnNext.style.display = 'flex';
+    } else {
+      txtEl.innerText = 'Haz clic fuera o en la X para cerrar';
+      btnPrev.style.display = 'none';
+      btnNext.style.display = 'none';
+    }
+  }
+
+  function navegarLightbox(dir, e) {
+    if (e) e.stopPropagation();
+    lightboxIndex += dir;
+    if (lightboxIndex < 0) lightboxIndex = lightboxGaleria.length - 1;
+    if (lightboxIndex >= lightboxGaleria.length) lightboxIndex = 0;
+    actualizarLightbox();
+  }
+
+  function cerrarLightbox(e) {
+    if (e.target.id === 'lightbox-overlay') cerrarLightboxForce();
+  }
+
+  function cerrarLightboxForce() {
+    document.getElementById('lightbox-overlay').classList.remove('active');
+  }
+</script>
+
+</body>
+</html>
