@@ -37,24 +37,25 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 15px;
     }
 
-    /* CONTENEDOR DE LOGO Y MARCA */
+    /* CONTENEDOR DE LOGO DESTACADO Y CENTRADO */
     .brand-logo-container {
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: center;
       text-decoration: none;
     }
     .brand-logo-img {
-      height: 48px;
-      max-width: 170px;
+      height: 75px; /* Tamaño aumentado para mayor legibilidad */
+      max-width: 240px;
       object-fit: contain;
+      transition: transform 0.2s ease;
     }
-    .brand-title { font-size: 1.4rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+    .brand-logo-img:hover { transform: scale(1.03); }
 
-    .header-actions { display: flex; align-items: center; gap: 10px; flex: 1; justify-content: flex-end; }
+    .header-actions { display: flex; align-items: center; gap: 10px; flex: 1; justify-content: flex-end; min-width: 280px; }
 
     .search-box { flex: 1; max-width: 320px; min-width: 180px; }
     .search-box input {
@@ -305,10 +306,9 @@
 
 <header>
   <div class="header-container">
-    <div class="brand-logo-container">
-      <img id="img-logo-tienda" class="brand-logo-img" src="https://lh3.googleusercontent.com/d/1A1_FAu-ueAj4T7ATdxvyeV36oipAytuw" alt="Logo ALUNEY">
-      <span class="brand-title" id="nombre-tienda">ALUNEY</span>
-    </div>
+    <a href="#" class="brand-logo-container">
+      <img id="img-logo-tienda" class="brand-logo-img" src="logo.png" alt="ALUNEY" onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/d/1A1_FAu-ueAj4T7ATdxvyeV36oipAytuw';">
+    </a>
 
     <div class="header-actions">
       <div class="search-box">
@@ -371,7 +371,6 @@
   const tiendaUrl = (params.get('tienda') || 'ALUNEY').toLowerCase();
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('nombre-tienda').innerText = tiendaUrl.toUpperCase();
     cargarUsuario();
     cargarCatalogo();
   });
