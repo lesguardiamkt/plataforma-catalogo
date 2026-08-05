@@ -27,50 +27,54 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-      padding: 15px 0;
-      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+      padding: 12px 0 8px 0;
     }
     .header-container {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 5px 20px;
+      padding: 0 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 15px;
     }
 
-    /* CONTENEDOR Y LOGO GIGANTE (FORZADO) */
+    /* CONTENEDOR Y LOGO DESTACADO (GRANDE Y SIN DESBORDAR) */
     .brand-logo-container {
       display: flex;
       align-items: center;
       justify-content: flex-start;
       text-decoration: none;
-      height: 90px; /* Altura del contenedor en la cabecera */
-      overflow: visible;
+      padding: 4px 0;
     }
     .brand-logo-img {
-      height: 260px !important; /* Altura gigante */
-      max-height: 280px !important;
-      width: auto !important;
+      height: 95px; /* Tamaño amplio y destacado */
+      max-height: 110px;
+      max-width: 320px;
       object-fit: contain;
-      transform: scale(2.2); /* Zoom forzado para recortar bordes transparentes */
-      transform-origin: left center;
-      margin-left: 15px;
+      display: block;
       transition: transform 0.2s ease;
     }
+    .brand-logo-img:hover { transform: scale(1.02); }
 
-    .header-actions { display: flex; align-items: center; gap: 12px; flex: 1; justify-content: flex-end; min-width: 280px; }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      justify-content: flex-end;
+      min-width: 260px;
+    }
 
-    .search-box { flex: 1; max-width: 350px; min-width: 180px; }
+    .search-box { flex: 1; max-width: 340px; min-width: 180px; }
     .search-box input {
       width: 100%;
-      padding: 12px 18px;
+      padding: 10px 16px;
       border: 1px solid var(--border);
       border-radius: 24px;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       outline: none;
       background: #f1f5f9;
     }
@@ -79,9 +83,9 @@
     .btn-user {
       background: #f1f5f9;
       border: 1px solid var(--border);
-      padding: 10px 18px;
+      padding: 9px 16px;
       border-radius: 24px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
       color: var(--text);
       cursor: pointer;
@@ -92,10 +96,12 @@
     }
     .btn-user:hover { background: #e2e8f0; }
 
+    /* FILA SEPARADA PARA EL MENÚ DE CATEGORÍAS */
     .nav-categories {
       max-width: 1100px;
-      margin: 12px auto 0;
-      padding: 0 20px 10px;
+      margin: 14px auto 0;
+      padding: 8px 20px 6px;
+      border-top: 1px solid #f1f5f9;
       display: flex;
       gap: 8px;
       overflow-x: auto;
@@ -372,7 +378,7 @@
   let listaFavoritos = [];
   let usuarioActual = null;
 
-  const NUMERO_WHATSAPP = '5491112345678';
+  const NUMERO_WHATSAPP = '5491112345678'; // Tu número de WhatsApp oficial
 
   const params = new URLSearchParams(window.location.search);
   const tiendaUrl = (params.get('tienda') || 'ALUNEY').toLowerCase();
@@ -628,7 +634,7 @@
   }
 
   function cerrarLightbox(e) {
-    if (e.target.id === 'lightbox-overlay') cerrarLightboxForce();
+    if (e.target.id === 'modal-overlay') cerrarLightboxForce();
   }
 
   function cerrarLightboxForce() {
