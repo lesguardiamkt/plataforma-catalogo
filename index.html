@@ -21,6 +21,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
     body { background-color: var(--bg); color: var(--text); padding-bottom: 60px; }
 
+    /* CABECERA CON LOGO 3X */
     header {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
@@ -28,7 +29,7 @@
       top: 0;
       z-index: 100;
       box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-      padding: 15px 0 5px 0;
+      padding: 15px 0 10px 0;
     }
     
     .header-main-row {
@@ -41,37 +42,51 @@
       gap: 15px;
     }
 
-    /* FILA DEDICADA AL LOGO GIGANTE */
     .brand-logo-container {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
       text-decoration: none;
-      padding: 5px 0;
     }
+    
+    /* LOGO 3 VECES MÁS GRANDE */
     .brand-logo-img {
-      height: 140px !important; /* Altura gigante garantizada */
-      max-height: 180px !important;
+      height: 180px !important;
+      max-height: 220px !important;
       width: auto !important;
-      max-width: 90vw;
+      max-width: 95vw;
       object-fit: contain;
       display: block;
       transition: transform 0.2s ease;
     }
-    .brand-logo-img:hover { transform: scale(1.02); }
 
-    /* FILA DE ACCIONES (BUSCADOR Y BOTÓN USER) */
     .header-actions {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
       width: 100%;
-      max-width: 650px;
+      max-width: 700px;
     }
 
-    .search-box { flex: 1; min-width: 200px; }
+    /* BOTÓN MENÚ LATERAL */
+    .btn-menu-toggle {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      padding: 10px 16px;
+      border-radius: 24px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-menu-toggle:hover { background: #e2e8f0; }
+
+    .search-box { flex: 1; min-width: 180px; }
     .search-box input {
       width: 100%;
       padding: 11px 18px;
@@ -97,36 +112,100 @@
       gap: 6px;
       white-space: nowrap;
     }
-    .btn-user:hover { background: #e2e8f0; }
 
-    /* FILA SEPARADA PARA EL MENÚ DE CATEGORÍAS */
-    .nav-categories {
+    /* BANNER DESTACADO */
+    .banner-container {
       max-width: 1100px;
-      margin: 12px auto 0;
-      padding: 10px 20px;
-      border-top: 1px solid #f1f5f9;
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      scrollbar-width: none;
+      margin: 15px auto 0;
+      padding: 0 20px;
     }
-    .nav-categories::-webkit-scrollbar { display: none; }
-    .cat-btn {
-      background: #e2e8f0;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.88rem;
+    .main-banner {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, #0076d6 0%, #003b6d 100%);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,118,214,0.2);
+    }
+    .main-banner h2 { font-size: 1.8rem; margin-bottom: 8px; }
+    .main-banner p { font-size: 1rem; opacity: 0.9; }
+
+    /* MENÚ LATERAL (DRAWER) */
+    .side-menu-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 99999;
+    }
+    .side-menu-overlay.active { display: block; }
+
+    .side-menu {
+      position: fixed;
+      top: 0; left: -320px;
+      width: 300px; height: 100vh;
+      background: white;
+      z-index: 100000;
+      box-shadow: 5px 0 25px rgba(0,0,0,0.15);
+      transition: left 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .side-menu.active { left: 0; }
+
+    .side-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .side-menu-header h3 { font-size: 1.2rem; color: var(--primary); }
+    .btn-close-menu { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+
+    .menu-list { list-style: none; }
+    .menu-item { margin-bottom: 12px; }
+    .menu-link {
+      display: block;
+      padding: 10px 12px;
       font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .menu-link:hover { background: #f1f5f9; color: var(--primary); }
+
+    /* ACORDEÓN DE TIENDA Y CATEGORÍAS */
+    .sub-menu-list {
+      list-style: none;
+      padding-left: 15px;
+      display: none;
+      margin-top: 5px;
+    }
+    .sub-menu-list.active { display: block; }
+    .sub-menu-item {
+      padding: 8px 10px;
+      font-size: 0.9rem;
       color: var(--text-muted);
       cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
+      border-radius: 6px;
     }
-    .cat-btn.active, .cat-btn:hover { background: var(--primary); color: white; }
-    .cat-btn.fav-btn.active { background: var(--heart); color: white; }
+    .sub-menu-item:hover { color: var(--primary); background: #f8fafc; }
 
-    .container { max-width: 1100px; margin: 20px auto; padding: 0 20px; }
+    /* CONTENEDOR DE PRODUCTOS */
+    .container { max-width: 1100px; margin: 25px auto; padding: 0 20px; }
     
     .grid-products {
       display: grid;
@@ -177,32 +256,22 @@
       font-size: 18px;
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      transition: transform 0.2s, background 0.2s;
       z-index: 5;
     }
-    .btn-fav:hover { transform: scale(1.1); }
     .btn-fav.active { color: var(--heart); background: #ffffff; }
 
     .badge-out {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      background: #ef4444;
-      color: white;
-      font-size: 0.75rem;
-      font-weight: bold;
-      padding: 4px 10px;
-      border-radius: 12px;
+      top: 10px; right: 10px;
+      background: #ef4444; color: white;
+      font-size: 0.75rem; font-weight: bold;
+      padding: 4px 10px; border-radius: 12px;
     }
     .badge-cat {
       position: absolute;
-      bottom: 10px;
-      left: 10px;
-      background: rgba(15, 23, 42, 0.75);
-      color: white;
-      font-size: 0.7rem;
-      padding: 3px 8px;
-      border-radius: 6px;
+      bottom: 10px; left: 10px;
+      background: rgba(15, 23, 42, 0.75); color: white;
+      font-size: 0.7rem; padding: 3px 8px; border-radius: 6px;
       backdrop-filter: blur(4px);
     }
 
@@ -214,103 +283,39 @@
     .price-installment { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
 
     .btn-ws {
-      width: 100%;
-      background: var(--success);
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      text-decoration: none;
-      transition: background 0.2s;
+      width: 100%; background: var(--success); color: white;
+      border: none; padding: 10px; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      text-decoration: none; transition: background 0.2s;
     }
     .btn-ws:hover { background: #1eb956; }
     .btn-ws.disabled { background: #cbd5e1; cursor: not-allowed; }
 
     /* MODALES Y VISOR LIGHTBOX */
     .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(5px);
-      z-index: 999999;
-      align-items: center;
-      justify-content: center;
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(5px); z-index: 999999;
+      align-items: center; justify-content: center;
     }
     .modal-overlay.active { display: flex !important; }
 
     .modal-box {
-      background: white;
-      padding: 25px;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      background: white; padding: 25px; border-radius: 16px;
+      width: 90%; max-width: 450px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
       position: relative;
     }
     .modal-box h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--text); }
-    .modal-box input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.9rem;
-    }
-    .modal-box button.btn-save {
-      width: 100%;
-      padding: 12px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+    .modal-box input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border); border-radius: 8px; }
+    .modal-box button.btn-save { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
-    .lightbox-content {
-      position: relative;
-      max-width: 90vw;
-      max-height: 85vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .lightbox-img {
-      max-width: 90vw;
-      max-height: 80vh;
-      object-fit: contain;
-      border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    }
-    .lightbox-close, .modal-close {
-      position: absolute;
-      top: 15px; right: 20px;
-      background: rgba(255, 255, 255, 0.2);
-      color: white; border: none;
-      width: 36px; height: 36px;
-      border-radius: 50%; font-size: 24px;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
+    .lightbox-content { position: relative; max-width: 90vw; max-height: 85vh; display: flex; align-items: center; justify-content: center; }
+    .lightbox-img { max-width: 90vw; max-height: 80vh; object-fit: contain; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    .lightbox-close, .modal-close { position: absolute; top: 15px; right: 20px; background: rgba(255, 255, 255, 0.2); color: white; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .modal-close { color: var(--text); background: #f1f5f9; }
 
-    .lightbox-nav {
-      position: absolute;
-      top: 50%; transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.2);
-      color: white; border: none;
-      width: 48px; height: 48px;
-      border-radius: 50%; font-size: 24px;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
+    .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.2); color: white; border: none; width: 48px; height: 48px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .lightbox-prev { left: 20px; }
     .lightbox-next { right: 20px; }
     .lightbox-caption { color: #e2e8f0; margin-top: 12px; font-size: 0.9rem; font-weight: 500; }
@@ -322,24 +327,67 @@
 
 <header>
   <div class="header-main-row">
+    <!-- LOGO 3X MÁS GRANDE -->
     <a href="#" class="brand-logo-container">
       <img id="img-logo-tienda" class="brand-logo-img" src="logo.png" alt="ALUNEY" onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/d/1A1_FAu-ueAj4T7ATdxvyeV36oipAytuw';">
     </a>
 
     <div class="header-actions">
+      <button class="btn-menu-toggle" onclick="toggleSideMenu()">☰ Menú</button>
+      
       <div class="search-box">
         <input type="text" id="input-search" placeholder="Buscar productos..." oninput="filtrarProductos()">
       </div>
+      
       <button class="btn-user" onclick="abrirModalLogin()" id="btn-login-header">
         👤 <span id="txt-login-header">Ingresar</span>
       </button>
     </div>
   </div>
-
-  <div class="nav-categories" id="contenedor-categorias">
-    <!-- Categorías dinámicas -->
-  </div>
 </header>
+
+<!-- BANNER PROMOCIONAL DEBAJO DE LA CABECERA -->
+<div class="banner-container">
+  <div class="main-banner">
+    <h2>✨ ALUNEY Skincare & Estética</h2>
+    <p>3 Cuotas Sin Interés | Envíos a todo el país</p>
+  </div>
+</div>
+
+<!-- MENÚ LATERAL (DRAWER) -->
+<div id="side-menu-overlay" class="side-menu-overlay" onclick="toggleSideMenu()"></div>
+<div id="side-menu" class="side-menu">
+  <div class="side-menu-header">
+    <h3>ALUNEY</h3>
+    <button class="btn-close-menu" onclick="toggleSideMenu()">&times;</button>
+  </div>
+  
+  <ul class="menu-list">
+    <li class="menu-item">
+      <a class="menu-link" onclick="mostrarSeccionInfo('nosotros')">🌸 Nosotros</a>
+    </li>
+
+    <li class="menu-item">
+      <div class="menu-link" onclick="toggleSubMenuTienda()">
+        🛍️ Tienda <span style="float:right;">▼</span>
+      </div>
+      <ul id="sub-menu-tienda" class="sub-menu-list">
+        <li class="sub-menu-item" onclick="seleccionarCategoria('Todas')">Ver Todos los Productos</li>
+        <li class="sub-menu-item" onclick="seleccionarCategoria('Favoritos')">❤️ Mis Favoritos</li>
+        <!-- Categorías dinámicas -->
+        <div id="lista-categorias-menu"></div>
+      </ul>
+    </li>
+
+    <li class="menu-item">
+      <a class="menu-link" onclick="mostrarSeccionInfo('importante')">ℹ️ Info Importante</a>
+    </li>
+
+    <li class="menu-item">
+      <a class="menu-link" onclick="mostrarSeccionInfo('contacto')">📞 Contacto</a>
+    </li>
+  </ul>
+</div>
 
 <div class="container">
   <div id="grid-productos" class="grid-products">
@@ -362,6 +410,15 @@
       <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;" id="display-user-contact"></p>
       <button class="btn-save" style="background: #ef4444;" onclick="cerrarSesionUsuario()">Cerrar Sesión</button>
     </div>
+  </div>
+</div>
+
+<!-- MODAL INFO (NOSOTROS, INFO IMPORTANTE, CONTACTO) -->
+<div id="modal-info" class="modal-overlay" onclick="cerrarModalInfo(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarModalInfoForce()">&times;</button>
+    <h2 id="info-modal-title">Info</h2>
+    <div id="info-modal-content" style="font-size:0.95rem; line-height:1.5; color:var(--text);"></div>
   </div>
 </div>
 
@@ -392,6 +449,38 @@
     cargarCatalogo();
   });
 
+  /* MENÚ LATERAL Y SECCIONES */
+  function toggleSideMenu() {
+    document.getElementById('side-menu-overlay').classList.toggle('active');
+    document.getElementById('side-menu').classList.toggle('active');
+  }
+
+  function toggleSubMenuTienda() {
+    document.getElementById('sub-menu-tienda').classList.toggle('active');
+  }
+
+  function mostrarSeccionInfo(tipo) {
+    toggleSideMenu();
+    const modal = document.getElementById('modal-info');
+    const titulo = document.getElementById('info-modal-title');
+    const contenido = document.getElementById('info-modal-content');
+
+    if (tipo === 'nosotros') {
+      titulo.innerText = "🌸 Sobre Nosotros";
+      contenido.innerHTML = "<p>Bienvenida a <b>ALUNEY</b>. Somos apasionadas por la estética y el cuidado de la piel. Ofrecemos los mejores productos importados de Skincare y cosmética profesional para potenciar tu belleza natural.</p>";
+    } else if (tipo === 'importante') {
+      titulo.innerText = "ℹ️ Información Importante";
+      contenido.innerHTML = "<ul><li>💳 Pagá en 3 Cuotas Sin Interés con Ualá Bis.</li><br><li>🚚 Envíos rápidos y seguros a todo el país.</li><br><li>🛡️ Todos los productos son 100% originales.</li></ul>";
+    } else if (tipo === 'contacto') {
+      titulo.innerText = "📞 Contacto";
+      contenido.innerHTML = `<p>¿Tenés alguna duda o consulta con tu compra?</p><br><p>📱 <b>WhatsApp:</b> +${NUMERO_WHATSAPP}</p><p>📧 <b>Atención online:</b> Lunes a Sábados de 9:00 a 19:00 hs.</p>`;
+    }
+    modal.classList.add('active');
+  }
+
+  function cerrarModalInfo(e) { if (e.target.id === 'modal-info') cerrarModalInfoForce(); }
+  function cerrarModalInfoForce() { document.getElementById('modal-info').classList.remove('active'); }
+
   /* LÓGICA DE USUARIOS Y SESIÓN */
   function cargarUsuario() {
     const rawUser = localStorage.getItem(`leslab_user_${tiendaUrl}`);
@@ -417,17 +506,12 @@
     document.getElementById('modal-login').classList.add('active');
   }
 
-  function cerrarModalLogin(e) {
-    if (e.target.id === 'modal-login') cerrarModalLoginForce();
-  }
-  function cerrarModalLoginForce() {
-    document.getElementById('modal-login').classList.remove('active');
-  }
+  function cerrarModalLogin(e) { if (e.target.id === 'modal-login') cerrarModalLoginForce(); }
+  function cerrarModalLoginForce() { document.getElementById('modal-login').classList.remove('active'); }
 
   function guardarUsuario() {
     const name = document.getElementById('user-name').value.trim();
     const contact = document.getElementById('user-contact').value.trim();
-
     if (!name) return alert('Por favor escribe tu Nombre.');
 
     usuarioActual = { nombre: name, contacto: contact };
@@ -448,7 +532,7 @@
     filtrarProductos();
   }
 
-  /* LÓGICA DE FAVORITOS */
+  /* LÓGICA DE FAVORITOS Y CATEGORÍAS */
   function getFavKey() {
     const idUser = usuarioActual ? usuarioActual.nombre.toLowerCase().replace(/\s+/g, '_') : 'guest';
     return `leslab_favs_${tiendaUrl}_${idUser}`;
@@ -462,64 +546,46 @@
 
   function toggleFavorito(prodId, e) {
     if (e) e.stopPropagation();
-    
     if (!usuarioActual && listaFavoritos.length >= 2) {
-      if (confirm("Inicia sesión para guardar ilimitados productos favoritos en tu perfil. ¿Deseas ingresar ahora?")) {
+      if (confirm("Inicia sesión para guardar favoritos en tu perfil. ¿Deseas ingresar ahora?")) {
         return abrirModalLogin();
       }
     }
-
     const index = listaFavoritos.indexOf(prodId);
-    if (index === -1) {
-      listaFavoritos.push(prodId);
-    } else {
-      listaFavoritos.splice(index, 1);
-    }
-
+    if (index === -1) { listaFavoritos.push(prodId); } else { listaFavoritos.splice(index, 1); }
     localStorage.setItem(getFavKey(), JSON.stringify(listaFavoritos));
     renderizarCategorias();
     filtrarProductos();
   }
 
-  /* CARGA DE CATÁLOGO Y RENDER */
   async function cargarCatalogo() {
     try {
       const resp = await fetch('productos.json?v=' + new Date().getTime());
       if (!resp.ok) throw new Error("No se pudo cargar productos.json");
-      
       const data = await resp.json();
       todosLosProductos = data.filter(p => p.tienda && p.tienda.toLowerCase() === tiendaUrl);
 
       renderizarCategorias();
       filtrarProductos();
     } catch (err) {
-      document.getElementById('grid-productos').innerHTML = `
-        <div class="empty-msg">
-          <p>⚠️ No se pudieron cargar los productos.</p>
-          <small>Verifica que el archivo <code>productos.json</code> esté guardado en GitHub.</small>
-        </div>`;
+      document.getElementById('grid-productos').innerHTML = `<div class="empty-msg">⚠️ No se pudieron cargar los productos.</div>`;
     }
   }
 
   function renderizarCategorias() {
-    const contenedor = document.getElementById('contenedor-categorias');
-    const categorias = ['Todas', ...new Set(todosLosProductos.map(p => p.categoria || p.seccion || 'General'))];
+    const contenedor = document.getElementById('lista-categorias-menu');
+    const categorias = [...new Set(todosLosProductos.map(p => p.categoria || p.seccion || 'General'))];
 
-    contenedor.innerHTML = `
-      <button class="cat-btn fav-btn ${categoriaActual === 'Favoritos' ? 'active' : ''}" onclick="seleccionarCategoria('Favoritos')">
-        ❤️ Mis Favoritos (${listaFavoritos.length})
-      </button>
-      ${categorias.map(cat => `
-        <button class="cat-btn ${cat === categoriaActual ? 'active' : ''}" onclick="seleccionarCategoria('${cat}')">
-          ${cat}
-        </button>
-      `).join('')}
-    `;
+    contenedor.innerHTML = categorias.map(cat => `
+      <li class="sub-menu-item" onclick="seleccionarCategoria('${cat}')">• ${cat}</li>
+    `).join('');
   }
 
   function seleccionarCategoria(cat) {
     categoriaActual = cat;
-    renderizarCategorias();
+    if (document.getElementById('side-menu').classList.contains('active')) {
+      toggleSideMenu();
+    }
     filtrarProductos();
   }
 
@@ -535,7 +601,6 @@
       } else {
         coincideCat = (p.categoria === categoriaActual || p.seccion === categoriaActual);
       }
-
       const coincideBusqueda = (p.nombre || '').toLowerCase().includes(query);
       return coincideCat && coincideBusqueda;
     });
@@ -545,13 +610,8 @@
 
   function renderizarGrid(lista) {
     const grid = document.getElementById('grid-productos');
-
     if (lista.length === 0) {
-      if (categoriaActual === 'Favoritos') {
-        grid.innerHTML = `<div class="empty-msg">Aún no agregaste productos a tus Favoritos.<br>¡Toca el corazón ♡ en cualquier producto para guardarlo!</div>`;
-      } else {
-        grid.innerHTML = `<div class="empty-msg">No se encontraron productos en esta sección.</div>`;
-      }
+      grid.innerHTML = `<div class="empty-msg">No se encontraron productos en esta sección.</div>`;
       return;
     }
 
@@ -571,7 +631,7 @@
       return `
         <div class="card">
           <div class="img-wrapper">
-            <button class="btn-fav ${esFav ? 'active' : ''}" onclick="toggleFavorito(${p.id}, event)" title="Guardar en Favoritos">
+            <button class="btn-fav ${esFav ? 'active' : ''}" onclick="toggleFavorito(${p.id}, event)">
               ${esFav ? '♥' : '♡'}
             </button>
             <img src="${fotoPrincipal}" alt="${p.nombre}" onclick="abrirFotoAmpliada(${fotosJSON})">
@@ -581,7 +641,6 @@
 
           <div class="card-body">
             <div class="product-title">${p.nombre}</div>
-            
             <div class="price-box">
               <div class="price-main">$ ${precio}</div>
               <div class="price-installment">${p.cuotas || 3} cuotas sin interés de $ ${cuotaMonto}</div>
@@ -597,7 +656,7 @@
     }).join('');
   }
 
-  /* LÓGICA DEL VISOR LIGHTBOX */
+  /* VISOR LIGHTBOX */
   let lightboxGaleria = [];
   let lightboxIndex = 0;
 
@@ -605,7 +664,6 @@
     if (!fotos || fotos.length === 0) return;
     lightboxGaleria = Array.isArray(fotos) ? fotos : [fotos];
     lightboxIndex = indexInicial;
-    
     actualizarLightbox();
     document.getElementById('lightbox-overlay').classList.add('active');
   }
@@ -617,7 +675,6 @@
     const btnNext = document.getElementById('lightbox-next-btn');
 
     imgEl.src = lightboxGaleria[lightboxIndex];
-
     if (lightboxGaleria.length > 1) {
       txtEl.innerText = `Imagen ${lightboxIndex + 1} de ${lightboxGaleria.length}`;
       btnPrev.style.display = 'flex';
@@ -637,13 +694,8 @@
     actualizarLightbox();
   }
 
-  function cerrarLightbox(e) {
-    if (e.target.id === 'modal-overlay') cerrarLightboxForce();
-  }
-
-  function cerrarLightboxForce() {
-    document.getElementById('lightbox-overlay').classList.remove('active');
-  }
+  function cerrarLightbox(e) { if (e.target.id === 'modal-overlay') cerrarLightboxForce(); }
+  function cerrarLightboxForce() { document.getElementById('lightbox-overlay').classList.remove('active'); }
 </script>
 
 </body>
